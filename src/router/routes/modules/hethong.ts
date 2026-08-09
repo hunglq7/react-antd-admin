@@ -21,7 +21,7 @@ const routes: AppRouteRecordRaw[] = [
 				path: "/hethong/phanquyen",
 				Component: PhanQuyen,
 				handle: {
-					icon: "UserSwitchOutlined",
+					icon: "UserOutlined",
 					title: "system.hethong.phanquyen",
 					roles: ["admin"],
 				},

@@ -29,12 +29,12 @@ export default function CardList() {
 			icon: <UserOutlined />,
 		},
 		{
-			title: t("home.messages"),
+			title: t("home.mayxuc"),
 			data: 81212,
 			icon: <MessageOutlined />,
 		},
 		{
-			title: t("home.purchases"),
+			title: t("home.role"),
 			data: 9280,
 			icon: <MoneyCollectOutlined />,
 		},
