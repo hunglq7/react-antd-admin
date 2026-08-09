@@ -1,5 +1,9 @@
 import type { AppRouteRecordRaw } from "#src/router/types";
-import { ProfileCardIcon, RiAccountCircleLine, RiUserSettingsLine } from "#src/icons";
+import {
+	ProfileCardIcon,
+	RiAccountCircleLine,
+	RiUserSettingsLine,
+} from "#src/icons";
 import ContainerLayout from "#src/layout/container-layout";
 import { $t } from "#src/locales";
 import { personalCenter } from "#src/router/extra-info";
@@ -17,6 +21,7 @@ const routes: AppRouteRecordRaw[] = [
 			order: personalCenter,
 			title: $t("common.menu.personalCenter"),
 			icon: createElement(RiAccountCircleLine),
+			hideInMenu: true,
 		},
 		children: [
 			{

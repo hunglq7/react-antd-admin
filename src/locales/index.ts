@@ -9,24 +9,25 @@ import { getEnUsLang, getZhCnLang } from "./helper";
 
 export * from "./t";
 
-export type LanguageType = "zh-CN" | "en-US";
+export type LanguageType = "en-US" | "zh_CN";
 
 export const ANT_DESIGN_LOCALE = {
-	"zh-CN": zhCN,
 	"en-US": enUS,
+	"zh-CN": zhCN,
 };
 
 export const i18nResources = {
-	"zh-CN": {
-		translation: getZhCnLang(),
-	},
 	"en-US": {
 		translation: getEnUsLang(),
 	},
+	"zh-CN": {
+		translation: getZhCnLang(),
+	},
+
 };
 
 export const i18nInitOptions: InitOptions = {
-	lng: "zh-CN",
+	lng: "en-US",
 	resources: i18nResources,
 	saveMissing: import.meta.env.DEV,
 	/**

@@ -9,7 +9,10 @@ export const access = 10;
 export const routeNest = 20;
 
 export const outside = 40;
-
+export const bienap = 5;
+export const mayxuc = 6;
+export const role = 7;
+export const hethong = 8;
 export const exception = 90;
 export const system = 100;
 export const personalCenter = 110;

@@ -49,10 +49,10 @@ export default function App() {
 	 */
 	useEffect(() => {
 		if (language === "en-US") {
-			dayjs.locale("en");
+			dayjs.locale("en_US");
 		}
-		else if (language === "zh-CN") {
-			dayjs.locale("zh-cn");
+		else if (language === "zh_CN") {
+			dayjs.locale("zh_CN");
 		}
 	}, [language]);
 

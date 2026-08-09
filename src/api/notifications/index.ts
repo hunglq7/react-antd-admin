@@ -3,6 +3,6 @@ import { request } from "#src/utils/request";
 
 export function fetchNotifications() {
 	return request
-		.get("notifications")
+		.get("api/notifications")
 		.json<ApiResponse<NotificationItem[]>>();
 }

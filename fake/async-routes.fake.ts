@@ -1,4 +1,12 @@
-import { about, access, home, outside, personalCenter, routeNest, system } from "#/src/router/extra-info";
+import {
+	about,
+	access,
+	home,
+	outside,
+	personalCenter,
+	routeNest,
+	system,
+} from "#/src/router/extra-info";
 import { defineFakeRoute } from "vite-plugin-fake-server/client";
 import { ADMIN_TOKEN } from "./constants";
 import { resultSuccess } from "./utils";
@@ -60,6 +68,21 @@ const systemManagementRouter = {
 				],
 			},
 		},
+		{
+			path: "/system/bienap",
+			component: "/system/menu/index.tsx",
+			handle: {
+				icon: "MenuOutlined",
+				title: "common.menu.menu",
+				roles: ["admin"],
+				permissions: [
+					"permission:button:add",
+					"permission:button:update",
+					"permission:button:delete",
+				],
+			},
+		},
+
 		{
 			path: "/system/dept",
 			component: "/system/dept/index.tsx",
@@ -126,7 +149,8 @@ const outsideRouter = {
 					handle: {
 						icon: "ContainerOutlined",
 						title: "common.menu.projectDocs",
-						iframeLink: "https://condorheroblog.github.io/react-antd-admin/docs/",
+						iframeLink:
+							"https://condorheroblog.github.io/react-antd-admin/docs/",
 					},
 				},
 			],
@@ -195,14 +219,14 @@ const routeNestRouter = {
 					path: "/route-nest/menu1/menu1-1",
 					handle: {
 						title: "common.menu.menu1-1",
-						icon: ("SubnodeOutlined"),
+						icon: "SubnodeOutlined",
 					},
 				},
 				{
 					path: "/route-nest/menu1/menu1-2",
 					handle: {
 						title: "common.menu.menu1-2",
-						icon: ("SubnodeOutlined"),
+						icon: "SubnodeOutlined",
 					},
 				},
 			],
@@ -263,9 +287,7 @@ export default defineFakeRoute([
 									"permission:button:delete",
 									"permission:button:add",
 								]
-								: [
-									"permission:button:get",
-								],
+								: ["permission:button:get"],
 						},
 					},
 					isAdmin
@@ -285,17 +307,15 @@ export default defineFakeRoute([
 						},
 				],
 			};
-			return resultSuccess(
-				[
-					homeRouter,
-					accessRouter,
-					aboutRouter,
-					systemManagementRouter,
-					outsideRouter,
-					personalCenterRouter,
-					routeNestRouter,
-				],
-			);
+			return resultSuccess([
+				homeRouter,
+				accessRouter,
+				aboutRouter,
+				systemManagementRouter,
+				outsideRouter,
+				personalCenterRouter,
+				routeNestRouter,
+			]);
 		},
 	},
 ]);

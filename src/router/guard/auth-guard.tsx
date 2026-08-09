@@ -1,4 +1,4 @@
-import { fetchAsyncRoutes } from "#src/api/user";
+import type { UserInfoType } from "#src/api/user";
 import { useCurrentRoute } from "#src/hooks/use-current-route";
 import { hideLoading } from "#src/plugins/hide-loading";
 import { setupLoading } from "#src/plugins/loading";
@@ -74,43 +74,44 @@ export function AuthGuard({ children }: AuthGuardProps) {
 			 * @zh 启用了后端路由，且路由从单独接口中获取，则发起请求
 			 * @en If backend routing is enabled and the route is obtained from a separate interface, then initiate a request
 			 */
-			if (enableBackendAccess && isSendRoutingRequest) {
-				promises.push(fetchAsyncRoutes());
-			}
+			// Always use frontend routes, no backend fetch
+			// if (!enableFrontendAceess && enableBackendAccess && isSendRoutingRequest) {
+			// 	promises.push(fetchAsyncRoutes());
+			// }
 
 			const results = await Promise.allSettled(promises);
-			const [userInfoResult, routeResult] = results;
+			const userInfoResult = results[0];
+			const routeResult = results[1];
 			const routes = [];
 			const latestRoles = [];
 			/**
 			 * @zh 从用户接口中获取角色信息
 			 * @en Fetch role information from the user interface
 			 */
-			if (userInfoResult.status === "fulfilled" && "roles" in userInfoResult.value) {
-				latestRoles.push(...userInfoResult.value?.roles ?? []);
+			if (userInfoResult.status === "fulfilled" && "roles" in (userInfoResult.value as UserInfoType)) {
+				latestRoles.push(...(userInfoResult.value as UserInfoType)?.roles ?? []);
 			}
 			/**
 			 * @zh 启用了后端路由且路由从用户接口中获取
 			 * @en If backend routing is enabled and the route is obtained from the user interface
 			 */
-			if (enableBackendAccess && !isSendRoutingRequest && userInfoResult.status === "fulfilled" && "menus" in userInfoResult.value) {
-				routes.push(...await generateRoutesFromBackend(userInfoResult.value?.menus ?? []));
+			if (!enableFrontendAceess && enableBackendAccess && !isSendRoutingRequest && userInfoResult.status === "fulfilled" && "menus" in (userInfoResult.value as UserInfoType)) {
+				routes.push(...await generateRoutesFromBackend((userInfoResult.value as UserInfoType)?.menus ?? []));
 			}
 			/**
 			 * @zh 启用了后端路由且路由从单独接口中获取
 			 * @en If backend routing is enabled and the route is obtained from a separate interface
 			 */
-			if (enableBackendAccess && isSendRoutingRequest && routeResult.status === "fulfilled" && "result" in routeResult.value) {
-				routes.push(...await generateRoutesFromBackend(routeResult.value?.result ?? []));
+			if (!enableFrontendAceess && enableBackendAccess && isSendRoutingRequest && routeResult && routeResult.status === "fulfilled" && "result" in (routeResult.value as any)) {
+				routes.push(...await generateRoutesFromBackend((routeResult.value as any)?.result ?? []));
 			}
 
 			/**
 			 * @zh 启用了前端路由
 			 * @en If frontend routing is enabled
 			 */
-			if (enableFrontendAceess) {
-				routes.push(...generateRoutesByFrontend(accessRoutes, latestRoles));
-			}
+			// Always use frontend routes
+			routes.push(...generateRoutesByFrontend(accessRoutes, latestRoles));
 
 			const uniqueRoutes = removeDuplicateRoutes(routes);
 			setAccessStore(uniqueRoutes);
@@ -121,7 +122,7 @@ export function AuthGuard({ children }: AuthGuardProps) {
 			 * @en Network request failed, redirect to 500 page
 			 */
 			if (hasError) {
-				const unAuthorized = results.some((result: any) => result.reason.response.status === 401);
+				const unAuthorized = results.some((result: any) => result.reason?.response?.status === 401);
 				if (!unAuthorized) {
 					return navigate(exception500Path);
 				}
@@ -298,7 +299,7 @@ export function AuthGuard({ children }: AuthGuardProps) {
 		 */
 	) ?? [];
 
-	const hasChildren = matches[matches.length - 1]?.route?.children?.filter(item => !item.index)?.length;
+	const hasChildren = matches.at(-1)?.route?.children?.filter(item => !item.index)?.length;
 	/**
 	 * @zh 如果当前路由有子路由，则跳转到 404 页面
 	 * @en If the current route has sub-routes, jump to the 404 page
@@ -316,7 +317,9 @@ export function AuthGuard({ children }: AuthGuardProps) {
 	 * @zh 角色权限校验
 	 * @en Role permission verification
 	 */
-	const hasRoutePermission = userRoles.some(role => routeRoles?.includes(role));
+	const normalizedUserRoles = (userRoles ?? []).map(role => String(role).trim().toLowerCase());
+	const normalizedRouteRoles = (routeRoles ?? []).map(role => String(role).trim().toLowerCase());
+	const hasRoutePermission = normalizedUserRoles.some(role => normalizedRouteRoles.includes(role));
 	/**
 	 * @zh 权限校验逻辑：
 	 * 1. 如果路由上没有携带 roles，视为无权限路由，等同于 ignoreAccess 为 true

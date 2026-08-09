@@ -1,4 +1,5 @@
 import type { ColProps } from "antd";
+
 import {
 	MessageOutlined,
 	MoneyCollectOutlined,
@@ -23,8 +24,8 @@ export default function CardList() {
 
 	const CARD_LIST = [
 		{
-			title: t("home.newVisits"),
-			data: 102_400,
+			title: t("home.bienap"),
+			data: 9982,
 			icon: <UserOutlined />,
 		},
 		{
@@ -51,7 +52,7 @@ export default function CardList() {
 				CARD_LIST.map((cardItem) => {
 					return (
 						<Col {...wrapperCol} key={cardItem.title}>
-							<Card className="">
+							<Card className="bg-blue-200 hover:bg-blue-300 transition-colors">
 								<div className="flex justify-between items-center">
 									<div className="flex flex-col">
 										<h3 className="text-xl">{cardItem.title}</h3>

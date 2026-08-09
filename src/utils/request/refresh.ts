@@ -1,3 +1,4 @@
+import type { RefreshTokenResult } from "#src/api/user";
 import type { KyResponse, Options } from "ky";
 import { fetchRefreshToken } from "#src/api/user";
 
@@ -17,12 +18,18 @@ let isRefreshing = false;
  * @returns 响应对象
  * @throws 刷新 token 失败时抛出异常
  */
-export async function refreshTokenAndRetry(request: Request, options: Options, refreshToken: string) {
+export async function refreshTokenAndRetry(
+	request: Request,
+	options: Options,
+	refreshToken: string,
+) {
 	if (!isRefreshing) {
 		isRefreshing = true;
 		try {
 			// 调用 fetchRefreshToken 函数，使用传入的 refreshToken 获取新的 token 和 refreshToken
-			const freshResponse = await fetchRefreshToken({ refreshToken });
+			const freshResponse = (await fetchRefreshToken({
+				refreshToken,
+			})) as RefreshTokenResult;
 			// 从响应中提取新的 token
 			const newToken = freshResponse.result.token;
 			// 从响应中提取新的 refreshToken

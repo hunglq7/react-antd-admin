@@ -3,7 +3,6 @@ import { useDeviceType } from "#src/hooks/use-device-type";
 import { usePreferences } from "#src/hooks/use-preferences";
 import { useLayout } from "#src/layout/hooks/use-layout";
 import { GlobalSearch } from "#src/layout/widgets/global-search";
-import { NotificationContainer } from "#src/layout/widgets/notification/notification-container";
 import { Preferences } from "#src/layout/widgets/preferences";
 import { useTabsStore } from "#src/store/tabs";
 import { cn } from "#src/utils/cn";
@@ -85,7 +84,7 @@ export default function LayoutHeader({ className, children }: LayoutHeaderProps)
 					<ThemeButton {...buttonProps} />
 					<LanguageButton {...buttonProps} />
 					<FullscreenButton {...buttonProps} target={document.documentElement} />
-					<NotificationContainer {...buttonProps} />
+					{/* <NotificationContainer {...buttonProps} /> */}
 					<UserMenu {...buttonProps} />
 				</div>
 			</header>

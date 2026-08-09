@@ -16,11 +16,11 @@ export const DEFAULT_PREFERENCES = {
 	watermarkContent: "react-antd-admin",
 	enableBackTopButton: true,
 	pageLayout: "layout-right",
-	enableBackendAccess: true,
-	enableFrontendAceess: false,
-	language: "zh-CN",
+	enableBackendAccess: false,
+	enableFrontendAceess: true,
+	language: "en-US",
 	enableDynamicTitle: true,
-	enableCheckUpdates: true,
+	enableCheckUpdates: false,
 	checkUpdatesInterval: 1,
 
 	/* ================== Theme ================== */
@@ -140,6 +140,16 @@ export const usePreferencesStore = create<
 				});
 			},
 		}),
-		{ name: getAppNamespace("preferences") },
+		{
+			name: getAppNamespace("preferences"),
+			merge: (persisted, current) => {
+				const persistedState = (persisted ?? {}) as Partial<PreferencesState>;
+				return {
+					...current,
+					...persistedState,
+					enableCheckUpdates: false,
+				};
+			},
+		},
 	),
 );

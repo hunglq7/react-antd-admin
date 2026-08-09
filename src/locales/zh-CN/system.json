@@ -1,11 +1,4 @@
 {
-	"role": {
-		"name": "角色名称",
-		"id": "角色标识",
-		"addRole": "新增角色",
-		"editRole": "编辑角色",
-		"assignMenu": "分配菜单"
-	},
 	"user": {
 		"name": "用户名称",
 		"id": "用户标识",
@@ -38,5 +31,46 @@
 		"id": "部门标识",
 		"addDept": "新增部门",
 		"editDept": "编辑部门"
+	},
+	"phongban": {
+		"name": "Phongban名称",
+		"id": "Phongban标识",
+		"addPhongban": "新增Phongban",
+		"editPhongban": "编辑Phongban"
+	},
+	"bienap": {
+		"bienapDanhmuc": "Danh mục biến áp",
+		"addBienap": "Thêm biến áp",
+		"editBienap": "Sửa biến áp"
+	},
+	"tonghopbienap": {
+		"tonghopbienap": "Tổng hợp biến áp",
+		"addTonghopbienap": "Thêm tổng hợp biến áp",
+		"editTonghopbienap": "Sửa tổng hợp biến áp"
+	},
+	"mayxuc": {
+		"mayxucDanhmuc": "Danh mục máy xúc",
+		"addMayxuc": "Thêm máy xúc",
+		"editMayxuc": "Sửa máy xúc"
+	},
+	"tonghopmayxuc": {
+		"tonghopmayxuc": "Tổng hợp máy xúc",
+		"addTonghopmayxuc": "Thêm tổng hợp máy xúc",
+		"editTonghopmayxuc": "Sửa tổng hợp máy xúc"
+	},
+	"thongsomayxuc": {
+		"thongsomayxuc": "Thông số  máy xúc",
+		"addThongsomayxuc": "Thêm thông số  máy xúc",
+		"editThongsomayxuc": "Sửa thông số  máy xúc"
+	},
+	"role": {
+		"roleDanhmuc": "Danh mục Rơ le",
+		"addRole": "Thêm rơ le",
+		"editRole": "Sửa rơ le"
+	},
+	"tonghoprole": {
+		"tonghoprole": "Tổng hợp rơ le",
+		"addTonghoprole": "Thêm  rơ le",
+		"editTonghoprole": "Sửa  rơ le"
 	}
 }

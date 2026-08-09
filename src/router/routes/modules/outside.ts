@@ -18,6 +18,7 @@ const routes: AppRouteRecordRaw[] = [
 			icon: "OutsidePageIcon",
 			title: $t("common.menu.outside"),
 			order: outside,
+			hideInMenu: true,
 		},
 		children: [
 			{
@@ -43,7 +44,8 @@ const routes: AppRouteRecordRaw[] = [
 						handle: {
 							icon: createElement(ContainerOutlined),
 							title: $t("common.menu.projectDocs"),
-							iframeLink: "https://condorheroblog.github.io/react-antd-admin/docs/",
+							iframeLink:
+								"https://condorheroblog.github.io/react-antd-admin/docs/",
 						},
 					},
 				],

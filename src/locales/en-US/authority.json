@@ -24,7 +24,7 @@
 	"forgotPasswordSubtitle": "Enter your email and we'll send you instructions to reset your password",
 	"email": "Email",
 	"sendResetLink": "Send Reset Link",
-	"logout": "Logout",
+	"logout": "Đăng xuất",
 	"register": "Register",
 	"alreadyHaveAnAccount": "Already have an account?",
 	"goToLogin": "Go to Login",

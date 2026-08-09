@@ -48,7 +48,7 @@ export default function LayoutFooter({ className }: LayoutFooterProps) {
 					)
 					: null
 			}
-			All right reserved
+			Lê Quang Hùng
 		</footer>
 	);
 }

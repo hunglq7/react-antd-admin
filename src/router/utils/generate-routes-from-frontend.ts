@@ -23,9 +23,10 @@ export function generateRoutesByFrontend(
  * @param accesses
  */
 function hasAuthority(route: AppRouteRecordRaw, accesses: string[]) {
-	const authority = route.handle?.roles;
+	const authority = route.handle?.roles?.map(role => role.toLowerCase());
+	const normalizedAccesses = accesses.map(access => access.toLowerCase());
 	if (!authority) {
 		return true;
 	}
-	return accesses.some(value => authority.includes(value));
+	return normalizedAccesses.some(value => authority.includes(value));
 }

@@ -8,6 +8,7 @@ const User = lazy(() => import("#src/pages/system/user"));
 const Dept = lazy(() => import("#src/pages/system/dept"));
 const Role = lazy(() => import("#src/pages/system/role"));
 const Menu = lazy(() => import("#src/pages/system/menu"));
+const Phongban = lazy(() => import("#src/pages/system/phongban"));
 
 const routes: AppRouteRecordRaw[] = [
 	{
@@ -18,6 +19,7 @@ const routes: AppRouteRecordRaw[] = [
 			title: "common.menu.system",
 			order: system,
 			roles: ["admin"],
+			hideInMenu: true,
 		},
 		children: [
 			{
@@ -55,6 +57,20 @@ const routes: AppRouteRecordRaw[] = [
 					icon: "MenuOutlined",
 					title: "common.menu.menu",
 					roles: ["admin"],
+					permissions: [
+						"permission:button:add",
+						"permission:button:update",
+						"permission:button:delete",
+					],
+				},
+			},
+			{
+				path: "/system/phongban",
+				Component: Phongban,
+				handle: {
+					icon: "ApartmentOutlined",
+					title: "common.menu.phongban",
+					roles: [],
 					permissions: [
 						"permission:button:add",
 						"permission:button:update",

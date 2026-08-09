@@ -22,16 +22,16 @@ interface AccessState {
 }
 
 const initialState: AccessState = {
-	wholeMenus: generateMenuItemsFromRoutes(baseRoutes),
-	routeList: baseRoutes,
-	flatRouteList: flattenRoutes(baseRoutes),
+	wholeMenus: [],
+	routeList: [],
+	flatRouteList: {},
 	isAccessChecked: false,
 };
 
 interface AccessAction {
 	setAccessStore: (routes: AppRouteRecordRaw[]) => AccessState
 	reset: () => void
-};
+}
 
 export const useAccessStore = create<AccessState & AccessAction>(set => ({
 	...initialState,

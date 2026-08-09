@@ -20,6 +20,7 @@ const routes: AppRouteRecordRaw[] = [
 			icon: "SafetyOutlined",
 			title: $t("common.menu.access"),
 			order: access,
+			hideInMenu: true,
 		},
 		children: [
 			{
@@ -28,9 +29,7 @@ const routes: AppRouteRecordRaw[] = [
 				handle: {
 					icon: "FileTextOutlined",
 					title: $t("common.menu.pageControl"),
-					permissions: [
-						accessControlCodes.get,
-					],
+					permissions: [accessControlCodes.get],
 				},
 			},
 			{

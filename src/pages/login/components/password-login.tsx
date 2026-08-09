@@ -1,7 +1,7 @@
 import type { LoginInfo } from "#src/api/user";
 
 import { BasicButton } from "#src/components/basic-button";
-import { PASSWORD_RULES, USERNAME_RULES } from "#src/constants/rules";
+import { PASSWORD_RULES } from "#src/constants/rules";
 import { useAuthStore } from "#src/store/auth";
 
 import {
@@ -18,8 +18,8 @@ import { useNavigate, useSearchParams } from "react-router";
 import { FormModeContext } from "../form-mode-context";
 
 const FORM_INITIAL_VALUES: LoginInfo = {
-	username: "admin",
-	password: "123456789admin",
+	email: "codien@thanmongduong.vn",
+	password: "Codien@123",
 };
 
 export function PasswordLogin() {
@@ -40,12 +40,13 @@ export function PasswordLogin() {
 			messageLoadingApi?.destroy();
 			window.$message?.success(t("authority.loginSuccess"));
 			const redirect = searchParams.get("redirect");
+
 			if (redirect) {
 				navigate(`/${redirect.slice(1)}`);
 			}
-			else {
-				navigate(import.meta.env.VITE_BASE_HOME_PATH);
-			}
+			// else {
+			// 	navigate(import.meta.env.VITE_BASE_HOME_PATH);
+			// }
 		}).finally(() => {
 			messageLoadingApi?.destroy();
 			// Prevent multiple requests from being made by clicking the login button
@@ -78,11 +79,11 @@ export function PasswordLogin() {
 				onFinish={handleFinish}
 			>
 				<Form.Item
-					label={t("authority.username")}
-					name="username"
-					rules={USERNAME_RULES(t)}
+					label={t("authority.email")}
+					name="email"
+					rules={[{ required: true, message: t("form.email.required"), type: "email" }]}
 				>
-					<Input placeholder={t("form.username.required")} />
+					<Input placeholder={t("form.email.required")} />
 				</Form.Item>
 
 				<Form.Item

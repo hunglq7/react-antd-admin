@@ -19,6 +19,8 @@ export function UserMenu({ ...restProps }: ButtonProps) {
 	const navigate = useNavigate();
 	const { t } = useTranslation();
 	const avatar = useUserStore(state => state.avatar);
+	const username = useUserStore(state => state.username);
+	const email = useUserStore(state => state.email);
 	const logout = useAuthStore(state => state.logout);
 
 	const onClick: MenuProps["onClick"] = async ({ key }) => {
@@ -31,6 +33,7 @@ export function UserMenu({ ...restProps }: ButtonProps) {
 		}
 	};
 
+	const avatarSrc = avatar || undefined;
 	const altView = useMemo(() => isWindowsOs() ? "Alt" : "⌥", [isWindowsOs]);
 	const items: MenuProps["items"] = [
 		{
@@ -65,9 +68,17 @@ export function UserMenu({ ...restProps }: ButtonProps) {
 			<BasicButton
 				type="text"
 				{...restProps}
+				title={email || "User"}
 				className={cn(restProps.className, "rounded-full px-1")}
 			>
-				<Avatar src={avatar} />
+				<div className="flex items-center gap-2">
+					<Avatar src={avatarSrc} icon={<RiAccountCircleLine />} />
+					{username && (
+						<span className="max-w-[120px] truncate text-sm font-medium text-[var(--ant-color-text)]">
+							{username}
+						</span>
+					)}
+				</div>
 			</BasicButton>
 		</Dropdown>
 	);

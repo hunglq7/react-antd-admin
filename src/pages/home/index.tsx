@@ -8,6 +8,7 @@ import CardList from "./components/card-list";
 import LineChart from "./components/line-chart";
 
 import PieChart from "./components/pie-chart";
+import StatisticsTable from "./components/statistics-table";
 
 const wrapperCol: ColProps = {
 	xs: 24,
@@ -23,6 +24,9 @@ export default function Home() {
 			<Row gutter={[20, 20]}>
 				<Col span={24}>
 					<CardList />
+				</Col>
+				<Col span={24}>
+					<StatisticsTable />
 				</Col>
 				<Col span={24}>
 					<LineChart />

@@ -24,6 +24,7 @@ const routes: AppRouteRecordRaw[] = [
 			order: routeNest,
 			title: $t("common.menu.nestMenus"),
 			icon: createElement(NodeExpandOutlined),
+			hideInMenu: true,
 		},
 		children: [
 			{

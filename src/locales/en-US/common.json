@@ -25,11 +25,14 @@
 		"exception_500": "500",
 		"exceptionUnknownComponent": "Unknown Component",
 		"system": "System Management",
-		"user": "User Management",
-		"role": "Role Management",
+		"bienap": "Biến áp",
+		"mayxuc": "Máy xúc",
+		"hethong": "Hệ thống",
+		"role": "Rơ le",
 		"menu": "Menu Management",
 		"dept": "Department Management",
-		"personalCenter": "Personal Center",
+		"phongban": "Phongban Management",
+		"personalCenter": "Trung tâm cá nhân",
 		"profile": "My Profile",
 		"settings": "Settings"
 	},
@@ -53,7 +56,8 @@
 	"add": "Add",
 	"addSuccess": "Added successfully",
 	"backToHome": "Back to Home",
-	"batchDelete": "Batch Delete",
+	"batchDelete": "Xóa dòng đã chọn",
+	"selectedRows": "Selected {{count}} items",
 	"cancel": "Cancel",
 	"close": "Close",
 	"check": "Check",
@@ -91,5 +95,6 @@
 	"expandAll": "Expand All",
 	"collapseAll": "Collapse All",
 	"checkAll": "Check All",
-	"cancelAll": "Cancel All"
+	"cancelAll": "Cancel All",
+	"exportExcel": "Export Excel"
 }

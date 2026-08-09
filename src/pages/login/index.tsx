@@ -75,7 +75,8 @@ export default function Login() {
 							<Banner
 								className="h-64 motion-safe:animate-bounce-in-down-out-up"
 							/>
-							<div className="text-xl text-colorTextSecondary mt-6 font-sans lg:text-2xl">
+							<div className="text-3xl font-bold text-blue-500">Công ty CP than Mông Dương</div>
+							<div className="bg-linear-to-r from-pink-500 to-violet-500 bg-clip-text text-4xl font-extrabold text-transparent">
 								{t("authority.pageTitle")}
 							</div>
 							<div className="text-colorTextTertiary mt-2">
