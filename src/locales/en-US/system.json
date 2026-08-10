@@ -67,6 +67,11 @@
 		"phanquyen": "Phân quyền",
 		"taikhoan": "Tài khoản"
 	},
+	"taikhoan": {
+		"editTaikhoan": "Sửa tài khoản",
+		"addTaikhoan": "Thêm tài khoản",
+		"taikhoanDanhsach": "Danh sách tài khoản"
+	},
 	"role": {
 		"roleDanhmuc": "Danh mục Rơ le",
 		"addRole": "Thêm rơ le",

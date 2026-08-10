@@ -1,6 +1,6 @@
-import type { TonghopbienapItemType } from "#src/api/bienap/tonghop";
 import type { ProColumns } from "@ant-design/pro-components";
 import type { TFunction } from "i18next";
+import type { TonghopbienapItemType } from "#src/api/bienap/tonghop";
 
 export function getConstantColumns(t: TFunction<"translation", undefined>): ProColumns<TonghopbienapItemType>[] {
 	return [

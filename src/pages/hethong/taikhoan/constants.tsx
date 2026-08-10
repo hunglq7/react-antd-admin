@@ -39,7 +39,7 @@ export function getConstantColumns(t: TFunction<"translation", undefined>): ProC
 			},
 		},
 		{
-			title: "Ngày tạo",
+			title: "Ngày sinh",
 			dataIndex: "dob",
 			width: 150,
 			valueType: "date",

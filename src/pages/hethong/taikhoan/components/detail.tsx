@@ -95,20 +95,20 @@ export function Detail({
 		>
 			<ProFormText
 				name="firstName"
-				label="Họ"
-				placeholder="Họ người dùng"
-				rules={[{ required: true, message: t("form.required") }]}
-			/>
-			<ProFormText
-				name="lastName"
 				label="Tên"
 				placeholder="Tên người dùng"
 				rules={[{ required: true, message: t("form.required") }]}
 			/>
+			<ProFormText
+				name="lastName"
+				label="Họ"
+				placeholder="Họ người dùng"
+				rules={[{ required: true, message: t("form.required") }]}
+			/>
 			<ProFormDatePicker
 				name="dob"
-				label="Ngày tạo"
-				placeholder="Chọn ngày tạo"
+				label="Ngày sinh"
+				placeholder="Chọn ngày sinh"
 				rules={[{ required: true, message: t("form.required") }]}
 			/>
 			<ProFormText

@@ -1,7 +1,7 @@
 export interface TaikhoanItemType {
 	id?: number
 	firstName: string
-	lastname: string
+	lastName: string
 	phoneNumber: string
 	userName: string
 	email: string
@@ -11,7 +11,7 @@ export interface TaikhoanItemType {
 export interface TaikhoanDetailItemType {
 	id?: number
 	firstName: string
-	lastname: string
+	lastName: string
 	phoneNumber: string
 	userName: string
 	fullName: string
