@@ -1,14 +1,13 @@
-import type { TonghopbienapItemType } from "#src/api/bienap/tonghop";
 import type { Dayjs } from "dayjs";
-import { fetchBienapList } from "#src/api/bienap/danhmuc";
-import { fetchAddTonghopbienapItem, fetchUpdateTonghopbienapItem } from "#src/api/bienap/tonghop";
-
-import { fetchPhongbanList } from "#src/api/system/phongban";
+import type { TonghopbienapItemType } from "#src/api/bienap/tonghop";
 import { ModalForm, ProFormDatePicker, ProFormSelect, ProFormSwitch, ProFormText, ProFormTextArea } from "@ant-design/pro-components";
 import { Form } from "antd";
 import dayjs from "dayjs";
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
+import { fetchBienapList } from "#src/api/bienap/danhmuc";
+import { fetchAddTonghopbienapItem, fetchUpdateTonghopbienapItem } from "#src/api/bienap/tonghop";
+import { fetchPhongbanList } from "#src/api/system/phongban";
 
 type TonghopbienapFormType = Omit<TonghopbienapItemType, "ngayLap"> & {
 	ngayLap?: Dayjs
