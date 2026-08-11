@@ -1,18 +1,19 @@
 import type { TonghopmayxucItemType } from "#src/api/mayxuc/tonghop";
-import { fetchMayxucList } from "#src/api/mayxuc/danhmuc";
-
-import { fetchAddTonghopmayxucItem, fetchUpdateTonghopmayxucItem } from "#src/api/mayxuc/tonghop";
-import { fetchPhongbanList } from "#src/api/system/phongban";
 import {
 	ModalForm,
+	ProFormDatePicker,
 	ProFormSelect,
 	ProFormSwitch,
 	ProFormText,
 	ProFormTextArea,
 } from "@ant-design/pro-components";
+
 import { Form, Tabs } from "antd";
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
+import { fetchMayxucList } from "#src/api/mayxuc/danhmuc";
+import { fetchAddTonghopmayxucItem, fetchUpdateTonghopmayxucItem } from "#src/api/mayxuc/tonghop";
+import { fetchPhongbanList } from "#src/api/system/phongban";
 import { NhatkyTab } from "./nhatky-tab";
 import { ThongsoTab } from "./thongso-tab";
 
@@ -131,7 +132,12 @@ export function Detail({ title, open, onCloseChange, detailData, refreshTable }:
 					/>
 					<ProFormText name="loaiThietBi" label="Loại thiết bị" placeholder="Nhập loại thiết bị" />
 					<ProFormText name="viTriLapDat" label="Vị trí lắp đặt" placeholder="Nhập vị trí lắp đặt" />
-					<ProFormText name="ngayLap" label="Ngày lắp" placeholder="Nhập ngày lắp" />
+					<ProFormDatePicker
+						name="ngayLap"
+						label="Ngày lắp"
+						placeholder="Chọn ngày lắp"
+						rules={[{ required: true, message: t("form.required") }]}
+					/>
 					<ProFormText name="tinhTrang" label="Tình trạng" placeholder="Nhập tình trạng" />
 					<ProFormText name="soLuong" label="Số lượng" placeholder="Nhập số lượng" />
 					<ProFormSwitch name="duPhong" label="Dự phòng" />

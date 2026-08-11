@@ -17,4 +17,4 @@ export interface NhatkymayxucCreatePayload {
 	ghiChu?: string
 }
 
-export interface NhatkymayxucUpdatePayload extends NhatkymayxucItemType {}
+export interface NhatkymayxucUpdatePayload extends NhatkymayxucItemType { }
