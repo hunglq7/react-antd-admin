@@ -16,7 +16,7 @@ export async function fetchNhatkymayxucListByTonghopId(id: number) {
 		)
 		.json();
 
-	return response?.result ?? [];
+	return response;
 }
 
 export function fetchAddNhatkymayxucItem(data: NhatkymayxucItemType) {
