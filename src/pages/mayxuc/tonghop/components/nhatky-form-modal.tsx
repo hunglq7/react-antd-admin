@@ -3,6 +3,7 @@ import type { NhatkymayxucItemType } from "#src/api/mayxuc/nhatky";
 import {
 	ModalForm,
 	ProFormDatePicker,
+	ProFormSelect,
 	ProFormSwitch,
 	ProFormText,
 	ProFormTextArea,
@@ -15,6 +16,7 @@ import {
 	fetchAddNhatkymayxucItem,
 	fetchUpdateNhatkymayxucItem,
 } from "#src/api/mayxuc/nhatky";
+import { fetchPhongbanList } from "#src/api/system/phongban";
 
 interface NhatkyFormModalProps {
 	title: React.ReactNode
@@ -121,10 +123,34 @@ export function NhatkyFormModal({
 				placeholder="Chọn ngày thay"
 				rules={[{ required: true, message: t("form.required") }]}
 			/>
-			<ProFormText
+
+			<ProFormSelect
 				name="donVi"
 				label="Đơn vị"
-				placeholder="Nhập đơn vị"
+				placeholder="Chọn đơn vị"
+				showSearch
+				request={async () => {
+					const res: any = await fetchPhongbanList();
+					const list = Array.isArray(res?.data) ? res.data : Array.isArray(res) ? res : [];
+
+					// 1. Lọc bỏ các bản ghi không có tenPhong hoặc bị trùng tên phòng
+					const uniqueList = list.filter(
+						(item: any, index: number, self: any[]) =>
+							item?.tenPhong
+							&& index === self.findIndex(t => t?.tenPhong?.trim() === item.tenPhong.trim()),
+					);
+
+					// 2. Trả về label và value ĐỀU LÀ CHUỖI TENPHONG
+					return uniqueList.map((item: any) => ({
+						label: item.tenPhong.trim(),
+						value: item.tenPhong.trim(), // Backend nhận String (ví dụ: "Phòng KCS")
+					}));
+				}}
+				fieldProps={{
+					filterOption: (input, option) =>
+						(option?.label ?? "").toString().toLowerCase().includes(input.toLowerCase()),
+				}}
+				rules={[{ required: true, message: "Vui lòng chọn đơn vị" }]}
 			/>
 			<ProFormText
 				name="viTri"
