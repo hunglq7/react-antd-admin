@@ -12,6 +12,7 @@ import {
 	fetchNhatkymayxucListByTonghopId,
 } from "#src/api/mayxuc/nhatky";
 import { BasicButton } from "#src/components/basic-button";
+import { BasicContent } from "#src/components/basic-content";
 import { BasicTable } from "#src/components/basic-table";
 import { accessControlCodes, useAccess } from "#src/hooks/use-access";
 import { NhatkyFormModal } from "./nhatky-form-modal";
@@ -46,11 +47,19 @@ export function NhatkyTab({ tonghopmayxucId }: NhatkyTabProps) {
 	};
 
 	const columns: ProColumns<NhatkymayxucItemType>[] = [
-		{ title: "Ngày tháng", dataIndex: "ngaythang", ellipsis: true },
+
+		{
+			title: "Ngày tháng",
+			dataIndex: "ngaythang",
+			valueType: "date",
+			fieldProps: { format: "DD-MM-YYYY" },
+			ellipsis: true,
+			search: false,
+		},
 		{ title: "Đơn vị", dataIndex: "donVi", ellipsis: true },
-		{ title: "Vị trí", dataIndex: "viTri", ellipsis: true },
-		{ title: "Trạng thái", dataIndex: "trangThai", ellipsis: true },
-		{ title: "Ghi chú", dataIndex: "ghiChu", ellipsis: true },
+		{ title: "Vị trí", dataIndex: "viTri", ellipsis: true, search: true },
+		{ title: "Trạng thái", dataIndex: "trangThai", ellipsis: true, search: false },
+		{ title: "Ghi chú", dataIndex: "ghiChu", ellipsis: true, search: false },
 		{
 			title: t("common.action"),
 			valueType: "option",
@@ -118,28 +127,42 @@ export function NhatkyTab({ tonghopmayxucId }: NhatkyTabProps) {
 								{t("common.batchDelete")}
 							</Button>
 						</div>
-						<BasicTable<NhatkymayxucItemType>
-							columns={columns}
-							actionRef={actionRef}
-							rowSelection={{
-								selectedRowKeys,
-								onChange: keys => setSelectedRowKeys(keys),
-							}}
-							request={async () => {
-								if (!tonghopmayxucId) {
-									return { data: [], total: 0, success: true };
-								}
-								const res: any = await fetchNhatkymayxucListByTonghopId(tonghopmayxucId);
-								const dataList = Array.isArray(res?.data) ? res.data : res ? [res.data] : [];
-								return {
-									data: dataList,
-									total: dataList.length,
-									success: true,
-								};
-							}}
-							search={false}
-							pagination={{ pageSize: 10 }}
-						/>
+						<BasicContent className="h-full">
+							<BasicTable<NhatkymayxucItemType>
+								columns={columns}
+								actionRef={actionRef}
+								rowSelection={{
+									selectedRowKeys,
+									onChange: keys => setSelectedRowKeys(keys),
+								}}
+
+								request={async (params) => {
+									if (!tonghopmayxucId) {
+										return { data: [], total: 0, success: true };
+									}
+									const res: any = await fetchNhatkymayxucListByTonghopId(tonghopmayxucId);
+									const dataList = Array.isArray(res?.data) ? res.data : res ? [res.data] : [];
+									const filtered = dataList.filter((item: any) => {
+										const keyword = String(params?.ngaythang ?? "").trim().toLowerCase();
+										const code = String(params?.donVi ?? "").trim().toLowerCase();
+										const type = String(params?.viTri ?? "").trim().toLowerCase();
+										return (
+											(item.ngaythang?.toLowerCase().includes(keyword) ?? false)
+											&& (item.donVi?.toLowerCase().includes(code) ?? false)
+											&& (item.viTri?.toLowerCase().includes(type) ?? false)
+										);
+									});
+									return {
+										data: filtered,
+										total: filtered.length,
+										success: true,
+									};
+								}}
+								search={{ labelWidth: "auto", defaultCollapsed: false }}
+								pagination={{ pageSize: 10 }}
+							/>
+						</BasicContent>
+
 						<NhatkyFormModal
 							title={formTitle}
 							open={formOpen}

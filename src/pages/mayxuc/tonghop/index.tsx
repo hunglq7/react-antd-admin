@@ -99,10 +99,11 @@ export default function MayxucDanhmuc() {
 			search: false,
 		},
 		{
-			title: "Ngày lắp",
+			title: "Ngày tháng",
 			dataIndex: "ngayLap",
+			valueType: "date",
+			fieldProps: { format: "DD-MM-YYYY" },
 			ellipsis: true,
-			search: false,
 		},
 		{
 			title: "Số lượng",
