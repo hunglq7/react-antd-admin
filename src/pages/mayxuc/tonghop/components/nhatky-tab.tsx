@@ -126,11 +126,16 @@ export function NhatkyTab({ tonghopmayxucId }: NhatkyTabProps) {
 								onChange: keys => setSelectedRowKeys(keys),
 							}}
 							request={async () => {
-								if (!tonghopmayxucId)
-									return { data: [], total: 0 };
-								const data = await fetchNhatkymayxucListByTonghopId(tonghopmayxucId);
-
-								return { data, total: data.length };
+								if (!tonghopmayxucId) {
+									return { data: [], total: 0, success: true };
+								}
+								const res: any = await fetchNhatkymayxucListByTonghopId(tonghopmayxucId);
+								const dataList = Array.isArray(res?.data) ? res.data : res ? [res.data] : [];
+								return {
+									data: dataList,
+									total: dataList.length,
+									success: true,
+								};
 							}}
 							search={false}
 							pagination={{ pageSize: 10 }}

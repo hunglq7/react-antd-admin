@@ -6,17 +6,12 @@ import { request } from "#src/utils/request";
 
 export * from "./types";
 
-export async function fetchNhatkymayxucListByTonghopId(id: number) {
-	const response = await request
-		.get<ApiResponse<NhatkymayxucItemType[]>>(
-			`api/Nhatkymayxuc/tonghop/${id}`,
-			{
-				ignoreLoading: true,
-			},
-		)
+export function fetchNhatkymayxucListByTonghopId(id: number) {
+	return request
+		.get<NhatkymayxucItemType>(`api/Nhatkymayxuc/tonghop/${id}`, {
+			ignoreLoading: true,
+		})
 		.json();
-
-	return response;
 }
 
 export function fetchAddNhatkymayxucItem(data: NhatkymayxucItemType) {
