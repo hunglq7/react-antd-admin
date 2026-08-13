@@ -69,6 +69,7 @@ export function Detail({
 			<ProFormSwitch
 				name="trangThai"
 				label="Trạng thái"
+				initialValue={true}
 			/>
 
 		</ModalForm>
