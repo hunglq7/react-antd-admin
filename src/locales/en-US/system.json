@@ -81,5 +81,10 @@
 		"tonghoprole": "Tổng hợp rơ le",
 		"addTonghoprole": "Thêm  rơ le",
 		"editTonghoprole": "Sửa  rơ le"
+	},
+	"danhmuc": {
+		"chucvu": "Chức vụ",
+		"addChucvu": "Thêm chức vụ",
+		"editChucvu": "Sửa chức vụ"
 	}
 }

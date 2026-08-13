@@ -13,6 +13,7 @@ export const bienap = 5;
 export const mayxuc = 6;
 export const role = 7;
 export const hethong = 8;
+export const danhmuc = 9;
 export const exception = 90;
 export const system = 100;
 export const personalCenter = 110;
