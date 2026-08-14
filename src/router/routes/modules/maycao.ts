@@ -1,28 +1,28 @@
 import type { AppRouteRecordRaw } from "#src/router/types";
 import { lazy } from "react";
 import ContainerLayout from "#src/layout/container-layout";
-import { mayxuc } from "#src/router/extra-info/order";
+import { maycao } from "#src/router/extra-info/order";
 
-const MayxucDanhmuc = lazy(() => import("#src/pages/mayxuc/danhmuc/index"));
-const MayxucThongso = lazy(() => import("#src/pages/mayxuc/thongso/index"));
-const MayxucTonghop = lazy(() => import("#src/pages/mayxuc/tonghop/index"));
+const MaycaoDanhmuc = lazy(() => import("#src/pages/maycao/danhmuc/index"));
+const MaycaoThongso = lazy(() => import("#src/pages/maycao/thongso/index"));
+const MaycaoTonghop = lazy(() => import("#src/pages/maycao/tonghop/index"));
 const routes: AppRouteRecordRaw[] = [
 	{
-		path: "/mayxuc",
+		path: "/maycao",
 		Component: ContainerLayout,
 		handle: {
 			icon: "ThunderboltOutlined",
-			title: "common.menu.mayxuc",
-			order: mayxuc,
+			title: "common.menu.maycao",
+			order: maycao,
 			ignoreAccess: true,
 		},
 		children: [
 			{
-				path: "/mayxuc/danhmuc",
-				Component: MayxucDanhmuc,
+				path: "/maycao/danhmuc",
+				Component: MaycaoDanhmuc,
 				handle: {
 					icon: "TableOutlined",
-					title: "system.mayxuc.mayxucDanhmuc",
+					title: "system.maycao.maycaoDanhmuc",
 					ignoreAccess: true,
 					permissions: [
 						"permission:button:add",
@@ -32,11 +32,11 @@ const routes: AppRouteRecordRaw[] = [
 				},
 			},
 			{
-				path: "/mayxuc/thongso",
-				Component: MayxucThongso,
+				path: "/maycao/thongso",
+				Component: MaycaoThongso,
 				handle: {
 					icon: "TableOutlined",
-					title: "system.thongsomayxuc.thongsomayxuc",
+					title: "system.maycao.maycaoThongso",
 					ignoreAccess: true,
 					permissions: [
 						"permission:button:add",
@@ -46,11 +46,11 @@ const routes: AppRouteRecordRaw[] = [
 				},
 			},
 			{
-				path: "/mayxuc/tonghop",
-				Component: MayxucTonghop,
+				path: "/maycao/tonghop",
+				Component: MaycaoTonghop,
 				handle: {
 					icon: "TableOutlined",
-					title: "system.tonghopmayxuc.tonghopmayxuc",
+					title: "system.maycao.maycaoTonghop",
 					ignoreAccess: true,
 					permissions: [
 						"permission:button:add",

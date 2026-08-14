@@ -48,7 +48,7 @@ export function FormAvatarItem({ value, onChange }: FormAvatarItemProps) {
 						}}
 					>
 						<Button icon={<UploadOutlined />}>
-							更换头像
+							Chọn ảnh
 						</Button>
 					</Upload>
 				</ImgCrop>

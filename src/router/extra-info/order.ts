@@ -11,9 +11,11 @@ export const routeNest = 20;
 export const outside = 40;
 export const bienap = 5;
 export const mayxuc = 6;
-export const role = 7;
-export const hethong = 8;
+export const maycao = 7;
+export const role = 8;
 export const danhmuc = 9;
+export const hethong = 10;
+
 export const exception = 90;
 export const system = 100;
 export const personalCenter = 110;

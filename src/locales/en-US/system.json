@@ -53,6 +53,12 @@
 		"addMayxuc": "Thêm máy xúc",
 		"editMayxuc": "Sửa máy xúc"
 	},
+	"maycao": {
+		"maycaoDanhmuc": "Danh mục máy cào",
+		"maycaoTonghop": "Tổng hợp máy cào",
+		"maycaoThongso": "Thông số máy cào",
+		"editMaycao": "Sửa máy cào"
+	},
 	"tonghopmayxuc": {
 		"tonghopmayxuc": "Tổng hợp máy xúc",
 		"addTonghopmayxuc": "Thêm tổng hợp máy xúc",

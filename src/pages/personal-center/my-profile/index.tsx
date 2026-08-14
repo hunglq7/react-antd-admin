@@ -1,7 +1,3 @@
-import { BasicContent } from "#src/components/basic-content";
-import { FormAvatarItem } from "#src/components/basic-form";
-import { useUserStore } from "#src/store/user";
-
 import {
 	ProForm,
 	ProFormDigit,
@@ -9,6 +5,10 @@ import {
 	ProFormTextArea,
 } from "@ant-design/pro-components";
 import { Form, Input } from "antd";
+import { BasicContent } from "#src/components/basic-content";
+
+import { FormAvatarItem } from "#src/components/basic-form";
+import { useUserStore } from "#src/store/user";
 
 export default function Profile() {
 	const currentUser = useUserStore();
@@ -24,12 +24,12 @@ export default function Profile() {
 	};
 
 	const handleFinish = async () => {
-		window.$message?.success("更新基本信息成功");
+		window.$message?.success("Lưu thành công");
 	};
 
 	return (
 		<BasicContent className="max-w-md ml-10">
-			<h3>我的资料</h3>
+			<h3>Thông tin cá nhân</h3>
 			<ProForm
 				layout="vertical"
 				onFinish={handleFinish}
@@ -41,11 +41,11 @@ export default function Profile() {
 			>
 				<Form.Item
 					name="avatar"
-					label="头像"
+					label="Ảnh đại diện"
 					rules={[
 						{
 							required: true,
-							message: "请输入您的昵称!",
+							message: "Ảnh đại diện không được để trống",
 						},
 					]}
 				>
@@ -53,31 +53,31 @@ export default function Profile() {
 				</Form.Item>
 				<ProFormText
 					name="username"
-					label="用户名"
+					label="Tên người dùng"
 					rules={[
 						{
 							required: true,
-							message: "请输入您的用户名!",
+							message: "Vui lòng nhập tên người dùng của bạn!",
 						},
 					]}
 				/>
 				<ProFormText
 					name="email"
-					label="邮箱"
+					label="Email"
 					rules={[
 						{
 							required: true,
-							message: "请输入您的邮箱!",
+							message: "Vui lòng nhập email của bạn!",
 						},
 					]}
 				/>
 				<ProFormDigit
 					name="phoneNumber"
-					label="联系电话"
+					label="Số điện thoại"
 					rules={[
 						{
 							required: true,
-							message: "请输入您的联系电话!",
+							message: "Vui lòng nhập số điện thoại của bạn!",
 						},
 					]}
 				>
@@ -86,8 +86,8 @@ export default function Profile() {
 				<ProFormTextArea
 					allowClear
 					name="description"
-					label="个人简介"
-					placeholder="个人简介"
+					label="Giới thiệu bản thân"
+					placeholder="Giới thiệu bản thân"
 				/>
 			</ProForm>
 		</BasicContent>

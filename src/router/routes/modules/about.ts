@@ -1,10 +1,10 @@
 import type { AppRouteRecordRaw } from "#src/router/types";
-import ContainerLayout from "#src/layout/container-layout";
-import { $t } from "#src/locales";
-import { about } from "#src/router/extra-info";
-
 import { CopyrightOutlined } from "@ant-design/icons";
 import { createElement, lazy } from "react";
+import ContainerLayout from "#src/layout/container-layout";
+
+import { $t } from "#src/locales";
+import { about } from "#src/router/extra-info";
 
 const About = lazy(() => import("#src/pages/about"));
 
@@ -16,6 +16,7 @@ const routes: AppRouteRecordRaw[] = [
 			order: about,
 			title: $t("common.menu.about"),
 			icon: createElement(CopyrightOutlined),
+			hideInMenu: true,
 		},
 		children: [
 			{
