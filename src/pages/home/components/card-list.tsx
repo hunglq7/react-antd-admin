@@ -39,7 +39,7 @@ export default function CardList() {
 			icon: <MoneyCollectOutlined />,
 		},
 		{
-			title: t("home.shoppings"),
+			title: t("home.maycao"),
 			data: 13600,
 			icon: <ShoppingCartOutlined />,
 		},
