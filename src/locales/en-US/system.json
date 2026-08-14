@@ -84,6 +84,7 @@
 	},
 	"danhmuc": {
 		"chucvu": "Chức vụ",
+		"loaithietbi": "Loại thiết bị",
 		"addChucvu": "Thêm chức vụ",
 		"editChucvu": "Sửa chức vụ"
 	}
