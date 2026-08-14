@@ -1,31 +1,31 @@
-import type { ThongsokythuatmayxucItemType } from "#src/api/mayxuc/thongso";
+import type { MaycaoThongsoItemType } from "#src/api/maycao/thongso/types";
 import { ModalForm, ProFormSelect, ProFormText, ProFormTextArea } from "@ant-design/pro-components";
 import { Form } from "antd";
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { fetchMayxucList } from "#src/api/mayxuc/danhmuc";
-import { fetchAddThongsokythuatmayxucItem, fetchUpdateThongsokythuatmayxucItem } from "#src/api/mayxuc/thongso";
+import { fetchMaycaoDanhmucList } from "#src/api/maycao/danhmuc";
+import { fetchAddThongsokythuatmaycaoItem, fetchUpdateThongsokythuatmaycaoItem } from "#src/api/maycao/thongso";
 
 interface DetailProps {
 	title: React.ReactNode
 	open: boolean
-	detailData: Partial<ThongsokythuatmayxucItemType>
+	detailData: Partial<MaycaoThongsoItemType>
 	onCloseChange: () => void
 	refreshTable?: () => void
 }
 
 export function Detail({ title, open, onCloseChange, detailData, refreshTable }: DetailProps) {
 	const { t } = useTranslation();
-	const [form] = Form.useForm<ThongsokythuatmayxucItemType>();
-	const [mayxucOptions, setMayxucOptions] = useState<{ label: string, value: number }[]>([]);
-	const onFinish = async (values: ThongsokythuatmayxucItemType) => {
+	const [form] = Form.useForm<MaycaoThongsoItemType>();
+	const [maycaoOptions, setMaycaoOptions] = useState<{ label: string, value: number }[]>([]);
+	const onFinish = async (values: MaycaoThongsoItemType) => {
 		const payload = detailData.id ? { ...detailData, ...values } : values;
 		if (detailData.id) {
-			await fetchUpdateThongsokythuatmayxucItem(payload);
+			await fetchUpdateThongsokythuatmaycaoItem(payload);
 			window.$message?.success(t("common.updateSuccess"));
 		}
 		else {
-			await fetchAddThongsokythuatmayxucItem(payload);
+			await fetchAddThongsokythuatmaycaoItem(payload);
 			window.$message?.success(t("common.addSuccess"));
 		}
 		refreshTable?.();
@@ -34,8 +34,8 @@ export function Detail({ title, open, onCloseChange, detailData, refreshTable }:
 
 	useEffect(() => {
 		const loadOptions = async () => {
-			const mayxucData = await fetchMayxucList();
-			setMayxucOptions(mayxucData.map(item => ({ label: item.tenThietBi ?? "", value: item.id ?? 0 })));
+			const maycaoData = await fetchMaycaoDanhmucList();
+			setMaycaoOptions(maycaoData.map(item => ({ label: item.tenThietBi, value: item.id ?? 0 })));
 		};
 		loadOptions();
 		if (open) {
@@ -44,7 +44,7 @@ export function Detail({ title, open, onCloseChange, detailData, refreshTable }:
 	}, [open, detailData, form]);
 
 	return (
-		<ModalForm<ThongsokythuatmayxucItemType>
+		<ModalForm<MaycaoThongsoItemType>
 			title={title}
 			open={open}
 			onOpenChange={(visible) => {
@@ -59,11 +59,12 @@ export function Detail({ title, open, onCloseChange, detailData, refreshTable }:
 			width={620}
 			onFinish={onFinish}
 		>
+
 			<ProFormSelect
-				name="mayXucId"
+				name="mayCaoId"
 				label="Tên thiết bị"
 				placeholder="Chọn thiết bị"
-				options={mayxucOptions}
+				options={maycaoOptions}
 				fieldProps={{
 					showSearch: true,
 					optionFilterProp: "label",

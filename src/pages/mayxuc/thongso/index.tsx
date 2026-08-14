@@ -1,17 +1,17 @@
-import type { ThongsokythuatmayxucItemType } from "#src/api/mayxuc/thongso";
 import type { ActionType, ProColumns, ProCoreActionType } from "@ant-design/pro-components";
-
-import { fetchDeleteThongsokythuatmayxucItem, fetchDeleteThongsokythuatmayxucItems, fetchThongsokythuatmayxucList } from "#src/api/mayxuc/thongso";
-import { BasicButton } from "#src/components/basic-button";
-import { BasicContent } from "#src/components/basic-content";
-import { BasicTable } from "#src/components/basic-table";
-import { accessControlCodes, useAccess } from "#src/hooks/use-access";
+import type { ThongsokythuatmayxucItemType } from "#src/api/mayxuc/thongso";
 
 import { DownloadOutlined, PlusCircleOutlined } from "@ant-design/icons";
 import { Button, Popconfirm } from "antd";
 import { useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import * as XLSX from "xlsx";
+
+import { fetchDeleteThongsokythuatmayxucItem, fetchDeleteThongsokythuatmayxucItems, fetchThongsokythuatmayxucList } from "#src/api/mayxuc/thongso";
+import { BasicButton } from "#src/components/basic-button";
+import { BasicContent } from "#src/components/basic-content";
+import { BasicTable } from "#src/components/basic-table";
+import { accessControlCodes, useAccess } from "#src/hooks/use-access";
 
 import { Detail } from "./components/detail";
 
@@ -46,15 +46,14 @@ export default function MayxucThongso() {
 			const exportData = data.map((item, index) => ({
 				"STT": index + 1,
 				"Tên thiết bị": item.tenThietBi,
-				"Mã máy xúc": item.mayXucId,
 				"Nội dung": item.noiDung,
 				"Đơn vị tính": item.donViTinh,
 				"Thông số": item.thongSo,
 			}));
 			const worksheet = XLSX.utils.json_to_sheet(exportData, {
-				header: ["STT", "Tên thiết bị", "Mã máy xúc", "Nội dung", "Đơn vị tính", "Thông số"],
+				header: ["STT", "Tên thiết bị", "Nội dung", "Đơn vị tính", "Thông số"],
 			});
-			worksheet["!cols"] = [{ wch: 5 }, { wch: 25 }, { wch: 15 }, { wch: 25 }, { wch: 18 }, { wch: 30 }];
+			worksheet["!cols"] = [{ wch: 5 }, { wch: 25 }, { wch: 25 }, { wch: 18 }, { wch: 30 }];
 			const workbook = XLSX.utils.book_new();
 			XLSX.utils.book_append_sheet(workbook, worksheet, "Thongsomayxuc");
 			XLSX.writeFile(workbook, "thongsomayxuc.xlsx");
@@ -71,11 +70,6 @@ export default function MayxucThongso() {
 			title: "Tên thiết bị",
 			dataIndex: "tenThietBi",
 			ellipsis: true,
-		},
-		{
-			title: "Mã máy xúc",
-			dataIndex: "mayXucId",
-			search: false,
 		},
 		{
 			title: "Nội dung",
