@@ -1,31 +1,32 @@
-import type { MaycaoThongsoItemType } from "#src/api/maycao/thongso/types";
+import type { MaycaoTonghopItemType } from "#src/api/maycao/tonghop/types";
 import { ModalForm, ProFormSelect, ProFormText, ProFormTextArea } from "@ant-design/pro-components";
 import { Form } from "antd";
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { fetchMaycaoDanhmucList } from "#src/api/maycao/danhmuc";
-import { fetchAddThongsokythuatmaycaoItem, fetchUpdateThongsokythuatmaycaoItem } from "#src/api/maycao/thongso";
+import { fetchAddTonghopmaycaoItem, fetchUpdateTonghopmaycaoItem } from "#src/api/maycao/tonghop";
 
 interface DetailProps {
 	title: React.ReactNode
 	open: boolean
-	detailData: Partial<MaycaoThongsoItemType>
+	detailData: Partial<MaycaoTonghopItemType>
 	onCloseChange: () => void
 	refreshTable?: () => void
 }
 
 export function Detail({ title, open, onCloseChange, detailData, refreshTable }: DetailProps) {
 	const { t } = useTranslation();
-	const [form] = Form.useForm<MaycaoThongsoItemType>();
+	const [form] = Form.useForm<MaycaoTonghopItemType>();
 	const [maycaoOptions, setMaycaoOptions] = useState<{ label: string, value: number }[]>([]);
-	const onFinish = async (values: MaycaoThongsoItemType) => {
+
+	const onFinish = async (values: MaycaoTonghopItemType) => {
 		const payload = detailData.id ? { ...detailData, ...values } : values;
 		if (detailData.id) {
-			await fetchUpdateThongsokythuatmaycaoItem(payload);
+			await fetchUpdateTonghopmaycaoItem(payload);
 			window.$message?.success(t("common.updateSuccess"));
 		}
 		else {
-			await fetchAddThongsokythuatmaycaoItem(payload);
+			await fetchAddTonghopmaycaoItem(payload);
 			window.$message?.success(t("common.addSuccess"));
 		}
 		refreshTable?.();
@@ -44,7 +45,7 @@ export function Detail({ title, open, onCloseChange, detailData, refreshTable }:
 	}, [open, detailData, form]);
 
 	return (
-		<ModalForm<MaycaoThongsoItemType>
+		<ModalForm<MaycaoTonghopItemType>
 			title={title}
 			open={open}
 			onOpenChange={(visible) => {
