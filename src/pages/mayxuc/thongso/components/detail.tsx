@@ -1,10 +1,10 @@
 import type { ThongsokythuatmayxucItemType } from "#src/api/mayxuc/thongso";
+import { fetchMayxucList } from "#src/api/mayxuc/danhmuc";
+import { fetchAddThongsokythuatmayxucItem, fetchUpdateThongsokythuatmayxucItem } from "#src/api/mayxuc/thongso";
 import { ModalForm, ProFormSelect, ProFormText, ProFormTextArea } from "@ant-design/pro-components";
 import { Form } from "antd";
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { fetchMayxucList } from "#src/api/mayxuc/danhmuc";
-import { fetchAddThongsokythuatmayxucItem, fetchUpdateThongsokythuatmayxucItem } from "#src/api/mayxuc/thongso";
 
 interface DetailProps {
 	title: React.ReactNode

@@ -18,10 +18,24 @@
 	"prettier.enable": false,
 	// Auto fix
 	"editor.codeActionsOnSave": {
-		"source.fixAll.eslint": "explicit",
+		"source.fixAll.eslint": "always",
 		"source.organizeImports": "never"
 	},
-	"editor.formatOnSave": true,
+	"editor.formatOnSave": false,
+	"javascript.format.enable": false,
+	"typescript.format.enable": false,
+	"[javascript]": {
+		"editor.defaultFormatter": "dbaeumer.vscode-eslint"
+	},
+	"[javascriptreact]": {
+		"editor.defaultFormatter": "dbaeumer.vscode-eslint"
+	},
+	"[typescript]": {
+		"editor.defaultFormatter": "dbaeumer.vscode-eslint"
+	},
+	"[typescriptreact]": {
+		"editor.defaultFormatter": "dbaeumer.vscode-eslint"
+	},
 	"editor.renderWhitespace": "all",
 	// Enable eslint for all supported languages
 	"eslint.validate": [

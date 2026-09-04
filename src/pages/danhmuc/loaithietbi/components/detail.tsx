@@ -1,10 +1,10 @@
 import type { LoaithietbiItemType } from "#src/api/danhmuc/loaithietbi/types";
-import { ModalForm, ProFormSwitch, ProFormText } from "@ant-design/pro-components";
+import { fetchAddLoaithietbiItem, fetchUpdateLoaithietbiItem } from "#src/api/danhmuc/loaithietbi";
 
+import { ModalForm, ProFormSwitch, ProFormText } from "@ant-design/pro-components";
 import { Form } from "antd";
 import { useEffect } from "react";
 import { useTranslation } from "react-i18next";
-import { fetchAddLoaithietbiItem, fetchUpdateLoaithietbiItem } from "#src/api/danhmuc/loaithietbi";
 
 interface DetailProps {
 	title: React.ReactNode

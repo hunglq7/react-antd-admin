@@ -1,7 +1,7 @@
 import type { AppRouteRecordRaw } from "#src/router/types";
-import { lazy } from "react";
 import ContainerLayout from "#src/layout/container-layout";
 import { mayxuc } from "#src/router/extra-info/order";
+import { lazy } from "react";
 
 const MayxucDanhmuc = lazy(() => import("#src/pages/mayxuc/danhmuc/index"));
 const MayxucThongso = lazy(() => import("#src/pages/mayxuc/thongso/index"));

@@ -1,10 +1,5 @@
-import type { ActionType, ProColumns, ProCoreActionType } from "@ant-design/pro-components";
 import type { NhatkymayxucItemType } from "#src/api/mayxuc/nhatky";
-
-import { PlusCircleOutlined } from "@ant-design/icons";
-import { Button, Popconfirm } from "antd";
-import { useRef, useState } from "react";
-import { useTranslation } from "react-i18next";
+import type { ActionType, ProColumns, ProCoreActionType } from "@ant-design/pro-components";
 
 import {
 	fetchDeleteNhatkymayxucItem,
@@ -14,7 +9,12 @@ import {
 import { BasicButton } from "#src/components/basic-button";
 import { BasicContent } from "#src/components/basic-content";
 import { BasicTable } from "#src/components/basic-table";
+
 import { accessControlCodes, useAccess } from "#src/hooks/use-access";
+import { PlusCircleOutlined } from "@ant-design/icons";
+import { Button, Popconfirm } from "antd";
+import { useRef, useState } from "react";
+import { useTranslation } from "react-i18next";
 import { NhatkyFormModal } from "./nhatky-form-modal";
 
 interface NhatkyTabProps {

@@ -1,10 +1,10 @@
 import type { PhanQuyenItemType } from "#src/api/hethong/phanquyen/types";
-import { ModalForm, ProFormText } from "@ant-design/pro-components";
+import { fetchAddPhanQuyen, fetchUpdatePhanQuyen } from "#src/api/hethong/phanquyen";
 
+import { ModalForm, ProFormText } from "@ant-design/pro-components";
 import { Form } from "antd";
 import { useEffect } from "react";
 import { useTranslation } from "react-i18next";
-import { fetchAddPhanQuyen, fetchUpdatePhanQuyen } from "#src/api/hethong/phanquyen";
 
 interface DetailProps {
 	title: React.ReactNode

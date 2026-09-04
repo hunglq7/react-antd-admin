@@ -1,7 +1,7 @@
 import type { AppRouteRecordRaw } from "#src/router/types";
-import { lazy } from "react";
 import ContainerLayout from "#src/layout/container-layout";
 import { hethong } from "#src/router/extra-info/order";
+import { lazy } from "react";
 
 const PhanQuyen = lazy(() => import("#src/pages/hethong/phanquyen/index"));
 const TaiKhoan = lazy(() => import("#src/pages/hethong/taikhoan/index"));

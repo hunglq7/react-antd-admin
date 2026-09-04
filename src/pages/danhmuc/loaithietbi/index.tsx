@@ -1,15 +1,15 @@
-import type { ActionType, ProColumns, ProCoreActionType } from "@ant-design/pro-components";
 import type { LoaithietbiItemType } from "#src/api/danhmuc/loaithietbi/types";
-import { DownloadOutlined, PlusCircleOutlined } from "@ant-design/icons";
-import { Button, Popconfirm, Tag } from "antd";
-import { useRef, useState } from "react";
-import { useTranslation } from "react-i18next";
-import * as XLSX from "xlsx";
+import type { ActionType, ProColumns, ProCoreActionType } from "@ant-design/pro-components";
 import { fetchDeleteLoaithietbiItem, fetchDeleteLoaithietbiItems, fetchLoaithietbiList } from "#src/api/danhmuc/loaithietbi";
 import { BasicButton } from "#src/components/basic-button";
 import { BasicContent } from "#src/components/basic-content";
 import { BasicTable } from "#src/components/basic-table";
 import { accessControlCodes, useAccess } from "#src/hooks/use-access";
+import { DownloadOutlined, PlusCircleOutlined } from "@ant-design/icons";
+import { Button, Popconfirm, Tag } from "antd";
+import { useRef, useState } from "react";
+import { useTranslation } from "react-i18next";
+import * as XLSX from "xlsx";
 import { Detail } from "./components/detail";
 
 export default function LoaiThietBi() {

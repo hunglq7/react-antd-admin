@@ -1,14 +1,61 @@
+import type { TaikhoanItemType } from "#src/api/hethong/taikhoan";
 import type { ProColumns } from "@ant-design/pro-components";
 import type { TFunction } from "i18next";
-import type { TaikhoanItemType } from "#src/api/hethong/taikhoan";
+import { Avatar } from "antd";
 
-export function getConstantColumns(t: TFunction<"translation", undefined>): ProColumns<TaikhoanItemType>[] {
+export function getConstantColumns(
+	t: TFunction<"translation", undefined>,
+): ProColumns<TaikhoanItemType>[] {
 	return [
 		{
 			dataIndex: "index",
 			title: t("common.index"),
 			valueType: "indexBorder",
 			width: 80,
+		},
+		{
+			title: "Avatar",
+			dataIndex: "Avatar",
+			width: 80,
+			search: false,
+			render: (_, recode) => (
+				<Avatar
+					src={
+						recode.avatar
+							? `${import.meta.env.VITE_API_BASE_URL}${recode.avatar}`
+							: undefined
+					}
+					size={40}
+				/>
+			),
+		},
+		{
+			title: "Tài khoản",
+			dataIndex: "userName",
+			width: 120,
+			ellipsis: true,
+			formItemProps: {
+				rules: [
+					{
+						required: true,
+						message: t("form.required"),
+					},
+				],
+			},
+		},
+		{
+			title: "Email",
+			dataIndex: "email",
+			width: 250,
+			ellipsis: true,
+			formItemProps: {
+				rules: [
+					{
+						required: true,
+						message: t("form.required"),
+					},
+				],
+			},
 		},
 		{
 			title: "Họ",
@@ -46,34 +93,7 @@ export function getConstantColumns(t: TFunction<"translation", undefined>): ProC
 			valueType: "date",
 			search: false,
 		},
-		{
-			title: "Tài khoản",
-			dataIndex: "userName",
-			width: 250,
-			ellipsis: true,
-			formItemProps: {
-				rules: [
-					{
-						required: true,
-						message: t("form.required"),
-					},
-				],
-			},
-		},
-		{
-			title: "Email",
-			dataIndex: "email",
-			width: 250,
-			ellipsis: true,
-			formItemProps: {
-				rules: [
-					{
-						required: true,
-						message: t("form.required"),
-					},
-				],
-			},
-		},
+
 		{
 			title: "Điện thoại",
 			dataIndex: "phoneNumber",
@@ -81,6 +101,5 @@ export function getConstantColumns(t: TFunction<"translation", undefined>): ProC
 			ellipsis: true,
 			search: false,
 		},
-
 	];
 }

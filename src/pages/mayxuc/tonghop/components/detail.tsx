@@ -1,4 +1,8 @@
 import type { TonghopmayxucItemType } from "#src/api/mayxuc/tonghop";
+import { fetchMayxucList } from "#src/api/mayxuc/danhmuc";
+
+import { fetchAddTonghopmayxucItem, fetchUpdateTonghopmayxucItem } from "#src/api/mayxuc/tonghop";
+import { fetchPhongbanList } from "#src/api/system/phongban";
 import {
 	ModalForm,
 	ProFormDatePicker,
@@ -7,13 +11,9 @@ import {
 	ProFormText,
 	ProFormTextArea,
 } from "@ant-design/pro-components";
-
 import { Form, Tabs } from "antd";
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { fetchMayxucList } from "#src/api/mayxuc/danhmuc";
-import { fetchAddTonghopmayxucItem, fetchUpdateTonghopmayxucItem } from "#src/api/mayxuc/tonghop";
-import { fetchPhongbanList } from "#src/api/system/phongban";
 import { NhatkyTab } from "./nhatky-tab";
 import { ThongsoTab } from "./thongso-tab";
 

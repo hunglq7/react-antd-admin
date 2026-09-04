@@ -1,8 +1,10 @@
+import type { DonviItemType } from "#src/api/danhmuc/donvi/types";
 import type { ProColumns } from "@ant-design/pro-components";
 import type { TFunction } from "i18next";
-import type { DonviItemType } from "#src/api/danhmuc/donvi/types";
 
-export function getConstantColumns(t: TFunction<"translation", undefined>): ProColumns<DonviItemType>[] {
+export function getConstantColumns(
+	t: TFunction<"translation", undefined>,
+): ProColumns<DonviItemType>[] {
 	return [
 		{
 			dataIndex: "index",
@@ -33,6 +35,5 @@ export function getConstantColumns(t: TFunction<"translation", undefined>): ProC
 			ellipsis: true,
 			search: false,
 		},
-
 	];
 }

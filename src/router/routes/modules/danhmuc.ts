@@ -1,8 +1,9 @@
 import type { AppRouteRecordRaw } from "#src/router/types";
-import { lazy } from "react";
 import ContainerLayout from "#src/layout/container-layout";
 import { danhmuc } from "#src/router/extra-info/order";
+import { lazy } from "react";
 
+const DonviPage = lazy(() => import("#src/pages/danhmuc/donvi"));
 const Chucvu = lazy(() => import("#src/pages/danhmuc/chucvu"));
 const LoaiThietBi = lazy(() => import("#src/pages/danhmuc/loaithietbi"));
 const routes: AppRouteRecordRaw[] = [
@@ -16,6 +17,20 @@ const routes: AppRouteRecordRaw[] = [
 			ignoreAccess: true,
 		},
 		children: [
+			{
+				path: "/danhmuc/donvi",
+				Component: DonviPage,
+				handle: {
+					icon: "TableOutlined",
+					title: "system.danhmuc.donvi",
+					ignoreAccess: true,
+					permissions: [
+						"permission:button:add",
+						"permission:button:update",
+						"permission:button:delete",
+					],
+				},
+			},
 			{
 				path: "/danhmuc/chucvu",
 				Component: Chucvu,
@@ -44,7 +59,6 @@ const routes: AppRouteRecordRaw[] = [
 					],
 				},
 			},
-
 		],
 	},
 ];

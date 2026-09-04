@@ -1,9 +1,9 @@
 import type { MaycaoDanhmucItemType } from "#src/api/maycao/danhmuc/types";
+import { fetchAddMaycaoDanhmucItem, fetchUpdateMaycaoDanhmucItem } from "#src/api/maycao/danhmuc";
 import { ModalForm, ProFormText, ProFormTextArea } from "@ant-design/pro-components";
 import { Form } from "antd";
 import { useEffect } from "react";
 import { useTranslation } from "react-i18next";
-import { fetchAddMaycaoDanhmucItem, fetchUpdateMaycaoDanhmucItem } from "#src/api/maycao/danhmuc";
 
 interface DetailProps {
 	title: React.ReactNode

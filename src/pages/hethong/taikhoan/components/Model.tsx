@@ -1,22 +1,29 @@
-import type { Dayjs } from "dayjs";
 import type { TaikhoanDetailItemType } from "#src/api/hethong/taikhoan";
-import { ModalForm, ProFormDatePicker, ProFormText } from "@ant-design/pro-components";
+import type { Dayjs } from "dayjs";
+import {
+	fetchAddTaikhoan,
+	fetchUpdateTaikhoan,
+} from "#src/api/hethong/taikhoan";
+import {
+	ModalForm,
+	ProFormDatePicker,
+	ProFormText,
+} from "@ant-design/pro-components";
 import { Form } from "antd";
 import dayjs from "dayjs";
 import { useEffect } from "react";
 import { useTranslation } from "react-i18next";
-import { fetchAddTaikhoan, fetchUpdateTaikhoan } from "#src/api/hethong/taikhoan";
 
 type TaikhoanFormType = Omit<TaikhoanDetailItemType, "dob"> & {
-	dob?: Dayjs | string
+	dob?: Dayjs | string;
 };
 
 interface DetailProps {
-	title: React.ReactNode
-	open: boolean
-	detailData: Partial<TaikhoanDetailItemType>
-	onCloseChange: () => void
-	refreshTable?: () => void
+	title: React.ReactNode;
+	open: boolean;
+	detailData: Partial<TaikhoanDetailItemType>;
+	onCloseChange: () => void;
+	refreshTable?: () => void;
 }
 
 export function Model({
@@ -51,9 +58,14 @@ export function Model({
 				...values,
 				dob: ngaytaoStr ? dayjs(ngaytaoStr) : undefined,
 			};
-			const payload: TaikhoanFormType = detailData.id ? { ...detailData, ...normalizedValues } : normalizedValues;
+			const payload: TaikhoanFormType = detailData.id
+				? { ...detailData, ...normalizedValues }
+				: normalizedValues;
 			if (detailData.id) {
-				await fetchUpdateTaikhoan(detailData.id, payload as TaikhoanDetailItemType);
+				await fetchUpdateTaikhoan(
+					detailData.id,
+					payload as TaikhoanDetailItemType,
+				);
 				window.$message?.success(t("common.updateSuccess"));
 			}
 			else {

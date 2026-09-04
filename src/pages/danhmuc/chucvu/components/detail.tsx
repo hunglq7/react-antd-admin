@@ -1,10 +1,10 @@
 import type { ChucvuItemType } from "#src/api/danhmuc/chucvu/types";
-import { ModalForm, ProFormSwitch, ProFormText } from "@ant-design/pro-components";
+import { fetchAddChucvuItem, fetchUpdateChucvuItem } from "#src/api/danhmuc/chucvu";
 
+import { ModalForm, ProFormSwitch, ProFormText } from "@ant-design/pro-components";
 import { Form } from "antd";
 import { useEffect } from "react";
 import { useTranslation } from "react-i18next";
-import { fetchAddChucvuItem, fetchUpdateChucvuItem } from "#src/api/danhmuc/chucvu";
 
 interface DetailProps {
 	title: React.ReactNode

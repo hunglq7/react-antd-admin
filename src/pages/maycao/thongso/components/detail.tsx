@@ -1,10 +1,10 @@
 import type { MaycaoTonghopItemType } from "#src/api/maycao/tonghop/types";
+import { fetchMaycaoDanhmucList } from "#src/api/maycao/danhmuc";
+import { fetchAddTonghopmaycaoItem, fetchUpdateTonghopmaycaoItem } from "#src/api/maycao/tonghop";
 import { ModalForm, ProFormSelect, ProFormText, ProFormTextArea } from "@ant-design/pro-components";
 import { Form } from "antd";
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { fetchMaycaoDanhmucList } from "#src/api/maycao/danhmuc";
-import { fetchAddTonghopmaycaoItem, fetchUpdateTonghopmaycaoItem } from "#src/api/maycao/tonghop";
 
 interface DetailProps {
 	title: React.ReactNode
