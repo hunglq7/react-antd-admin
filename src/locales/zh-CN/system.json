@@ -1,42 +1,42 @@
 {
 	"user": {
-		"name": "用户名称",
-		"id": "用户标识",
-		"addUser": "新增用户",
-		"editUser": "编辑用户"
+		"name": "User Name",
+		"id": "User Id",
+		"addUser": "Add User",
+		"editUser": "Edit User"
 	},
 	"menu": {
-		"name": "菜单名称",
-		"routePath": "路由路径",
-		"addMenu": "新增菜单",
-		"editMenu": "编辑菜单",
-		"menuType": "菜单类型",
-		"menuTypeDesc": "菜单类型：0 代表菜单、1 代表 Iframe、2 代表外链、3 代表按钮",
-		"menu": "菜单",
+		"name": "Menu Name",
+		"routePath": "Route Path",
+		"addMenu": "Add Menu",
+		"editMenu": "Edit Menu",
+		"menuType": "Menu Type",
+		"menuTypeDesc": "Menu Type Description 0: Menu, 1: Iframe, 2: External Link, 3: Button",
+		"menu": "Menu",
 		"iframe": "Iframe",
-		"externalLink": "外链",
-		"button": "按钮",
-		"menuOrder": "菜单顺序",
-		"menuIcon": "菜单图标",
-		"componentUrl": "组件路径",
-		"keepAlive": "缓存页面",
-		"hideInMenu": "菜单中隐藏",
-		"currentActiveMenu": "激活路径",
-		"iframeLink": "Iframe 链接",
-		"externalLinkUrl": "外链地址",
-		"parentMenu": "上级菜单"
+		"externalLink": "External Link",
+		"button": "Button",
+		"menuOrder": "Menu Order",
+		"menuIcon": "Menu Icon",
+		"componentUrl": "Component Url",
+		"keepAlive": "Cache Page",
+		"hideInMenu": "Hide in Menu",
+		"currentActiveMenu": "Active Path",
+		"iframeLink": "Iframe Link",
+		"externalLinkUrl": "External Link URL",
+		"parentMenu": "Parent Menu"
 	},
 	"dept": {
-		"name": "部门名称",
-		"id": "部门标识",
-		"addDept": "新增部门",
-		"editDept": "编辑部门"
+		"name": "Department Name",
+		"id": "Department Id",
+		"addDept": "Add Department",
+		"editDept": "Edit Department"
 	},
 	"phongban": {
-		"name": "Phongban名称",
-		"id": "Phongban标识",
-		"addPhongban": "新增Phongban",
-		"editPhongban": "编辑Phongban"
+		"name": "Phongban Name",
+		"id": "Phongban Id",
+		"addPhongban": "Add Phongban",
+		"editPhongban": "Edit Phongban"
 	},
 	"bienap": {
 		"bienapDanhmuc": "Danh mục biến áp",
@@ -53,6 +53,12 @@
 		"addMayxuc": "Thêm máy xúc",
 		"editMayxuc": "Sửa máy xúc"
 	},
+	"maycao": {
+		"maycaoDanhmuc": "Danh mục máy cào",
+		"maycaoTonghop": "Tổng hợp máy cào",
+		"maycaoThongso": "Thông số máy cào",
+		"editMaycao": "Sửa máy cào"
+	},
 	"tonghopmayxuc": {
 		"tonghopmayxuc": "Tổng hợp máy xúc",
 		"addTonghopmayxuc": "Thêm tổng hợp máy xúc",
@@ -63,6 +69,15 @@
 		"addThongsomayxuc": "Thêm thông số  máy xúc",
 		"editThongsomayxuc": "Sửa thông số  máy xúc"
 	},
+	"hethong": {
+		"phanquyen": "Phân quyền",
+		"taikhoan": "Tài khoản"
+	},
+	"taikhoan": {
+		"editTaikhoan": "Sửa tài khoản",
+		"addTaikhoan": "Thêm tài khoản",
+		"taikhoanDanhsach": "Danh sách tài khoản"
+	},
 	"role": {
 		"roleDanhmuc": "Danh mục Rơ le",
 		"addRole": "Thêm rơ le",
@@ -72,5 +87,11 @@
 		"tonghoprole": "Tổng hợp rơ le",
 		"addTonghoprole": "Thêm  rơ le",
 		"editTonghoprole": "Sửa  rơ le"
+	},
+	"danhmuc": {
+		"chucvu": "Chức vụ",
+		"loaithietbi": "Loại thiết bị",
+		"addChucvu": "Thêm chức vụ",
+		"editChucvu": "Sửa chức vụ"
 	}
 }

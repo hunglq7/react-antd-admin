@@ -1,5 +1,12 @@
 import type { ButtonProps, MenuProps } from "antd";
 
+import { LogoutOutlined } from "@ant-design/icons";
+import { useKeyPress } from "ahooks";
+import { Avatar, Dropdown } from "antd";
+import { useMemo } from "react";
+import { useTranslation } from "react-i18next";
+import { useNavigate } from "react-router";
+
 import { BasicButton } from "#src/components/basic-button";
 import { RiAccountCircleLine } from "#src/icons";
 import { loginPath } from "#src/router/extra-info";
@@ -8,12 +15,7 @@ import { useUserStore } from "#src/store/user";
 import { cn } from "#src/utils/cn";
 import { isWindowsOs } from "#src/utils/is-windows-os";
 
-import { LogoutOutlined } from "@ant-design/icons";
-import { useKeyPress } from "ahooks";
-import { Avatar, Dropdown } from "antd";
-import { useMemo } from "react";
-import { useTranslation } from "react-i18next";
-import { useNavigate } from "react-router";
+const leadingSlashPattern = /^\//;
 
 export function UserMenu({ ...restProps }: ButtonProps) {
 	const navigate = useNavigate();
@@ -33,7 +35,11 @@ export function UserMenu({ ...restProps }: ButtonProps) {
 		}
 	};
 
-	const avatarSrc = avatar || undefined;
+	const avatarSrc = avatar
+		? (avatar.startsWith("http")
+			? avatar
+			: new URL(avatar.replace(leadingSlashPattern, ""), import.meta.env.VITE_API_BASE_URL).toString())
+		: undefined;
 	const altView = useMemo(() => isWindowsOs() ? "Alt" : "⌥", [isWindowsOs]);
 	const items: MenuProps["items"] = [
 		{

@@ -15,6 +15,7 @@ export function getConstantColumns(t: TFunction<"translation", undefined>): ProC
 			dataIndex: "firstName",
 			width: 250,
 			ellipsis: true,
+			search: false,
 			formItemProps: {
 				rules: [
 					{
@@ -43,9 +44,10 @@ export function getConstantColumns(t: TFunction<"translation", undefined>): ProC
 			dataIndex: "dob",
 			width: 150,
 			valueType: "date",
+			search: false,
 		},
 		{
-			title: "Tên đăng nhập",
+			title: "Tài khoản",
 			dataIndex: "userName",
 			width: 250,
 			ellipsis: true,
@@ -77,6 +79,7 @@ export function getConstantColumns(t: TFunction<"translation", undefined>): ProC
 			dataIndex: "phoneNumber",
 			width: 220,
 			ellipsis: true,
+			search: false,
 		},
 
 	];

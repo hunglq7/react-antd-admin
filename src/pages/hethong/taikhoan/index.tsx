@@ -1,17 +1,17 @@
 import type { ActionType, ProColumns, ProCoreActionType } from "@ant-design/pro-components";
 import type { TaikhoanItemType } from "#src/api/hethong/taikhoan";
-import { DownloadOutlined, PlusCircleOutlined } from "@ant-design/icons";
+import { DeleteOutlined, PlusCircleOutlined } from "@ant-design/icons";
 import { Button, Popconfirm } from "antd";
 import { useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
-import * as XLSX from "xlsx";
 import { fetchDeleteMutipleTaikhoan, fetchDeleteTaikhoan, fetchTaikhoanList } from "#src/api/hethong/taikhoan";
 import { BasicButton } from "#src/components/basic-button";
 import { BasicContent } from "#src/components/basic-content";
 import { BasicTable } from "#src/components/basic-table";
 import { accessControlCodes, useAccess } from "#src/hooks/use-access";
-import { Detail } from "./components/detail";
-import { getConstantColumns } from "./constants";
+import { getConstantColumns } from "./components/constantsColumns";
+import ExportExcel from "./components/ExportExcel";
+import { Model } from "./components/Model";
 
 export default function Taikhoan() {
 	const { t } = useTranslation();
@@ -19,6 +19,7 @@ export default function Taikhoan() {
 	const [isOpen, setIsOpen] = useState(false);
 	const [title, setTitle] = useState("");
 	const [detailData, setDetailData] = useState<Partial<TaikhoanItemType>>({});
+	const [filteredData, setFilteredData] = useState<TaikhoanItemType[]>([]);
 	const [selectedRowKeys, setSelectedRowKeys] = useState<React.Key[]>([]);
 	const actionRef = useRef<ActionType>(null);
 
@@ -33,44 +34,20 @@ export default function Taikhoan() {
 		if (selectedRowKeys.length === 0) {
 			return;
 		}
-		await fetchDeleteMutipleTaikhoan(selectedRowKeys as number[]);
+		await fetchDeleteMutipleTaikhoan(selectedRowKeys.map(String));
 		setSelectedRowKeys([]);
 		await actionRef.current?.reload();
 		window.$message?.success(t("common.deleteSuccess"));
 	};
 
-	const handleExportExcel = async () => {
-		try {
-			const data = await fetchTaikhoanList();
-			const exportData = data.map((item, index) => ({
-				"STT": index + 1,
-				"Tên tài khoản": item.userName,
-				"Email": item.email,
-				"Số điện thoại": item.phoneNumber,
-			}));
-			const worksheet = XLSX.utils.json_to_sheet(exportData, {
-				header: ["STT", "Tên tài khoản", "Email", "Số điện thoại"],
-			});
-			// Set độ rộng cột
-			worksheet["!cols"] = [{ wch: 5 }, { wch: 25 }, { wch: 35 }, { wch: 30 }];
-			const workbook = XLSX.utils.book_new();
-			XLSX.utils.book_append_sheet(workbook, worksheet, "Taikhoan");
-			XLSX.writeFile(workbook, "taikhoan.xlsx");
-			window.$message?.success(t("common.exportSuccess"));
-		}
-		catch (error) {
-			console.error("Export failed", error);
-			window.$message?.error(t("common.exportFailed"));
-		}
-	};
-
+	// Tạo bảng dữ liệu
 	const columns: ProColumns<TaikhoanItemType>[] = [
 		...getConstantColumns(t),
 		{
 			title: t("common.action"),
 			valueType: "option",
 			key: "option",
-			width: 160,
+			width: 80,
 			fixed: "right",
 			render: (_, record, __, action) => [
 				<BasicButton
@@ -149,6 +126,7 @@ export default function Taikhoan() {
 							&& (ho ? (item.firstName?.toLowerCase().includes(ho) ?? false) : true)
 						);
 					});
+					setFilteredData(filtered);
 					return {
 						data: filtered,
 						total: filtered.length,
@@ -160,6 +138,7 @@ export default function Taikhoan() {
 				}}
 				headerTitle={t("system.taikhoan.taikhoanDanhsach")}
 				toolBarRender={() => [
+					// Nút thêm mới
 					<Button
 						key="add-taikhoan"
 						icon={<PlusCircleOutlined />}
@@ -173,24 +152,22 @@ export default function Taikhoan() {
 					>
 						{t("common.add")}
 					</Button>,
-					<Button
-						key="export-excel"
-						icon={<DownloadOutlined />}
-						onClick={handleExportExcel}
+					// Xuất dữ liệu ra file excel
+					<ExportExcel key="export-excel" data={filteredData} />,
+					// Nút xóa nhiều dòng
+					<Popconfirm
+						key="bulk-delete-confirm"
+						title={`Bạn có muốn xóa ${selectedRowKeys.length} bản ghi`}
+						onConfirm={handleBulkDelete}
 					>
-						{t("common.exportExcel")}
-					</Button>,
-					<Button
-						key="bulk-delete"
-						danger
-						disabled={!hasAccessByCodes(accessControlCodes.delete) || selectedRowKeys.length === 0}
-						onClick={handleBulkDelete}
-					>
-						{t("common.batchDelete")}
-					</Button>,
+						<Button key="bulk-delete" hidden={!hasAccessByCodes(accessControlCodes.delete) || selectedRowKeys.length === 0} danger icon={<DeleteOutlined />}>
+							Xóa dòng chọn
+						</Button>
+					</Popconfirm>,
+
 				]}
 			/>
-			<Detail
+			<Model
 				title={title}
 				open={isOpen}
 				detailData={detailData}

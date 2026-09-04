@@ -5,6 +5,8 @@ import {
 	ProFormTextArea,
 } from "@ant-design/pro-components";
 import { Form, Input } from "antd";
+
+import { updateUserProfile } from "#src/api/user";
 import { BasicContent } from "#src/components/basic-content";
 
 import { FormAvatarItem } from "#src/components/basic-form";
@@ -12,6 +14,7 @@ import { useUserStore } from "#src/store/user";
 
 export default function Profile() {
 	const currentUser = useUserStore();
+	const updateUser = useUserStore(state => state.update);
 	const getAvatarURL = () => {
 		if (currentUser) {
 			if (currentUser.avatar) {
@@ -23,8 +26,21 @@ export default function Profile() {
 		return "";
 	};
 
-	const handleFinish = async () => {
-		window.$message?.success("Lưu thành công");
+	const handleFinish = async (values: { avatar: string, email: string, phoneNumber: string }) => {
+		const profile = {
+			...values,
+			firstName: currentUser.firstName,
+			lastName: currentUser.lastName,
+			dob: currentUser.dob,
+		};
+		try {
+			await updateUserProfile(currentUser.id, profile);
+			updateUser(values);
+			window.$message?.success("Lưu thành công");
+		}
+		catch {
+			window.$message?.error("Không thể lưu thông tin cá nhân");
+		}
 	};
 
 	return (

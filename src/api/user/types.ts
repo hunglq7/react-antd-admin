@@ -13,6 +13,9 @@ export interface LoginInfo {
 export interface UserInfoType {
 	id: string
 	avatar: string
+	firstName?: string
+	lastName?: string
+	dob?: string
 	username: string
 	email: string
 	phoneNumber: string

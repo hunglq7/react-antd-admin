@@ -1,11 +1,14 @@
 import type { UserInfoType } from "#src/api/user/types";
-import { fetchUserInfo } from "#src/api/user";
 
 import { create } from "zustand";
+import { fetchUserInfo } from "#src/api/user";
 
 const initialState = {
 	id: "",
 	avatar: "",
+	firstName: "",
+	lastName: "",
+	dob: "",
 	username: "",
 	email: "",
 	phoneNumber: "",
@@ -18,6 +21,7 @@ type UserState = UserInfoType;
 
 interface UserAction {
 	getUserInfo: () => Promise<UserInfoType>
+	update: (user: Partial<UserInfoType>) => void
 	reset: () => void
 };
 
@@ -33,6 +37,8 @@ export const useUserStore = create<UserState & UserAction>()(
 			});
 			return response;
 		},
+
+		update: user => set(user),
 
 		reset: () => {
 			return set({

@@ -19,7 +19,7 @@ export function fetchAsyncRoutes() {
 	return request.get("api/Users/get-async-routes").json();
 }
 
-export function fetchUserInfo(): UserInfoType {
+export async function fetchUserInfo(): Promise<UserInfoType> {
 	const token = useAuthStore.getState().token;
 	if (!token)
 		throw new Error("No token");
@@ -43,13 +43,21 @@ export function fetchUserInfo(): UserInfoType {
 		const email = String(decoded.mail ?? "");
 		const roleText = typeof decoded.role === "string" ? decoded.role : "";
 
+		const response = await request
+			.get(`api/Users/${id}`, { ignoreLoading: true })
+			.json<{ resultObj?: { avatar?: string, phoneNumber?: string, firstName?: string, lastName?: string, dob?: string } }>();
+		const profile = response.resultObj;
+
 		return {
 			id,
 			username,
+			firstName: profile?.firstName,
+			lastName: profile?.lastName,
+			dob: profile?.dob,
 			email,
-			phoneNumber: "",
+			phoneNumber: profile?.phoneNumber ?? "",
 			description: "",
-			avatar: "",
+			avatar: profile?.avatar ?? "",
 			roles: roleText
 				? roleText.split(",").map(role => role.trim().toLowerCase()).filter(Boolean)
 				: [],
@@ -59,6 +67,27 @@ export function fetchUserInfo(): UserInfoType {
 		console.error("Failed to decode token", error);
 		throw error;
 	}
+}
+
+export function updateUserProfile(id: string, data: {
+	avatar: string
+	firstName?: string
+	lastName?: string
+	dob?: string
+	email: string
+	phoneNumber: string
+}) {
+	return request.put(`api/Users/${id}`, {
+		json: {
+			id,
+			firstName: data.firstName,
+			lastName: data.lastName,
+			dob: data.dob,
+			email: data.email,
+			phoneNumber: data.phoneNumber,
+			avatar: data.avatar,
+		},
+	});
 }
 
 export interface RefreshTokenResult {

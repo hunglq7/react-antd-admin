@@ -33,10 +33,10 @@ export function fetchDeleteTaikhoan(id: number) {
 		});
 }
 
-export function fetchDeleteMutipleTaikhoan(ids: number[]) {
+export function fetchDeleteMutipleTaikhoan(ids: string[]) {
 	return request
-		.delete("api/Users/DeleteMultipale", {
-			json: ids,
+		.post("api/Users/DeleteMultipale", {
+			json: ids.map(id => ({ id })),
 			ignoreLoading: true,
 		});
 }

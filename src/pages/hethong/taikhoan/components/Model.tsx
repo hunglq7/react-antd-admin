@@ -1,7 +1,6 @@
 import type { Dayjs } from "dayjs";
 import type { TaikhoanDetailItemType } from "#src/api/hethong/taikhoan";
 import { ModalForm, ProFormDatePicker, ProFormText } from "@ant-design/pro-components";
-
 import { Form } from "antd";
 import dayjs from "dayjs";
 import { useEffect } from "react";
@@ -20,7 +19,7 @@ interface DetailProps {
 	refreshTable?: () => void
 }
 
-export function Detail({
+export function Model({
 	title,
 	open,
 	detailData,
@@ -127,11 +126,6 @@ export function Detail({
 				label="Tên tài khoản"
 				placeholder="Nhập tên tài khoản"
 				rules={[{ required: true, message: t("form.required") }]}
-			/>
-			<ProFormText
-				name="fullName"
-				label="Tên đầy đủ"
-				placeholder="Nhập tên đầy đủ"
 			/>
 			<ProFormText
 				name="password"
