@@ -1,17 +1,17 @@
-import type { ThongsokythuatmayxucItemType } from "#src/api/mayxuc/thongso";
 import type { ActionType, ProColumns, ProCoreActionType } from "@ant-design/pro-components";
-
-import { fetchDeleteThongsokythuatmayxucItem, fetchDeleteThongsokythuatmayxucItems, fetchThongsokythuatmayxucList } from "#src/api/mayxuc/thongso";
-import { BasicButton } from "#src/components/basic-button";
-import { BasicContent } from "#src/components/basic-content";
-import { BasicTable } from "#src/components/basic-table";
-import { accessControlCodes, useAccess } from "#src/hooks/use-access";
+import type { ThongsokythuatmayxucItemType } from "#src/api/mayxuc/thongso";
 
 import { DownloadOutlined, PlusCircleOutlined } from "@ant-design/icons";
 import { Button, Popconfirm } from "antd";
 import { useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import * as XLSX from "xlsx";
+
+import { fetchDeleteThongsokythuatmayxucItem, fetchDeleteThongsokythuatmayxucItems, fetchThongsokythuatmayxucList } from "#src/api/mayxuc/thongso";
+import { BasicButton } from "#src/components/basic-button";
+import { BasicContent } from "#src/components/basic-content";
+import { BasicTable } from "#src/components/basic-table";
+import { accessControlCodes, useAccess } from "#src/hooks/use-access";
 
 import { Detail } from "./components/detail";
 
@@ -179,7 +179,7 @@ export default function MayxucThongso() {
 					<Button key="export" icon={<DownloadOutlined />} onClick={handleExportExcel}>
 						{t("common.exportExcel")}
 					</Button>,
-					<Button key="delete" danger disabled={!hasAccessByCodes(accessControlCodes.delete) || selectedRowKeys.length === 0} onClick={handleBulkDelete}>
+					<Button key="delete" danger hidden={!hasAccessByCodes(accessControlCodes.delete) || selectedRowKeys.length === 0} onClick={handleBulkDelete}>
 						{t("common.batchDelete")}
 					</Button>,
 				]}

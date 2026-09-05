@@ -1,9 +1,13 @@
-import type { DonviItemType } from "#src/api/danhmuc/donvi/types";
 import type {
 	ActionType,
 	ProColumns,
 	ProCoreActionType,
 } from "@ant-design/pro-components";
+import type { DonviItemType } from "#src/api/danhmuc/donvi/types";
+import { DeleteOutlined, EditOutlined, PlusCircleOutlined } from "@ant-design/icons";
+import { Button, Popconfirm } from "antd";
+import { useRef, useState } from "react";
+import { useTranslation } from "react-i18next";
 import {
 	fetchDeleteDonviItem,
 	fetchDeleteDonviItems,
@@ -13,10 +17,6 @@ import { BasicButton } from "#src/components/basic-button";
 import { BasicContent } from "#src/components/basic-content";
 import { BasicTable } from "#src/components/basic-table";
 import { accessControlCodes, useAccess } from "#src/hooks/use-access";
-import { DeleteOutlined, PlusCircleOutlined } from "@ant-design/icons";
-import { Button, Popconfirm } from "antd";
-import { useRef, useState } from "react";
-import { useTranslation } from "react-i18next";
 import { getConstantColumns } from "./components/constansColumns";
 import ExportExcel from "./components/ExportExcel";
 import { Model } from "./components/Model";
@@ -60,11 +60,13 @@ export default function DonviPage() {
 			key: "option",
 			width: 80,
 			fixed: "right",
+			className: "flex text-center content-center justify-center",
 			render: (_, record, __, action) => [
 				<BasicButton
 					key="editable"
 					type="link"
 					size="small"
+					className="group inline-flex items-center gap-1 transition-all duration-200 hover:-translate-y-0.5 hover:scale-105 active:translate-y-0 hover:text-blue-800"
 					disabled={!hasAccessByCodes(accessControlCodes.update)}
 					onClick={() => {
 						setIsOpen(true);
@@ -72,6 +74,7 @@ export default function DonviPage() {
 						setDetailData(record);
 					}}
 				>
+					<EditOutlined className="opacity-0 group-hover:opacity-100 transition-opacity duration-200" />
 					{t("common.edit")}
 				</BasicButton>,
 				<Popconfirm
@@ -85,8 +88,10 @@ export default function DonviPage() {
 						type="link"
 						size="small"
 						danger
+						className="group inline-flex items-center gap-1 transition-all duration-200 hover:-translate-y-0.5 hover:drop-shadow-md hover:text-red-800"
 						disabled={!hasAccessByCodes(accessControlCodes.delete)}
 					>
+						<DeleteOutlined className="opacity-0 group-hover:opacity-100 transition-opacity duration-200" />
 						{t("common.delete")}
 					</BasicButton>
 				</Popconfirm>,

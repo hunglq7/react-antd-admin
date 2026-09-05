@@ -1,17 +1,17 @@
-import type { BienapItemType } from "#src/api/bienap/danhmuc";
 import type { ActionType, ProColumns, ProCoreActionType } from "@ant-design/pro-components";
-
-import { fetchBienapList, fetchDeleteBienapItem, fetchDeleteBienapItems } from "#src/api/bienap/danhmuc";
-import { BasicButton } from "#src/components/basic-button";
-import { BasicContent } from "#src/components/basic-content";
-import { BasicTable } from "#src/components/basic-table";
-import { accessControlCodes, useAccess } from "#src/hooks/use-access";
+import type { BienapItemType } from "#src/api/bienap/danhmuc";
 
 import { DownloadOutlined, PlusCircleOutlined } from "@ant-design/icons";
 import { Button, Popconfirm } from "antd";
 import { useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import * as XLSX from "xlsx";
+
+import { fetchBienapList, fetchDeleteBienapItem, fetchDeleteBienapItems } from "#src/api/bienap/danhmuc";
+import { BasicButton } from "#src/components/basic-button";
+import { BasicContent } from "#src/components/basic-content";
+import { BasicTable } from "#src/components/basic-table";
+import { accessControlCodes, useAccess } from "#src/hooks/use-access";
 
 import { Detail } from "./components/detail";
 import { getConstantColumns } from "./constants";
@@ -182,7 +182,7 @@ export default function BienapDanhmuc() {
 					<Button
 						key="bulk-delete"
 						danger
-						disabled={!hasAccessByCodes(accessControlCodes.delete) || selectedRowKeys.length === 0}
+						hidden={!hasAccessByCodes(accessControlCodes.delete) || selectedRowKeys.length === 0}
 						onClick={handleBulkDelete}
 					>
 						{t("common.batchDelete")}

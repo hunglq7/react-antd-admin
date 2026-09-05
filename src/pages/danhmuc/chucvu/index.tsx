@@ -1,16 +1,16 @@
-import type { ChucvuItemType } from "#src/api/danhmuc/chucvu/types";
 import type { ActionType, ProColumns, ProCoreActionType } from "@ant-design/pro-components";
+import type { ChucvuItemType } from "#src/api/danhmuc/chucvu/types";
 
-import { fetchChucvuList, fetchDeleteChucvuItem, fetchDeleteChucvuItems } from "#src/api/danhmuc/chucvu";
-import { BasicButton } from "#src/components/basic-button";
-import { BasicContent } from "#src/components/basic-content";
-import { BasicTable } from "#src/components/basic-table";
-import { accessControlCodes, useAccess } from "#src/hooks/use-access";
 import { DownloadOutlined, PlusCircleOutlined } from "@ant-design/icons";
 import { Button, Popconfirm, Tag } from "antd";
 import { useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import * as XLSX from "xlsx";
+import { fetchChucvuList, fetchDeleteChucvuItem, fetchDeleteChucvuItems } from "#src/api/danhmuc/chucvu";
+import { BasicButton } from "#src/components/basic-button";
+import { BasicContent } from "#src/components/basic-content";
+import { BasicTable } from "#src/components/basic-table";
+import { accessControlCodes, useAccess } from "#src/hooks/use-access";
 
 import { Detail } from "./components/detail";
 
@@ -69,6 +69,7 @@ export default function ChucVu() {
 			dataIndex: "tenChucVu",
 			search: true,
 			ellipsis: true,
+			width: 250,
 		},
 
 		{
@@ -178,7 +179,7 @@ export default function ChucVu() {
 						okText={t("common.confirm")}
 						cancelText={t("common.cancel")}
 					>
-						<Button danger disabled={!hasAccessByCodes(accessControlCodes.delete) || selectedRowKeys.length === 0}>
+						<Button danger hidden={!hasAccessByCodes(accessControlCodes.delete) || selectedRowKeys.length === 0}>
 							{t("common.batchDelete")}
 						</Button>
 						,

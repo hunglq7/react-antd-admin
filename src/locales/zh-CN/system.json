@@ -92,6 +92,12 @@
 		"chucvu": "Chức vụ",
 		"loaithietbi": "Loại thiết bị",
 		"addChucvu": "Thêm chức vụ",
-		"editChucvu": "Sửa chức vụ"
+		"editChucvu": "Sửa chức vụ",
+		"donvi": "Đơn vị"
+	},
+	"donvi": {
+		"donviDanhsach": "Danh mục đơn vị",
+		"addDonvi": "Thêm đơn vị",
+		"editDonvi": "Sửa đơn vị"
 	}
 }
