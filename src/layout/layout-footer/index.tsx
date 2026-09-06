@@ -1,5 +1,5 @@
-import { usePreferencesStore } from "#src/store/preferences";
-import { cn } from "#src/utils/cn";
+import { usePreferencesStore } from "#src/store/preferences"
+import { cn } from "#src/utils/cn"
 
 interface LayoutFooterProps {
 	className?: string
@@ -12,9 +12,9 @@ export default function LayoutFooter({ className }: LayoutFooterProps) {
 		copyrightDate,
 		ICPNumber,
 		ICPLink,
-	} = usePreferencesStore();
+	} = usePreferencesStore()
 	if (!enableFooter)
-		return null;
+		return null
 
 	return (
 		<footer
@@ -26,11 +26,11 @@ export default function LayoutFooter({ className }: LayoutFooterProps) {
 			{
 				ICPNumber
 					? (
-						<span>
-							<a href={ICPLink} rel="noreferrer noopener" target="_blank">{ICPNumber}</a>
+							<span>
+								<a href={ICPLink} rel="noreferrer noopener" target="_blank">{ICPNumber}</a>
 							&nbsp;
-						</span>
-					)
+							</span>
+						)
 					: null
 			}
 			Copyright &copy;&nbsp;
@@ -39,16 +39,16 @@ export default function LayoutFooter({ className }: LayoutFooterProps) {
 			{
 				companyName
 					? (
-						<span>
-							<a href={companyWebsite} rel="noreferrer noopener" target="_blank">
-								{companyName}
+							<span>
+								<a href={companyWebsite} rel="noreferrer noopener" target="_blank">
+									{companyName}
 								&nbsp;
-							</a>
-						</span>
-					)
+								</a>
+							</span>
+						)
 					: null
 			}
 			Lê Quang Hùng
 		</footer>
-	);
+	)
 }

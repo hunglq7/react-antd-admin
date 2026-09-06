@@ -1,9 +1,9 @@
-import type { PhongbanItemType } from "#src/api/system/phongban";
-import type { ProColumns } from "@ant-design/pro-components";
-import type { TFunction } from "i18next";
+import type { PhongbanItemType } from "#src/api/system/phongban"
+import type { ProColumns } from "@ant-design/pro-components"
+import type { TFunction } from "i18next"
 
-import { getYesNoOptions } from "#src/constants/options";
-import { Tag } from "antd";
+import { getYesNoOptions } from "#src/constants/options"
+import { Tag } from "antd"
 
 export function getConstantColumns(t: TFunction<"translation", undefined>): ProColumns<PhongbanItemType>[] {
 	return [
@@ -33,12 +33,12 @@ export function getConstantColumns(t: TFunction<"translation", undefined>): ProC
 			valueType: "select",
 			width: 100,
 			render: (_, record) => {
-				return <Tag color={record.trangThai ? "success" : "default"}>{record.trangThai ? t("common.enabled") : t("common.deactivated")}</Tag>;
+				return <Tag color={record.trangThai ? "success" : "default"}>{record.trangThai ? t("common.enabled") : t("common.deactivated")}</Tag>
 			},
 			valueEnum: getYesNoOptions(t).reduce((acc, curr) => {
-				acc.set(curr.value, curr.label);
-				return acc;
+				acc.set(curr.value, curr.label)
+				return acc
 			}, new Map()),
 		},
-	];
+	]
 }

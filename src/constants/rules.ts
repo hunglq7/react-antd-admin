@@ -1,4 +1,4 @@
-import type { TFunction } from "i18next";
+import type { TFunction } from "i18next"
 
 import {
 	ALPHA_NUMERIC_ONLY_REGEXP,
@@ -6,9 +6,9 @@ import {
 	TELEPHONE_REGEXP,
 	UNIFIED_SOCIAL_CREDIT_CODE_REGEXP,
 	USERNAME_REGEXP,
-} from "./regular-expressions";
+} from "./regular-expressions"
 
-export const FORM_REQUIRED = [{ required: true }]; // 表单必填校验
+export const FORM_REQUIRED = [{ required: true }] // 表单必填校验
 
 /**
  * 用户名规则验证函数
@@ -23,7 +23,7 @@ export function USERNAME_RULES(t: TFunction<"translation", undefined>) {
 			pattern: USERNAME_REGEXP,
 			message: t("form.username.invalid"),
 		},
-	];
+	]
 }
 
 /**
@@ -40,7 +40,7 @@ export function PASSWORD_RULES(t: TFunction<"translation", undefined>) {
 			pattern: /^(?=.*\d)(?=.*[a-z])[\w~!@#$%^&*+.\-]{8,16}$/i,
 			message: t("form.password.invalid"),
 		},
-	];
+	]
 }
 
 /**
@@ -57,7 +57,7 @@ export function ALPHA_NUMERIC_ONLY_RULES(t: TFunction<"translation", undefined>)
 			pattern: ALPHA_NUMERIC_ONLY_REGEXP,
 			message: t("form.alphanumeric.invalid"),
 		},
-	];
+	]
 }
 
 /**
@@ -74,7 +74,7 @@ export function UNIFIED_SOCIAL_CREDIT_CODE_RULES(t: TFunction<"translation", und
 			pattern: UNIFIED_SOCIAL_CREDIT_CODE_REGEXP,
 			message: t("form.unifiedSocialCreditCode.invalid"),
 		},
-	];
+	]
 }
 
 /**
@@ -91,7 +91,7 @@ export function MOBILE_PHONE_RULES(t: TFunction<"translation", undefined>) {
 			pattern: MOBILE_PHONE_REGEXP,
 			message: t("form.mobile.invalid"),
 		},
-	];
+	]
 }
 
 export function TELEPHONE_RULES(t: TFunction<"translation", undefined>) {
@@ -104,7 +104,7 @@ export function TELEPHONE_RULES(t: TFunction<"translation", undefined>) {
 			pattern: TELEPHONE_REGEXP,
 			message: t("form.telephone.invalid"),
 		},
-	];
+	]
 }
 
 export function PHONE_RULE(t: TFunction<"translation", undefined>) {
@@ -112,15 +112,15 @@ export function PHONE_RULE(t: TFunction<"translation", undefined>) {
 		validator: (_: unknown, value: string) => {
 			// 空值不校验
 			if (!value) {
-				return Promise.resolve();
+				return Promise.resolve()
 			}
 
 			if (MOBILE_PHONE_REGEXP.test(value) || TELEPHONE_REGEXP.test(value)) {
-				return Promise.resolve();
+				return Promise.resolve()
 			}
 			else {
-				return Promise.reject(t("form.mobile.invalid"));
+				return Promise.reject(t("form.mobile.invalid"))
 			}
 		},
-	};
+	}
 }

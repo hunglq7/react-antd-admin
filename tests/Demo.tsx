@@ -1,4 +1,4 @@
-import { Button } from "antd";
+import { Button } from "antd"
 
 function App() {
 	return (
@@ -21,7 +21,7 @@ function App() {
 				</a>
 			</header>
 		</div>
-	);
+	)
 }
 
-export default App;
+export default App

@@ -8,50 +8,50 @@
  */
 export function handleTree(data: any[], id?: string, parentId?: string, children?: string): any {
 	if (!Array.isArray(data)) {
-		console.warn("data must be an array");
-		return [];
+		console.warn("data must be an array")
+		return []
 	}
 	const config = {
 		id: id || "id",
 		parentId: parentId || "parentId",
 		childrenList: children || "children",
-	};
+	}
 
-	const childrenListMap: any = {};
-	const nodeIds: any = {};
-	const tree = [];
+	const childrenListMap: any = {}
+	const nodeIds: any = {}
+	const tree = []
 
 	for (const d of data) {
-		const parentId = d[config.parentId];
+		const parentId = d[config.parentId]
 		if (childrenListMap[parentId] == null) {
-			childrenListMap[parentId] = [];
+			childrenListMap[parentId] = []
 		}
-		nodeIds[d[config.id]] = d;
-		childrenListMap[parentId].push(d);
+		nodeIds[d[config.id]] = d
+		childrenListMap[parentId].push(d)
 	}
 
 	for (const d of data) {
-		const parentId = d[config.parentId];
+		const parentId = d[config.parentId]
 		if (nodeIds[parentId] == null) {
-			tree.push(d);
+			tree.push(d)
 		}
 	}
 
 	for (const t of tree) {
-		adaptToChildrenList(t);
+		adaptToChildrenList(t)
 	}
 
 	function adaptToChildrenList(o: Record<string, any>) {
 		if (childrenListMap[o[config.id]] !== null) {
-			o[config.childrenList] = childrenListMap[o[config.id]];
+			o[config.childrenList] = childrenListMap[o[config.id]]
 		}
 		if (o[config.childrenList]) {
 			for (const c of o[config.childrenList]) {
-				adaptToChildrenList(c);
+				adaptToChildrenList(c)
 			}
 		}
 	}
-	return tree;
+	return tree
 }
 
 export interface TreeConfigOptions {
@@ -71,29 +71,29 @@ export function traverseTreeValues<T, V>(
 	getValue: (node: T) => V,
 	options?: TreeConfigOptions,
 ): V[] {
-	const result: V[] = [];
+	const result: V[] = []
 	const { childProps } = options || {
 		childProps: "children",
-	};
+	}
 
 	const dfs = (treeNode: T) => {
-		const value = getValue(treeNode);
-		result.push(value);
-		const children = (treeNode as Record<string, any>)?.[childProps];
+		const value = getValue(treeNode)
+		result.push(value)
+		const children = (treeNode as Record<string, any>)?.[childProps]
 		if (!children) {
-			return;
+			return
 		}
 		if (children.length > 0) {
 			for (const child of children) {
-				dfs(child);
+				dfs(child)
 			}
 		}
-	};
+	}
 
 	for (const treeNode of tree) {
-		dfs(treeNode);
+		dfs(treeNode)
 	}
-	return result.filter(Boolean);
+	return result.filter(Boolean)
 }
 
 /**
@@ -110,21 +110,21 @@ export function filterTree<T extends Record<string, any>>(
 ): T[] {
 	const { childProps } = options || {
 		childProps: "children",
-	};
+	}
 
 	const _filterTree = (nodes: T[]): T[] => {
 		return nodes.filter((node: Record<string, any>) => {
 			if (filter(node as T)) {
 				if (node[childProps]) {
-					node[childProps] = _filterTree(node[childProps]);
+					node[childProps] = _filterTree(node[childProps])
 				}
-				return true;
+				return true
 			}
-			return false;
-		});
-	};
+			return false
+		})
+	}
 
-	return _filterTree(tree);
+	return _filterTree(tree)
 }
 
 /**
@@ -140,12 +140,12 @@ export function mapTree<T, V extends Record<string, any>>(
 ): V[] {
 	const { childProps } = options || {
 		childProps: "children",
-	};
+	}
 	return tree.map((node) => {
-		const mapperNode: Record<string, any> = mapper(node);
+		const mapperNode: Record<string, any> = mapper(node)
 		if (mapperNode[childProps]) {
-			mapperNode[childProps] = mapTree(mapperNode[childProps], mapper, options);
+			mapperNode[childProps] = mapTree(mapperNode[childProps], mapper, options)
 		}
-		return mapperNode as V;
-	});
+		return mapperNode as V
+	})
 }

@@ -9,14 +9,14 @@
  * // Output: "myapp-1.0.0-prod-userStore"
  */
 export function getAppNamespace(name: string): string {
-	const env = import.meta.env.PROD ? "prod" : "dev";
-	const appVersion = __APP_INFO__.pkg.version;
-	const appNamespace = import.meta.env.VITE_APP_NAMESPACE;
+	const env = import.meta.env.PROD ? "prod" : "dev"
+	const appVersion = __APP_INFO__.pkg.version
+	const appNamespace = import.meta.env.VITE_APP_NAMESPACE
 
 	if (!appNamespace) {
-		throw new Error("VITE_APP_NAMESPACE is not defined in environment variables / 环境变量中未定义 VITE_APP_NAMESPACE");
+		throw new Error("VITE_APP_NAMESPACE is not defined in environment variables / 环境变量中未定义 VITE_APP_NAMESPACE")
 	}
 
-	const namespace = `${appNamespace}-${appVersion || "unknown"}-${env}`;
-	return `${namespace}-${name}`;
+	const namespace = `${appNamespace}-${appVersion || "unknown"}-${env}`
+	return `${namespace}-${name}`
 }

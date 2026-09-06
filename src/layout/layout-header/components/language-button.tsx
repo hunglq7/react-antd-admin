@@ -1,21 +1,21 @@
-import type { LanguageType } from "#src/locales";
-import type { ButtonProps, MenuProps } from "antd";
+import type { LanguageType } from "#src/locales"
+import type { ButtonProps, MenuProps } from "antd"
 
-import { BasicButton } from "#src/components/basic-button";
-import { useLanguage } from "#src/hooks/use-language";
-import { getLanguageItems } from "#src/layout/widgets/preferences/blocks/general/utils";
+import { BasicButton } from "#src/components/basic-button"
+import { useLanguage } from "#src/hooks/use-language"
+import { getLanguageItems } from "#src/layout/widgets/preferences/blocks/general/utils"
 
-import { TranslationOutlined } from "@ant-design/icons";
-import { Dropdown } from "antd";
+import { TranslationOutlined } from "@ant-design/icons"
+import { Dropdown } from "antd"
 
 export function LanguageButton({ ...restProps }: ButtonProps) {
-	const { language, setLanguage } = useLanguage();
+	const { language, setLanguage } = useLanguage()
 
-	const items: MenuProps["items"] = getLanguageItems();
+	const items: MenuProps["items"] = getLanguageItems()
 
 	const onClick: MenuProps["onClick"] = ({ key }) => {
-		setLanguage(key as LanguageType);
-	};
+		setLanguage(key as LanguageType)
+	}
 
 	return (
 		<Dropdown
@@ -36,5 +36,5 @@ export function LanguageButton({ ...restProps }: ButtonProps) {
 				<TranslationOutlined />
 			</BasicButton>
 		</Dropdown>
-	);
+	)
 }

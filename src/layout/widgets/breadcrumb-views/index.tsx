@@ -1,26 +1,26 @@
-import type { BreadcrumbProps } from "antd";
+import type { BreadcrumbProps } from "antd"
 
-import { isString } from "#src/utils/is";
+import { isString } from "#src/utils/is"
 
-import { Breadcrumb } from "antd";
-import { useTranslation } from "react-i18next";
-import { useMatches } from "react-router";
+import { Breadcrumb } from "antd"
+import { useTranslation } from "react-i18next"
+import { useMatches } from "react-router"
 
 const itemRender: BreadcrumbProps["itemRender"] = (route, params, routes) => {
-	const last = routes.indexOf(route) === routes.length - 1;
+	const last = routes.indexOf(route) === routes.length - 1
 	return last || !route.path
 		? (
-			<span>{route.title}</span>
-		)
+				<span>{route.title}</span>
+			)
 		: (
-			<span>{route.title}</span>
+				<span>{route.title}</span>
 			// <NavLink to={route.path}>{route.title}</NavLink>
-		);
-};
+			)
+}
 
 export function BreadcrumbViews() {
-	const { t } = useTranslation();
-	const matches = useMatches();
+	const { t } = useTranslation()
+	const matches = useMatches()
 
 	return (
 		<Breadcrumb
@@ -35,8 +35,8 @@ export function BreadcrumbViews() {
 					return {
 						title: isString(match.handle?.title) ? t(match.handle?.title) : match.handle?.title,
 						path: match.pathname,
-					};
+					}
 				})}
 		/>
-	);
+	)
 }

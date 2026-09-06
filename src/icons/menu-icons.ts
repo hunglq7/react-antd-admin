@@ -18,14 +18,14 @@ import {
 	TeamOutlined,
 	ThunderboltOutlined,
 	UserOutlined,
-} from "@ant-design/icons";
+} from "@ant-design/icons"
 import {
 	EmbeddedIcon,
 	ExternalIcon,
 	OutsidePageIcon,
 	ProfileCardIcon,
-} from "./local-icons";
-import { RiAccountCircleLine, RiReactjsLine, RiUserSettingsLine } from "./ri";
+} from "./local-icons"
+import { RiAccountCircleLine, RiReactjsLine, RiUserSettingsLine } from "./ri"
 
 /**
  * Icons used in the menu.
@@ -57,4 +57,4 @@ export const menuIcons: Record<string, any> = {
 	CopyrightOutlined,
 	ThunderboltOutlined,
 	TableOutlined,
-};
+}

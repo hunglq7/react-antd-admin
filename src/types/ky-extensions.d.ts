@@ -1,4 +1,4 @@
-import "ky";
+import "ky"
 
 /**
  * 扩展 `ky` 的 `Options` 类型

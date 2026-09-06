@@ -1,11 +1,11 @@
-import { faker } from "@faker-js/faker/locale/zh_CN";
-import { defineFakeRoute } from "vite-plugin-fake-server/client";
+import { faker } from "@faker-js/faker/locale/zh_CN"
+import { defineFakeRoute } from "vite-plugin-fake-server/client"
 
-import { resultSuccess } from "./utils";
+import { resultSuccess } from "./utils"
 
 const home = {
 	cardList: [],
-};
+}
 
 export default defineFakeRoute([
 	{
@@ -35,8 +35,8 @@ export default defineFakeRoute([
 					value: faker.number.int({ min: 10, max: 100 }),
 					code: "beauty_skincare",
 				},
-			];
-			return resultSuccess(pie);
+			]
+			return resultSuccess(pie)
 		},
 	},
 	{
@@ -49,28 +49,28 @@ export default defineFakeRoute([
 					Array.from({ length: 7 }).map(() =>
 						faker.number.int({ min: 100, max: 1000 }),
 					),
-				);
+				)
 			}
 			if (body.range === "month") {
-				const currentDate = new Date();
-				const currentDay = currentDate.getDate();
+				const currentDate = new Date()
+				const currentDay = currentDate.getDate()
 				return resultSuccess(
 					Array.from({ length: currentDay }).map(() =>
 						faker.number.int({ min: 100, max: 1000 }),
 					),
-				);
+				)
 			}
 			if (body.range === "year") {
-				const currentDate = new Date();
-				const currentMonth = currentDate.getMonth();
-				const currentYear = currentDate.getFullYear();
+				const currentDate = new Date()
+				const currentMonth = currentDate.getMonth()
+				const currentYear = currentDate.getFullYear()
 
-				const daysBeforeCurrentMonth = [];
+				const daysBeforeCurrentMonth = []
 
 				for (let month = 0; month < currentMonth; month++) {
-					const daysInMonth = new Date(currentYear, month + 1, 0).getDate();
+					const daysInMonth = new Date(currentYear, month + 1, 0).getDate()
 					for (let day = 1; day <= daysInMonth; day++) {
-						daysBeforeCurrentMonth.push(day);
+						daysBeforeCurrentMonth.push(day)
 					}
 				}
 
@@ -78,9 +78,9 @@ export default defineFakeRoute([
 					Array.from({ length: daysBeforeCurrentMonth.length }).map(() =>
 						faker.number.int({ min: 100, max: 1000 }),
 					),
-				);
+				)
 			}
-			return resultSuccess([]);
+			return resultSuccess([])
 		},
 	},
-]);
+])

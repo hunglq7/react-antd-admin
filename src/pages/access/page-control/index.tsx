@@ -1,14 +1,14 @@
-import type { LoginInfo } from "#src/api/user";
+import type { LoginInfo } from "#src/api/user"
 
-import { BasicContent } from "#src/components/basic-content";
-import { AccessControlRoles } from "#src/hooks/use-access";
-import { usePreferences } from "#src/hooks/use-preferences";
-import { useAuthStore } from "#src/store/auth";
-import { useUserStore } from "#src/store/user";
-import { Alert, Button, Card, Typography } from "antd";
-import { clsx } from "clsx";
-import { useTranslation } from "react-i18next";
-import { useNavigate } from "react-router";
+import { BasicContent } from "#src/components/basic-content"
+import { AccessControlRoles } from "#src/hooks/use-access"
+import { usePreferences } from "#src/hooks/use-preferences"
+import { useAuthStore } from "#src/store/auth"
+import { useUserStore } from "#src/store/user"
+import { Alert, Button, Card, Typography } from "antd"
+import { clsx } from "clsx"
+import { useTranslation } from "react-i18next"
+import { useNavigate } from "react-router"
 
 const accounts: Record<string, LoginInfo> = {
 	[AccessControlRoles.admin]: {
@@ -19,31 +19,31 @@ const accounts: Record<string, LoginInfo> = {
 		password: "123456789admin",
 		email: "admin@example.com",
 	},
-};
+}
 
 export default function PageControl() {
-	const { t } = useTranslation();
-	const navigate = useNavigate();
-	const { enableFrontendAceess, enableBackendAccess, setPreferences } = usePreferences();
-	const { roles: userRoles } = useUserStore();
-	const resetAllStores = useAuthStore(state => state.reset);
-	const authLogin = useAuthStore(state => state.login);
+	const { t } = useTranslation()
+	const navigate = useNavigate()
+	const { enableFrontendAceess, enableBackendAccess, setPreferences } = usePreferences()
+	const { roles: userRoles } = useUserStore()
+	const resetAllStores = useAuthStore(state => state.reset)
+	const authLogin = useAuthStore(state => state.login)
 
 	function roleButtonType(role: string) {
-		return userRoles.includes(role) ? "primary" : "default";
+		return userRoles.includes(role) ? "primary" : "default"
 	}
 
 	function changeAccount(role: string) {
 		if (userRoles.includes(role)) {
-			return;
+			return
 		}
 
-		const account = accounts[role];
-		resetAllStores();
+		const account = accounts[role]
+		resetAllStores()
 		if (account) {
 			authLogin(account).then(() => {
-				navigate(0);
-			});
+				navigate(0)
+			})
 		}
 	}
 
@@ -52,29 +52,29 @@ export default function PageControl() {
 			setPreferences({
 				enableFrontendAceess: false,
 				enableBackendAccess: true,
-			});
-			resetAllStores();
+			})
+			resetAllStores()
 			authLogin(accounts.admin).then(() => {
 				setTimeout(() => {
-					navigate(0);
-				}, 150);
-			});
-			return;
+					navigate(0)
+				}, 150)
+			})
+			return
 		}
 		if (enableBackendAccess && !enableFrontendAceess) {
 			setPreferences({
 				enableFrontendAceess: true,
 				enableBackendAccess: false,
-			});
-			resetAllStores();
+			})
+			resetAllStores()
 			authLogin(accounts.admin).then(() => {
 				setTimeout(() => {
-					navigate(0);
-				}, 150);
-			});
-			return;
+					navigate(0)
+				}, 150)
+			})
+			return
 		}
-		window.$message?.warning(t("access.pageControl.warningMessage"));
+		window.$message?.warning(t("access.pageControl.warningMessage"))
 	}
 
 	return (
@@ -93,41 +93,41 @@ export default function PageControl() {
 					{t("access.pageControl.currentPermissionMode")}
 					{enableFrontendAceess
 						? (
-							<Typography.Text code>{t("access.pageControl.frontendControl")}</Typography.Text>
-						)
+								<Typography.Text code>{t("access.pageControl.frontendControl")}</Typography.Text>
+							)
 						: (
-							""
-						)}
+								""
+							)}
 
 					{enableBackendAccess
 						? (
-							<Typography.Text code>{t("access.pageControl.backendControl")}</Typography.Text>
-						)
+								<Typography.Text code>{t("access.pageControl.backendControl")}</Typography.Text>
+							)
 						: (
-							""
-						)}
+								""
+							)}
 
 					{enableBackendAccess
 						? (
-							<Button
-								disabled={enableFrontendAceess === enableBackendAccess}
-								type="primary"
-								onClick={() => toggleAccessMode()}
-							>
-								{t("access.pageControl.switchToFrontend")}
-							</Button>
-						)
+								<Button
+									disabled={enableFrontendAceess === enableBackendAccess}
+									type="primary"
+									onClick={() => toggleAccessMode()}
+								>
+									{t("access.pageControl.switchToFrontend")}
+								</Button>
+							)
 						: null}
 					{enableFrontendAceess
 						? (
-							<Button
-								disabled={enableFrontendAceess === enableBackendAccess}
-								type="primary"
-								onClick={() => toggleAccessMode()}
-							>
-								{t("access.pageControl.switchToBackend")}
-							</Button>
-						)
+								<Button
+									disabled={enableFrontendAceess === enableBackendAccess}
+									type="primary"
+									onClick={() => toggleAccessMode()}
+								>
+									{t("access.pageControl.switchToBackend")}
+								</Button>
+							)
 						: null}
 				</div>
 			</Card>
@@ -142,5 +142,5 @@ export default function PageControl() {
 				</div>
 			</Card>
 		</BasicContent>
-	);
+	)
 }

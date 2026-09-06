@@ -1,20 +1,20 @@
-import { BasicContent } from "#src/components/basic-content";
+import { BasicContent } from "#src/components/basic-content"
 
-import { Badge, Card, Col, Descriptions, Row, Tag, theme, Typography } from "antd";
-import { useTranslation } from "react-i18next";
+import { Badge, Card, Col, Descriptions, Row, Tag, theme, Typography } from "antd"
+import { useTranslation } from "react-i18next"
 
-import { dependenciesItems, devDependenciesItems } from "./constants";
+import { dependenciesItems, devDependenciesItems } from "./constants"
 
-const { version } = __APP_INFO__.pkg;
-const { lastBuildTime } = __APP_INFO__;
+const { version } = __APP_INFO__.pkg
+const { lastBuildTime } = __APP_INFO__
 
-const { Text, Link } = Typography;
+const { Text, Link } = Typography
 
 export default function About() {
-	const { t } = useTranslation();
+	const { t } = useTranslation()
 	const {
 		token: { colorBgLayout },
-	} = theme.useToken();
+	} = theme.useToken()
 
 	const projectMessageItems = [
 		{
@@ -87,7 +87,7 @@ export default function About() {
 				</Link>
 			),
 		},
-	];
+	]
 
 	return (
 		<BasicContent>
@@ -129,5 +129,5 @@ export default function About() {
 				</Col>
 			</Row>
 		</BasicContent>
-	);
+	)
 }

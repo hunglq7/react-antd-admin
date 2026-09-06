@@ -1,7 +1,7 @@
-import { system } from "#/src/router/extra-info";
+import { system } from "#/src/router/extra-info"
 
-import { defineFakeRoute } from "vite-plugin-fake-server/client";
-import { resultSuccess } from "./utils";
+import { defineFakeRoute } from "vite-plugin-fake-server/client"
+import { resultSuccess } from "./utils"
 
 const systemMenu = [
 	// 系统管理
@@ -52,7 +52,7 @@ const systemMenu = [
 		menuType: 3,
 		name: "common.delete",
 	},
-];
+]
 
 export default defineFakeRoute([
 	// 角色管理
@@ -79,19 +79,19 @@ export default defineFakeRoute([
 					status: 1,
 					remark: "普通角色拥有部分权限",
 				},
-			];
+			]
 			// list = Array.from({ length: 10000 }).flatMap(() => list);
 			list = list.filter(item =>
 				item.name.includes(body?.name ?? "")
 				&& String(item.status).includes(String(body?.status ?? ""))
 				&& (!body?.code || item.code === body?.code),
-			);
+			)
 			return resultSuccess({
 				list,
 				total: list.length, // 总条目数
 				pageSize: 10, // 每页显示条目个数
 				current: 1, // 当前页数
-			});
+			})
 		},
 	},
 	// 角色管理-新增角色
@@ -99,7 +99,7 @@ export default defineFakeRoute([
 		url: "/role-item",
 		method: "post",
 		response: ({ body }) => {
-			return resultSuccess(body);
+			return resultSuccess(body)
 		},
 	},
 	// 角色管理-修改角色
@@ -107,7 +107,7 @@ export default defineFakeRoute([
 		url: "/role-item",
 		method: "put",
 		response: ({ body }) => {
-			return resultSuccess(body);
+			return resultSuccess(body)
 		},
 	},
 	// 角色管理-删除角色
@@ -115,7 +115,7 @@ export default defineFakeRoute([
 		url: "/role-item",
 		method: "delete",
 		response: ({ body }) => {
-			return resultSuccess(body);
+			return resultSuccess(body)
 		},
 	},
 	// 角色管理-权限-菜单权限
@@ -123,7 +123,7 @@ export default defineFakeRoute([
 		url: "/role-menu",
 		method: "get",
 		response: () => {
-			return resultSuccess(systemMenu);
+			return resultSuccess(systemMenu)
 		},
 	},
 	// 角色管理-权限-菜单权限，根据角色 id 查对应菜单
@@ -132,12 +132,12 @@ export default defineFakeRoute([
 		method: "get",
 		response: ({ query }) => {
 			if (query.id === "1") {
-				return resultSuccess(systemMenu.map(item => item.id));
+				return resultSuccess(systemMenu.map(item => item.id))
 			}
 			else if (query.id === "2") {
-				return resultSuccess([]);
+				return resultSuccess([])
 			}
-			return resultSuccess([]);
+			return resultSuccess([])
 		},
 	},
 	// 菜单管理
@@ -269,34 +269,34 @@ export default defineFakeRoute([
 					createTime: 1737023155965,
 					updateTime: 1737023164653,
 				},
-			];
+			]
 			return resultSuccess({
 				list: menuList,
 				total: menuList.length, // 总条目数
 				pageSize: 10, // 每页显示条目个数
 				current: 1, // 当前页数
-			});
+			})
 		},
 	},
 	{
 		url: "/menu-item",
 		method: "post",
 		response: () => {
-			return resultSuccess({});
+			return resultSuccess({})
 		},
 	},
 	{
 		url: "/menu-item",
 		method: "delete",
 		response: () => {
-			return resultSuccess({});
+			return resultSuccess({})
 		},
 	},
 	{
 		url: "/menu-item",
 		method: "put",
 		response: () => {
-			return resultSuccess({});
+			return resultSuccess({})
 		},
 	},
-]);
+])

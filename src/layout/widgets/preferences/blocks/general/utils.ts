@@ -18,5 +18,5 @@ export const getLanguageItems: () => any = (
 			// Select
 			value: "en-US",
 		},
-	];
-};
+	]
+}

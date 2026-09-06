@@ -1,6 +1,6 @@
-import { defineFakeRoute } from "vite-plugin-fake-server/client";
+import { defineFakeRoute } from "vite-plugin-fake-server/client"
 
-import { resultSuccess } from "./utils";
+import { resultSuccess } from "./utils"
 
 export default defineFakeRoute([
 	{
@@ -9,4 +9,4 @@ export default defineFakeRoute([
 		method: "post",
 		response: () => resultSuccess("https://avatar.vercel.sh/blur.svg?text=%F0%9F%91%8D"),
 	},
-]);
+])

@@ -1,12 +1,12 @@
-import { usePreferencesStore } from "#src/store/preferences";
+import { usePreferencesStore } from "#src/store/preferences"
 
-import { useTranslation } from "react-i18next";
+import { useTranslation } from "react-i18next"
 
-import { SelectItem } from "../../select-item";
-import { SwitchItem } from "../../switch-item";
+import { SelectItem } from "../../select-item"
+import { SwitchItem } from "../../switch-item"
 
 export function Tabbar() {
-	const { t } = useTranslation();
+	const { t } = useTranslation()
 	const {
 		tabbarEnable,
 		tabbarShowIcon,
@@ -16,7 +16,7 @@ export function Tabbar() {
 		tabbarShowMore,
 		tabbarShowMaximize,
 		setPreferences,
-	} = usePreferencesStore();
+	} = usePreferencesStore()
 
 	const styleItems = [
 		{
@@ -36,7 +36,7 @@ export function Tabbar() {
 			label: t("preferences.tabbar.styleType.brisk"),
 			value: "brisk",
 		},
-	];
+	]
 
 	return (
 		<>
@@ -97,5 +97,5 @@ export function Tabbar() {
 			</SelectItem>
 
 		</>
-	);
+	)
 }

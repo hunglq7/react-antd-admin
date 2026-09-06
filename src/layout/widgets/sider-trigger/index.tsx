@@ -1,18 +1,18 @@
-import { BasicButton } from "#src/components/basic-button";
+import { BasicButton } from "#src/components/basic-button"
 
-import { usePreferences } from "#src/hooks/use-preferences";
-import { cn } from "#src/utils/cn";
+import { usePreferences } from "#src/hooks/use-preferences"
+import { cn } from "#src/utils/cn"
 
-import { MenuFoldOutlined, MenuUnfoldOutlined } from "@ant-design/icons";
+import { MenuFoldOutlined, MenuUnfoldOutlined } from "@ant-design/icons"
 
-import { siderTriggerHeight } from "../../constants";
+import { siderTriggerHeight } from "../../constants"
 
 interface SiderTriggerProps {
 	className?: string
 }
 
 export function SiderTrigger({ className }: SiderTriggerProps) {
-	const { sidebarCollapsed, setPreferences, sidebarTheme } = usePreferences();
+	const { sidebarCollapsed, setPreferences, sidebarTheme } = usePreferences()
 
 	return (
 		<BasicButton
@@ -30,5 +30,5 @@ export function SiderTrigger({ className }: SiderTriggerProps) {
 			)}
 		/>
 
-	);
+	)
 }

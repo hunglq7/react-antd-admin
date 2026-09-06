@@ -1,23 +1,23 @@
-import { AntdApp } from "#src/components/antd-app";
-import { JSSThemeProvider } from "#src/components/jss-theme-provider";
-import { usePreferences } from "#src/hooks/use-preferences";
-import { useScrollToHash } from "#src/hooks/use-scroll-to-hash";
-import { AppVersionMonitor } from "#src/layout/widgets/version-monitor";
-import { ANT_DESIGN_LOCALE } from "#src/locales";
+import { AntdApp } from "#src/components/antd-app"
+import { JSSThemeProvider } from "#src/components/jss-theme-provider"
+import { usePreferences } from "#src/hooks/use-preferences"
+import { useScrollToHash } from "#src/hooks/use-scroll-to-hash"
+import { AppVersionMonitor } from "#src/layout/widgets/version-monitor"
+import { ANT_DESIGN_LOCALE } from "#src/locales"
 
-import { StyleProvider } from "@ant-design/cssinjs";
-import { theme as antdTheme, ConfigProvider } from "antd";
-import dayjs from "dayjs";
-import { Suspense, useCallback, useEffect } from "react";
-import { useTranslation } from "react-i18next";
-import { RouterProvider } from "react-router/dom";
+import { StyleProvider } from "@ant-design/cssinjs"
+import { theme as antdTheme, ConfigProvider } from "antd"
+import dayjs from "dayjs"
+import { Suspense, useCallback, useEffect } from "react"
+import { useTranslation } from "react-i18next"
+import { RouterProvider } from "react-router/dom"
 
-import { router } from "./router";
-import { customAntdDarkTheme, customAntdLightTheme } from "./styles/theme/antd/antd-theme";
-import "dayjs/locale/zh-cn";
+import { router } from "./router"
+import { customAntdDarkTheme, customAntdLightTheme } from "./styles/theme/antd/antd-theme"
+import "dayjs/locale/zh-cn"
 
 export default function App() {
-	const { i18n } = useTranslation();
+	const { i18n } = useTranslation()
 	const {
 		language,
 		isDark,
@@ -31,17 +31,17 @@ export default function App() {
 		enableCheckUpdates,
 		checkUpdatesInterval,
 		sideCollapsedWidth,
-	} = usePreferences();
+	} = usePreferences()
 
-	useScrollToHash();
+	useScrollToHash()
 
 	/**
 	 * ant design internationalization
 	 * @link https://ant.design/docs/react/i18n
 	 */
 	const getAntdLocale = () => {
-		return ANT_DESIGN_LOCALE[language as keyof typeof ANT_DESIGN_LOCALE];
-	};
+		return ANT_DESIGN_LOCALE[language as keyof typeof ANT_DESIGN_LOCALE]
+	}
 
 	/**
 	 * day.js internationalization
@@ -49,20 +49,20 @@ export default function App() {
 	 */
 	useEffect(() => {
 		if (language === "en-US") {
-			dayjs.locale("en_US");
+			dayjs.locale("en_US")
 		}
 		else if (language === "zh_CN") {
-			dayjs.locale("zh_CN");
+			dayjs.locale("zh_CN")
 		}
-	}, [language]);
+	}, [language])
 
 	/**
 	 * react-i18next internationalization
 	 * @link https://www.i18next.com/overview/api#changelanguage
 	 */
 	useEffect(() => {
-		i18n.changeLanguage(language);
-	}, [language, i18n.changeLanguage]);
+		i18n.changeLanguage(language)
+	}, [language, i18n.changeLanguage])
 
 	/**
 	 * Change theme when the system theme changes
@@ -70,10 +70,10 @@ export default function App() {
 	const setEmulateTheme = useCallback(
 		// eslint-disable-next-line unused-imports/no-unused-vars
 		(dark?: boolean) => {
-			changeSiteTheme("auto");
+			changeSiteTheme("auto")
 		},
 		[changeSiteTheme],
-	);
+	)
 
 	/**
 	 * Watch system theme change
@@ -83,38 +83,38 @@ export default function App() {
 			// https://developer.chrome.com/docs/devtools/rendering/emulate-css/
 			const darkModeMediaQuery = window.matchMedia(
 				"(prefers-color-scheme: dark)",
-			);
+			)
 
 			function matchMode(e: MediaQueryListEvent) {
-				setEmulateTheme(e.matches);
+				setEmulateTheme(e.matches)
 			}
 
-			setEmulateTheme(darkModeMediaQuery.matches);
-			darkModeMediaQuery.addEventListener("change", matchMode);
+			setEmulateTheme(darkModeMediaQuery.matches)
+			darkModeMediaQuery.addEventListener("change", matchMode)
 			return () => {
-				darkModeMediaQuery.removeEventListener("change", matchMode);
-			};
+				darkModeMediaQuery.removeEventListener("change", matchMode)
+			}
 		}
-	}, [theme, setEmulateTheme]);
+	}, [theme, setEmulateTheme])
 
 	/**
 	 * 更新页面颜色模式（灰色、色弱）
 	 */
 	const updateColorMode = () => {
-		const dom = document.documentElement;
-		const COLOR_BLIND = "color-blind-mode";
-		const COLOR_GRAY = "gray-mode";
+		const dom = document.documentElement
+		const COLOR_BLIND = "color-blind-mode"
+		const COLOR_GRAY = "gray-mode"
 		colorBlindMode
 			? dom.classList.add(COLOR_BLIND)
-			: dom.classList.remove(COLOR_BLIND);
+			: dom.classList.remove(COLOR_BLIND)
 		colorGrayMode
 			? dom.classList.add(COLOR_GRAY)
-			: dom.classList.remove(COLOR_GRAY);
-	};
+			: dom.classList.remove(COLOR_GRAY)
+	}
 
 	useEffect(() => {
-		updateColorMode();
-	}, [colorBlindMode, colorGrayMode]);
+		updateColorMode()
+	}, [colorBlindMode, colorGrayMode])
 
 	return (
 		<StyleProvider layer>
@@ -157,5 +157,5 @@ export default function App() {
 				</AntdApp>
 			</ConfigProvider>
 		</StyleProvider>
-	);
+	)
 }

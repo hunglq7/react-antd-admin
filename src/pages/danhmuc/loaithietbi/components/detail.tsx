@@ -1,10 +1,10 @@
-import type { LoaithietbiItemType } from "#src/api/danhmuc/loaithietbi/types";
-import { fetchAddLoaithietbiItem, fetchUpdateLoaithietbiItem } from "#src/api/danhmuc/loaithietbi";
+import type { LoaithietbiItemType } from "#src/api/danhmuc/loaithietbi/types"
+import { fetchAddLoaithietbiItem, fetchUpdateLoaithietbiItem } from "#src/api/danhmuc/loaithietbi"
 
-import { ModalForm, ProFormSwitch, ProFormText } from "@ant-design/pro-components";
-import { Form } from "antd";
-import { useEffect } from "react";
-import { useTranslation } from "react-i18next";
+import { ModalForm, ProFormSwitch, ProFormText } from "@ant-design/pro-components"
+import { Form } from "antd"
+import { useEffect } from "react"
+import { useTranslation } from "react-i18next"
 
 interface DetailProps {
 	title: React.ReactNode
@@ -21,28 +21,28 @@ export function Detail({
 	detailData,
 	refreshTable,
 }: DetailProps) {
-	const { t } = useTranslation();
-	const [form] = Form.useForm<LoaithietbiItemType>();
+	const { t } = useTranslation()
+	const [form] = Form.useForm<LoaithietbiItemType>()
 
 	const onFinish = async (values: LoaithietbiItemType) => {
-		const payload = detailData.id ? { ...detailData, ...values } : values;
+		const payload = detailData.id ? { ...detailData, ...values } : values
 		if (detailData.id) {
-			await fetchUpdateLoaithietbiItem(payload);
-			window.$message?.success(t("common.updateSuccess"));
+			await fetchUpdateLoaithietbiItem(payload)
+			window.$message?.success(t("common.updateSuccess"))
 		}
 		else {
-			await fetchAddLoaithietbiItem(payload);
-			window.$message?.success(t("common.addSuccess"));
+			await fetchAddLoaithietbiItem(payload)
+			window.$message?.success(t("common.addSuccess"))
 		}
-		refreshTable?.();
-		return true;
-	};
+		refreshTable?.()
+		return true
+	}
 
 	useEffect(() => {
 		if (open) {
-			form.setFieldsValue(detailData);
+			form.setFieldsValue(detailData)
 		}
-	}, [open]);
+	}, [open])
 
 	return (
 		<ModalForm<LoaithietbiItemType>
@@ -50,7 +50,7 @@ export function Detail({
 			open={open}
 			onOpenChange={(visible) => {
 				if (!visible)
-					onCloseChange();
+					onCloseChange()
 			}}
 			labelCol={{ md: 6, xl: 4 }}
 			layout="horizontal"
@@ -73,5 +73,5 @@ export function Detail({
 			/>
 
 		</ModalForm>
-	);
+	)
 }

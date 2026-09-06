@@ -1,67 +1,67 @@
-import type { ActionType, ProColumns, ProCoreActionType } from "@ant-design/pro-components";
-import type { ChucvuItemType } from "#src/api/danhmuc/chucvu/types";
+import type { ChucvuItemType } from "#src/api/danhmuc/chucvu/types"
+import type { ActionType, ProColumns, ProCoreActionType } from "@ant-design/pro-components"
 
-import { DownloadOutlined, PlusCircleOutlined } from "@ant-design/icons";
-import { Button, Popconfirm, Tag } from "antd";
-import { useRef, useState } from "react";
-import { useTranslation } from "react-i18next";
-import * as XLSX from "xlsx";
-import { fetchChucvuList, fetchDeleteChucvuItem, fetchDeleteChucvuItems } from "#src/api/danhmuc/chucvu";
-import { BasicButton } from "#src/components/basic-button";
-import { BasicContent } from "#src/components/basic-content";
-import { BasicTable } from "#src/components/basic-table";
-import { accessControlCodes, useAccess } from "#src/hooks/use-access";
+import { fetchChucvuList, fetchDeleteChucvuItem, fetchDeleteChucvuItems } from "#src/api/danhmuc/chucvu"
+import { BasicButton } from "#src/components/basic-button"
+import { BasicContent } from "#src/components/basic-content"
+import { BasicTable } from "#src/components/basic-table"
+import { accessControlCodes, useAccess } from "#src/hooks/use-access"
+import { DownloadOutlined, PlusCircleOutlined } from "@ant-design/icons"
+import { Button, Popconfirm, Tag } from "antd"
+import { useRef, useState } from "react"
+import { useTranslation } from "react-i18next"
+import * as XLSX from "xlsx"
 
-import { Detail } from "./components/detail";
+import { Detail } from "./components/detail"
 
 export default function ChucVu() {
-	const { t } = useTranslation();
-	const { hasAccessByCodes } = useAccess();
-	const [isOpen, setIsOpen] = useState(false);
-	const [title, setTitle] = useState("");
-	const [detailData, setDetailData] = useState<Partial<ChucvuItemType>>({});
-	const [selectedRowKeys, setSelectedRowKeys] = useState<React.Key[]>([]);
-	const actionRef = useRef<ActionType>(null);
+	const { t } = useTranslation()
+	const { hasAccessByCodes } = useAccess()
+	const [isOpen, setIsOpen] = useState(false)
+	const [title, setTitle] = useState("")
+	const [detailData, setDetailData] = useState<Partial<ChucvuItemType>>({})
+	const [selectedRowKeys, setSelectedRowKeys] = useState<React.Key[]>([])
+	const actionRef = useRef<ActionType>(null)
 
 	const handleDeleteRow = async (id: number, action?: ProCoreActionType<object>) => {
-		await fetchDeleteChucvuItem(id);
-		setSelectedRowKeys([]);
-		await action?.reload?.();
-		window.$message?.success(t("common.deleteSuccess"));
-	};
+		await fetchDeleteChucvuItem(id)
+		setSelectedRowKeys([])
+		await action?.reload?.()
+		window.$message?.success(t("common.deleteSuccess"))
+	}
 
 	const handleBulkDelete = async () => {
 		if (selectedRowKeys.length === 0)
-			return;
-		await fetchDeleteChucvuItems(selectedRowKeys as number[]);
-		setSelectedRowKeys([]);
-		await actionRef.current?.reload();
-		window.$message?.success(t("common.deleteSuccess"));
-	};
+			return
+		await fetchDeleteChucvuItems(selectedRowKeys as number[])
+		setSelectedRowKeys([])
+		await actionRef.current?.reload()
+		window.$message?.success(t("common.deleteSuccess"))
+	}
 
 	const handleExportExcel = async () => {
 		try {
-			const data = await fetchChucvuList();
+			const data = await fetchChucvuList()
 			const exportData = data.map((item, index) => ({
 				"STT": index + 1,
 				"Chức vụ": item.tenChucVu,
 				"Trạng thái": item.trangThai ? "Hoạt động" : "Không hoạt động",
 
-			}));
+			}))
 			const worksheet = XLSX.utils.json_to_sheet(exportData, {
 				header: ["STT", "Chức vụ", "Trạng thái"],
-			});
-			worksheet["!cols"] = [{ wch: 5 }, { wch: 18 }, { wch: 30 }];
-			const workbook = XLSX.utils.book_new();
-			XLSX.utils.book_append_sheet(workbook, worksheet, "ChucVu");
-			XLSX.writeFile(workbook, "chucvu_danhmuc.xlsx");
-			window.$message?.success(t("common.exportSuccess"));
+			})
+			worksheet["!cols"] = [{ wch: 5 }, { wch: 18 }, { wch: 30 }]
+			const workbook = XLSX.utils.book_new()
+			XLSX.utils.book_append_sheet(workbook, worksheet, "ChucVu")
+			XLSX.writeFile(workbook, "chucvu_danhmuc.xlsx")
+			window.$message?.success(t("common.exportSuccess"))
 		}
 		catch (error) {
-			console.error(error);
-			window.$message?.error(t("common.exportFailed"));
+			console.error(error)
+			window.$message?.error(t("common.exportFailed"))
 		}
-	};
+	}
 
 	const columns: ProColumns<ChucvuItemType>[] = [
 		{
@@ -95,9 +95,9 @@ export default function ChucVu() {
 					size="small"
 					disabled={!hasAccessByCodes(accessControlCodes.update)}
 					onClick={() => {
-						setIsOpen(true);
-						setTitle("Sửa chức vụ");
-						setDetailData(record);
+						setIsOpen(true)
+						setTitle("Sửa chức vụ")
+						setDetailData(record)
 					}}
 				>
 					{t("common.edit")}
@@ -115,12 +115,12 @@ export default function ChucVu() {
 				</Popconfirm>,
 			],
 		},
-	];
+	]
 
 	const onCloseChange = () => {
-		setIsOpen(false);
-		setDetailData({});
-	};
+		setIsOpen(false)
+		setDetailData({})
+	}
 
 	return (
 		<BasicContent className="h-full">
@@ -139,19 +139,19 @@ export default function ChucVu() {
 					</Button>
 				)}
 				request={async (params) => {
-					const data = await fetchChucvuList();
+					const data = await fetchChucvuList()
 					const filtered = data.filter((item) => {
-						const keyword = String(params?.tenChucVu ?? "").trim().toLowerCase();
+						const keyword = String(params?.tenChucVu ?? "").trim().toLowerCase()
 
 						return (
 							(item.tenChucVu?.toLowerCase().includes(keyword) ?? false)
 
-						);
-					});
+						)
+					})
 					return {
 						data: filtered,
 						total: filtered.length,
-					};
+					}
 				}}
 				search={{ labelWidth: "auto", defaultCollapsed: false }}
 				headerTitle="Chức vụ"
@@ -162,9 +162,9 @@ export default function ChucVu() {
 						type="primary"
 						disabled={!hasAccessByCodes(accessControlCodes.add)}
 						onClick={() => {
-							setIsOpen(true);
-							setTitle("Thêm chức vụ");
-							setDetailData({});
+							setIsOpen(true)
+							setTitle("Thêm chức vụ")
+							setDetailData({})
 						}}
 					>
 						{t("common.add")}
@@ -189,5 +189,5 @@ export default function ChucVu() {
 			/>
 			<Detail title={title} open={isOpen} detailData={detailData} onCloseChange={onCloseChange} refreshTable={() => actionRef.current?.reload()} />
 		</BasicContent>
-	);
+	)
 }

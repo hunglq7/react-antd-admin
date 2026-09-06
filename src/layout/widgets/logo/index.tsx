@@ -1,12 +1,12 @@
-import logo from "#src/assets/svg/logo.svg?url";
+import logo from "#src/assets/svg/logo.svg?url"
 
-import { Typography } from "antd";
-import { clsx } from "clsx";
-import { useNavigate } from "react-router";
+import { Typography } from "antd"
+import { clsx } from "clsx"
+import { useNavigate } from "react-router"
 
-import { headerHeight } from "../../constants";
+import { headerHeight } from "../../constants"
 
-const { Title } = Typography;
+const { Title } = Typography
 
 export interface LogoProps {
 	sidebarCollapsed: boolean
@@ -18,7 +18,7 @@ export interface LogoProps {
  * @en The height is 48px
  */
 export function Logo({ sidebarCollapsed, className }: LogoProps) {
-	const navigate = useNavigate();
+	const navigate = useNavigate()
 
 	return (
 		<div
@@ -42,5 +42,5 @@ export function Logo({ sidebarCollapsed, className }: LogoProps) {
 			</Title>
 
 		</div>
-	);
+	)
 }

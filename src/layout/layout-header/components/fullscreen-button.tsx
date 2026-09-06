@@ -1,7 +1,7 @@
-import type { FullscreenButtonProps } from "#src/components/fullscreen-button";
+import type { FullscreenButtonProps } from "#src/components/fullscreen-button"
 
-import { FullscreenButton as FullscreenButtonComponent } from "#src/components/fullscreen-button";
-import { RiFullscreenExitLine, RiFullscreenLine } from "#src/icons";
+import { FullscreenButton as FullscreenButtonComponent } from "#src/components/fullscreen-button"
+import { RiFullscreenExitLine, RiFullscreenLine } from "#src/icons"
 
 export function FullscreenButton({ target, ...restProps }: FullscreenButtonProps) {
 	return (
@@ -11,5 +11,5 @@ export function FullscreenButton({ target, ...restProps }: FullscreenButtonProps
 			fullscreenExitIcon={<RiFullscreenExitLine />}
 			fullscreenIcon={<RiFullscreenLine />}
 		/>
-	);
+	)
 }

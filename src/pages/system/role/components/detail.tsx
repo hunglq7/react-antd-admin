@@ -1,18 +1,18 @@
-import type { RoleItemType } from "#src/api/system/role";
-import type { TreeDataNodeWithId } from "#src/components/basic-form";
-import { fetchAddRoleItem, fetchUpdateRoleItem } from "#src/api/system/role";
-import { FormTreeItem } from "#src/components/basic-form";
+import type { RoleItemType } from "#src/api/system/role"
+import type { TreeDataNodeWithId } from "#src/components/basic-form"
+import { fetchAddRoleItem, fetchUpdateRoleItem } from "#src/api/system/role"
+import { FormTreeItem } from "#src/components/basic-form"
 
 import {
 	DrawerForm,
 	ProFormRadio,
 	ProFormText,
 	ProFormTextArea,
-} from "@ant-design/pro-components";
-import { useMutation } from "@tanstack/react-query";
-import { Form } from "antd";
-import { useEffect } from "react";
-import { useTranslation } from "react-i18next";
+} from "@ant-design/pro-components"
+import { useMutation } from "@tanstack/react-query"
+import { Form } from "antd"
+import { useEffect } from "react"
+import { useTranslation } from "react-i18next"
 
 interface DetailProps {
 	treeData: TreeDataNodeWithId[]
@@ -24,38 +24,38 @@ interface DetailProps {
 }
 
 export function Detail({ title, open, onCloseChange, detailData, treeData, refreshTable }: DetailProps) {
-	const { t } = useTranslation();
-	const [form] = Form.useForm<RoleItemType>();
+	const { t } = useTranslation()
+	const [form] = Form.useForm<RoleItemType>()
 
 	const addRoleItemMutation = useMutation({
 		mutationFn: fetchAddRoleItem,
-	});
+	})
 	const updateRoleItemMutation = useMutation({
 		mutationFn: fetchUpdateRoleItem,
-	});
+	})
 
 	const onFinish = async (values: RoleItemType) => {
 		// console.info(values);
 		/* 有 id 则为修改，否则为新增 */
 		if (detailData.id) {
-			await updateRoleItemMutation.mutateAsync(values);
-			window.$message?.success(t("common.updateSuccess"));
+			await updateRoleItemMutation.mutateAsync(values)
+			window.$message?.success(t("common.updateSuccess"))
 		}
 		else {
-			await addRoleItemMutation.mutateAsync(values);
-			window.$message?.success(t("common.addSuccess"));
+			await addRoleItemMutation.mutateAsync(values)
+			window.$message?.success(t("common.addSuccess"))
 		}
 		/* 刷新表格 */
-		refreshTable?.();
+		refreshTable?.()
 		// 不返回不会关闭弹框
-		return true;
-	};
+		return true
+	}
 
 	useEffect(() => {
 		if (open) {
-			form.setFieldsValue(detailData);
+			form.setFieldsValue(detailData)
 		}
-	}, [open]);
+	}, [open])
 
 	return (
 		<DrawerForm<RoleItemType>
@@ -63,7 +63,7 @@ export function Detail({ title, open, onCloseChange, detailData, treeData, refre
 			open={open}
 			onOpenChange={(visible) => {
 				if (visible === false) {
-					onCloseChange();
+					onCloseChange()
 				}
 			}}
 			resize={{
@@ -140,5 +140,5 @@ export function Detail({ title, open, onCloseChange, detailData, treeData, refre
 				<FormTreeItem treeData={treeData} />
 			</Form.Item>
 		</DrawerForm>
-	);
+	)
 };

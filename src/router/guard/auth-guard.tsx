@@ -1,28 +1,28 @@
-import type { UserInfoType } from "#src/api/user";
-import { useCurrentRoute } from "#src/hooks/use-current-route";
-import { hideLoading } from "#src/plugins/hide-loading";
-import { setupLoading } from "#src/plugins/loading";
-import { exception403Path, exception404Path, exception500Path, loginPath } from "#src/router/extra-info";
-import { accessRoutes, whiteRouteNames } from "#src/router/routes";
-import { isSendRoutingRequest } from "#src/router/routes/config";
-import { generateRoutesFromBackend } from "#src/router/utils/generate-routes-from-backend";
-import { generateRoutesByFrontend } from "#src/router/utils/generate-routes-from-frontend";
-import { useAccessStore } from "#src/store/access";
-import { useAuthStore } from "#src/store/auth";
-import { usePreferencesStore } from "#src/store/preferences";
-import { useUserStore } from "#src/store/user";
+import type { UserInfoType } from "#src/api/user"
+import { useCurrentRoute } from "#src/hooks/use-current-route"
+import { hideLoading } from "#src/plugins/hide-loading"
+import { setupLoading } from "#src/plugins/loading"
+import { exception403Path, exception404Path, exception500Path, loginPath } from "#src/router/extra-info"
+import { accessRoutes, whiteRouteNames } from "#src/router/routes"
+import { isSendRoutingRequest } from "#src/router/routes/config"
+import { generateRoutesFromBackend } from "#src/router/utils/generate-routes-from-backend"
+import { generateRoutesByFrontend } from "#src/router/utils/generate-routes-from-frontend"
+import { useAccessStore } from "#src/store/access"
+import { useAuthStore } from "#src/store/auth"
+import { usePreferencesStore } from "#src/store/preferences"
+import { useUserStore } from "#src/store/user"
 
-import { useEffect } from "react";
-import { matchRoutes, Navigate, useLocation, useNavigate, useSearchParams } from "react-router";
+import { useEffect } from "react"
+import { matchRoutes, Navigate, useLocation, useNavigate, useSearchParams } from "react-router"
 
-import { removeDuplicateRoutes } from "./utils";
+import { removeDuplicateRoutes } from "./utils"
 
 /**
  * @zh 路由白名单 1. 不进行权限校验， 2. 不会触发请求，例如用户信息接口
  * @en Routes whitelist 1. No permission verification, 2. Will not trigger requests, such as user information interface
  * @example "privacy-policy", "terms-of-service" and so on.
  */
-const noLoginWhiteList = Array.from(whiteRouteNames).filter(item => item !== loginPath);
+const noLoginWhiteList = Array.from(whiteRouteNames).filter(item => item !== loginPath)
 
 interface AuthGuardProps {
 	children?: React.ReactNode
@@ -33,18 +33,18 @@ interface AuthGuardProps {
  * @en AuthGuard component, used for permission verification. The order of the code is important and should not be arbitrarily adjusted
  */
 export function AuthGuard({ children }: AuthGuardProps) {
-	const navigate = useNavigate();
-	const [searchParams] = useSearchParams();
-	const currentRoute = useCurrentRoute();
-	const { pathname, search } = useLocation();
-	const isLogin = useAuthStore(state => Boolean(state.token));
-	const isAuthorized = useUserStore(state => Boolean(state.id));
-	const getUserInfo = useUserStore(state => state.getUserInfo);
-	const userRoles = useUserStore(state => state.roles);
-	const { setAccessStore, isAccessChecked, routeList } = useAccessStore();
-	const { enableBackendAccess, enableFrontendAceess } = usePreferencesStore(state => state);
+	const navigate = useNavigate()
+	const [searchParams] = useSearchParams()
+	const currentRoute = useCurrentRoute()
+	const { pathname, search } = useLocation()
+	const isLogin = useAuthStore(state => Boolean(state.token))
+	const isAuthorized = useUserStore(state => Boolean(state.id))
+	const getUserInfo = useUserStore(state => state.getUserInfo)
+	const userRoles = useUserStore(state => state.roles)
+	const { setAccessStore, isAccessChecked, routeList } = useAccessStore()
+	const { enableBackendAccess, enableFrontendAceess } = usePreferencesStore(state => state)
 
-	const isPathInNoLoginWhiteList = noLoginWhiteList.includes(pathname);
+	const isPathInNoLoginWhiteList = noLoginWhiteList.includes(pathname)
 
 	/**
 	 * @zh 异步获取用户信息和路由配置
@@ -56,19 +56,19 @@ export function AuthGuard({ children }: AuthGuardProps) {
 			 * @zh 登录跳转，防止闪烁
 			 * @en Login redirect, prevent flicker
 			 */
-			setupLoading();
+			setupLoading()
 
 			/**
 			 * @zh 初始化一个空数组来存放 Promise 对象
 			 * @en Initialize an empty array to hold Promise objects
 			 */
-			const promises = [];
+			const promises = []
 
 			/**
 			 * @zh 获取用户信息
 			 * @en Fetch user information
 			 */
-			promises.push(getUserInfo());
+			promises.push(getUserInfo())
 
 			/**
 			 * @zh 启用了后端路由，且路由从单独接口中获取，则发起请求
@@ -79,31 +79,31 @@ export function AuthGuard({ children }: AuthGuardProps) {
 			// 	promises.push(fetchAsyncRoutes());
 			// }
 
-			const results = await Promise.allSettled(promises);
-			const userInfoResult = results[0];
-			const routeResult = results[1];
-			const routes = [];
-			const latestRoles = [];
+			const results = await Promise.allSettled(promises)
+			const userInfoResult = results[0]
+			const routeResult = results[1]
+			const routes = []
+			const latestRoles = []
 			/**
 			 * @zh 从用户接口中获取角色信息
 			 * @en Fetch role information from the user interface
 			 */
 			if (userInfoResult.status === "fulfilled" && "roles" in (userInfoResult.value as UserInfoType)) {
-				latestRoles.push(...(userInfoResult.value as UserInfoType)?.roles ?? []);
+				latestRoles.push(...(userInfoResult.value as UserInfoType)?.roles ?? [])
 			}
 			/**
 			 * @zh 启用了后端路由且路由从用户接口中获取
 			 * @en If backend routing is enabled and the route is obtained from the user interface
 			 */
 			if (!enableFrontendAceess && enableBackendAccess && !isSendRoutingRequest && userInfoResult.status === "fulfilled" && "menus" in (userInfoResult.value as UserInfoType)) {
-				routes.push(...await generateRoutesFromBackend((userInfoResult.value as UserInfoType)?.menus ?? []));
+				routes.push(...await generateRoutesFromBackend((userInfoResult.value as UserInfoType)?.menus ?? []))
 			}
 			/**
 			 * @zh 启用了后端路由且路由从单独接口中获取
 			 * @en If backend routing is enabled and the route is obtained from a separate interface
 			 */
 			if (!enableFrontendAceess && enableBackendAccess && isSendRoutingRequest && routeResult && routeResult.status === "fulfilled" && "result" in (routeResult.value as any)) {
-				routes.push(...await generateRoutesFromBackend((routeResult.value as any)?.result ?? []));
+				routes.push(...await generateRoutesFromBackend((routeResult.value as any)?.result ?? []))
 			}
 
 			/**
@@ -111,20 +111,20 @@ export function AuthGuard({ children }: AuthGuardProps) {
 			 * @en If frontend routing is enabled
 			 */
 			// Always use frontend routes
-			routes.push(...generateRoutesByFrontend(accessRoutes, latestRoles));
+			routes.push(...generateRoutesByFrontend(accessRoutes, latestRoles))
 
-			const uniqueRoutes = removeDuplicateRoutes(routes);
-			setAccessStore(uniqueRoutes);
+			const uniqueRoutes = removeDuplicateRoutes(routes)
+			setAccessStore(uniqueRoutes)
 
-			const hasError = results.some(result => result.status === "rejected");
+			const hasError = results.some(result => result.status === "rejected")
 			/**
 			 * @zh 网络请求失败，跳转到 500 页面
 			 * @en Network request failed, redirect to 500 page
 			 */
 			if (hasError) {
-				const unAuthorized = results.some((result: any) => result.reason?.response?.status === 401);
+				const unAuthorized = results.some((result: any) => result.reason?.response?.status === 401)
 				if (!unAuthorized) {
-					return navigate(exception500Path);
+					return navigate(exception500Path)
 				}
 			}
 
@@ -149,7 +149,7 @@ export function AuthGuard({ children }: AuthGuardProps) {
 				 * @en Ensure that the 404 page will not be displayed before replacing the route
 				 */
 				flushSync: true,
-			});
+			})
 		}
 		/**
 		 * @zh 只有在以下条件下才执行获取用户信息和路由的逻辑
@@ -164,9 +164,9 @@ export function AuthGuard({ children }: AuthGuardProps) {
 		 *
 		 */
 		if (!whiteRouteNames.includes(pathname) && isLogin && !isAuthorized) {
-			fetchUserInfoAndRoutes();
+			fetchUserInfoAndRoutes()
 		}
-	}, [pathname, isLogin, isAuthorized]);
+	}, [pathname, isLogin, isAuthorized])
 
 	/**
 	 * @zh 路由白名单
@@ -174,8 +174,8 @@ export function AuthGuard({ children }: AuthGuardProps) {
 	 * @see {noLoginWhiteList}
 	 */
 	if (isPathInNoLoginWhiteList) {
-		hideLoading();
-		return children;
+		hideLoading()
+		return children
 	}
 
 	/**
@@ -184,21 +184,21 @@ export function AuthGuard({ children }: AuthGuardProps) {
 	 */
 	/* --------------- Start ------------------ */
 	if (!isLogin) {
-		hideLoading();
+		hideLoading()
 		// 未登录且目标页不是登录页，则跳转到登录页
 		if (pathname !== loginPath) {
 			// pathname 长度大于 1，则携带当前路径跳转登录页，否则直接跳转登录页
-			const redirectPath = pathname.length > 1 ? `${loginPath}?redirect=${pathname}${search}` : loginPath;
+			const redirectPath = pathname.length > 1 ? `${loginPath}?redirect=${pathname}${search}` : loginPath
 			return (
 				<Navigate
 					to={redirectPath}
 					replace
 				/>
-			);
+			)
 		}
 		// 未登录且目标页是登录页，保留登录页
 		else {
-			return children;
+			return children
 		}
 	}
 	/* --------------- End ------------------ */
@@ -220,21 +220,21 @@ export function AuthGuard({ children }: AuthGuardProps) {
 		/**
 		 * @example login?redirect=/system/user
 		 */
-		const redirectPath = searchParams.get("redirect");
+		const redirectPath = searchParams.get("redirect")
 		if (redirectPath?.length && redirectPath !== pathname) {
 			return (
 				<Navigate
 					to={redirectPath}
 					replace
 				/>
-			);
+			)
 		}
 		return (
 			<Navigate
 				to={import.meta.env.VITE_BASE_HOME_PATH}
 				replace
 			/>
-		);
+		)
 	}
 
 	/**
@@ -242,21 +242,21 @@ export function AuthGuard({ children }: AuthGuardProps) {
 	 * @en  Waiting for user information to be obtained
 	 */
 	if (!isAuthorized) {
-		return null;
+		return null
 	}
 	/**
 	 * @zh 等待获取路由信息
 	 * @en Waiting for route information to be obtained
 	 */
 	if (!isAccessChecked) {
-		return null;
+		return null
 	}
 
 	/**
 	 * @zh 隐藏加载动画
 	 * @en Hide loading animation
 	 */
-	hideLoading();
+	hideLoading()
 
 	/**
 	 * @zh 如果是根路由则跳转到首页（获取完用户信息之后跳转到默认首页，防止请求两次用户信息接口）
@@ -270,7 +270,7 @@ export function AuthGuard({ children }: AuthGuardProps) {
 				to={import.meta.env.VITE_BASE_HOME_PATH}
 				replace
 			/>
-		);
+		)
 	}
 
 	/* --------------- End ------------------ */
@@ -279,15 +279,15 @@ export function AuthGuard({ children }: AuthGuardProps) {
 	 * @zh 路由权限校验逻辑
 	 * @en Route permission verification logic
 	 */
-	const routeRoles = currentRoute?.handle?.roles;
-	const ignoreAccess = currentRoute?.handle?.ignoreAccess;
+	const routeRoles = currentRoute?.handle?.roles
+	const ignoreAccess = currentRoute?.handle?.ignoreAccess
 
 	/**
 	 * @zh 忽略权限校验
 	 * @en Ignore permission verification
 	 */
 	if (ignoreAccess === true) {
-		return children;
+		return children
 	}
 
 	const matches = matchRoutes(
@@ -297,9 +297,9 @@ export function AuthGuard({ children }: AuthGuardProps) {
 		 * @zh pathname 返回的是相对 import.meta.env.BASE_URL 的路径，所以不需要指定第三个参数 basename 了
 		 * @en pathname returns the path relative to import.meta.env.BASE_URL, so there is no need to specify the third parameter basename
 		 */
-	) ?? [];
+	) ?? []
 
-	const hasChildren = matches.at(-1)?.route?.children?.filter(item => !item.index)?.length;
+	const hasChildren = matches.at(-1)?.route?.children?.filter(item => !item.index)?.length
 	/**
 	 * @zh 如果当前路由有子路由，则跳转到 404 页面
 	 * @en If the current route has sub-routes, jump to the 404 page
@@ -310,16 +310,16 @@ export function AuthGuard({ children }: AuthGuardProps) {
 				to={exception404Path}
 				replace
 			/>
-		);
+		)
 	}
 
 	/**
 	 * @zh 角色权限校验
 	 * @en Role permission verification
 	 */
-	const normalizedUserRoles = (userRoles ?? []).map(role => String(role).trim().toLowerCase());
-	const normalizedRouteRoles = (routeRoles ?? []).map(role => String(role).trim().toLowerCase());
-	const hasRoutePermission = normalizedUserRoles.some(role => normalizedRouteRoles.includes(role));
+	const normalizedUserRoles = (userRoles ?? []).map(role => String(role).trim().toLowerCase())
+	const normalizedRouteRoles = (routeRoles ?? []).map(role => String(role).trim().toLowerCase())
+	const hasRoutePermission = normalizedUserRoles.some(role => normalizedRouteRoles.includes(role))
 	/**
 	 * @zh 权限校验逻辑：
 	 * 1. 如果路由上没有携带 roles，视为无权限路由，等同于 ignoreAccess 为 true
@@ -335,10 +335,10 @@ export function AuthGuard({ children }: AuthGuardProps) {
 				to={exception403Path}
 				replace
 			/>
-		);
+		)
 	}
 
-	return children;
+	return children
 }
 /**
  * 验证路由跳转是否正确的步骤：

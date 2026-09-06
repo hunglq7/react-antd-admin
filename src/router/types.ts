@@ -1,5 +1,5 @@
-import type { ReactNode } from "react";
-import type { IndexRouteObject, NonIndexRouteObject, createBrowserRouter as RemixRouter } from "react-router";
+import type { ReactNode } from "react"
+import type { IndexRouteObject, NonIndexRouteObject, createBrowserRouter as RemixRouter } from "react-router"
 
 export interface IndexRouteMeta extends Omit<IndexRouteObject, "id"> {
 	redirect?: string
@@ -11,7 +11,7 @@ export interface NonIndexRouteMeta extends Omit<NonIndexRouteObject, "id"> {
 	children?: AppRouteRecordRaw[]
 }
 
-export type AppRouteRecordRaw = IndexRouteMeta | NonIndexRouteMeta;
+export type AppRouteRecordRaw = IndexRouteMeta | NonIndexRouteMeta
 
 export interface RouteMeta {
 	/**
@@ -77,10 +77,10 @@ export interface RouteMeta {
 	backstage?: boolean
 }
 
-export type ReactRouterType = ReturnType<typeof RemixRouter>;
-export type RouterSubscriber = Parameters<ReactRouterType["subscribe"]>[0];
-export type RouterState = ReactRouterType["state"];
-export type RouterNavigate = ReactRouterType["navigate"];
+export type ReactRouterType = ReturnType<typeof RemixRouter>
+export type RouterSubscriber = Parameters<ReactRouterType["subscribe"]>[0]
+export type RouterState = ReactRouterType["state"]
+export type RouterNavigate = ReactRouterType["navigate"]
 
 // 使用类型别名提取公共类型
-export type RouteFileModule = Record<string, { default: AppRouteRecordRaw[] }>;
+export type RouteFileModule = Record<string, { default: AppRouteRecordRaw[] }>

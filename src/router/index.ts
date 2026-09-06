@@ -7,17 +7,17 @@
  * 4. ……
  */
 
-import type { RouteObject } from "react-router";
-import LayoutRoot from "#src/layout/layout-root";
-import { usePreferencesStore } from "#src/store/preferences";
-import { NProgress } from "#src/utils/progress";
+import type { RouteObject } from "react-router"
+import LayoutRoot from "#src/layout/layout-root"
+import { usePreferencesStore } from "#src/store/preferences"
+import { NProgress } from "#src/utils/progress"
 
-import { createBrowserRouter, createHashRouter } from "react-router";
-import { ROOT_ROUTE_ID } from "./constants";
-import { baseRoutes } from "./routes";
+import { createBrowserRouter, createHashRouter } from "react-router"
+import { ROOT_ROUTE_ID } from "./constants"
+import { baseRoutes } from "./routes"
 
 // 记录已经加载的页面
-const loadedPaths = new Set<string>();
+const loadedPaths = new Set<string>()
 
 export const rootRoute: RouteObject[] = [
 	{
@@ -30,32 +30,32 @@ export const rootRoute: RouteObject[] = [
 			 * @zh 初次加载路由时，开始进度条动画
 			 * @en Start the progress bar animation when loading routes for the first time
 			 */
-			const { transitionProgress } = usePreferencesStore.getState();
+			const { transitionProgress } = usePreferencesStore.getState()
 			if (transitionProgress) {
-				NProgress.start();
-				const relativePath = new URL(request.url).pathname;
-				loadedPaths.add(relativePath);
+				NProgress.start()
+				const relativePath = new URL(request.url).pathname
+				loadedPaths.add(relativePath)
 			}
-			return null;
+			return null
 		},
 		shouldRevalidate: ({ nextUrl, currentUrl }) => {
 			if (nextUrl.pathname === currentUrl.pathname) {
-				return false;
+				return false
 			}
 			/**
 			 * @zh 路由更新时，开始进度条动画
 			 * @en Start the progress bar animation when the route is updated
 			 */
-			const { transitionProgress } = usePreferencesStore.getState();
-			const isLoaded = loadedPaths.has(nextUrl.pathname);
+			const { transitionProgress } = usePreferencesStore.getState()
+			const isLoaded = loadedPaths.has(nextUrl.pathname)
 			if (transitionProgress && !isLoaded) {
-				NProgress.start();
-				loadedPaths.add(nextUrl.pathname);
+				NProgress.start()
+				loadedPaths.add(nextUrl.pathname)
 			}
-			return false;
+			return false
 		},
 	},
-];
+]
 
 function createRouter() {
 	if (import.meta.env.VITE_ROUTER_MODE === "hash") {
@@ -69,16 +69,16 @@ function createRouter() {
 				 */
 				// basename: import.meta.env.BASE_URL,
 			},
-		);
+		)
 	}
 	return createBrowserRouter(
 		rootRoute,
 		{
 			basename: import.meta.env.BASE_URL,
 		},
-	);
+	)
 }
 
-export const router = createRouter();
+export const router = createRouter()
 
-export default router;
+export default router

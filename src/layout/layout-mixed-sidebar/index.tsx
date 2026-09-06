@@ -1,15 +1,15 @@
-import type { MenuProps } from "antd";
-import type { MenuItemType } from "../layout-menu/types";
+import type { MenuProps } from "antd"
+import type { MenuItemType } from "../layout-menu/types"
 
-import { Scrollbar } from "#src/components/scrollbar";
-import { usePreferences } from "#src/hooks/use-preferences";
+import { Scrollbar } from "#src/components/scrollbar"
+import { usePreferences } from "#src/hooks/use-preferences"
 
-import { theme as antdTheme, ConfigProvider, Typography } from "antd";
+import { theme as antdTheme, ConfigProvider, Typography } from "antd"
 
-import { sidebarTitleHeight, siderTriggerHeight } from "../constants";
-import LayoutMenu from "../layout-menu";
-import { SiderTrigger } from "../widgets/sider-trigger";
-import FirstColumnMenu from "./first-column-menu";
+import { sidebarTitleHeight, siderTriggerHeight } from "../constants"
+import LayoutMenu from "../layout-menu"
+import { SiderTrigger } from "../widgets/sider-trigger"
+import FirstColumnMenu from "./first-column-menu"
 
 interface LayoutMixedSidebarProps {
 	computedSidebarWidth?: number
@@ -19,8 +19,8 @@ interface LayoutMixedSidebarProps {
 	handleMenuSelect?: (key: string, mode: MenuProps["mode"]) => void
 }
 
-const emptyArray: MenuItemType[] = [];
-const zero = 0;
+const emptyArray: MenuItemType[] = []
+const zero = 0
 /**
  * 双列布局侧边栏
  */
@@ -31,11 +31,11 @@ export default function LayoutMixedSidebar({
 	handleMenuSelect,
 	sideNavMenuKeyInSplitMode,
 }: LayoutMixedSidebarProps) {
-	const { isDark, sidebarTheme, sidebarCollapsed, firstColumnWidthInTwoColumnNavigation } = usePreferences();
+	const { isDark, sidebarTheme, sidebarCollapsed, firstColumnWidthInTwoColumnNavigation } = usePreferences()
 	const {
 		token: { Menu },
-	} = antdTheme.useToken();
-	const isFixedDarkTheme = isDark || sidebarTheme === "dark";
+	} = antdTheme.useToken()
+	const isFixedDarkTheme = isDark || sidebarTheme === "dark"
 
 	return (
 		<ConfigProvider
@@ -57,10 +57,10 @@ export default function LayoutMixedSidebar({
 					{
 						!sidebarCollapsed
 							? (
-								<Typography.Title level={1} ellipsis className="flex items-center my-0 pl-2 text-lg mx-3" style={{ height: sidebarTitleHeight }}>
-									{import.meta.env.VITE_GLOB_APP_TITLE}
-								</Typography.Title>
-							)
+									<Typography.Title level={1} ellipsis className="flex items-center my-0 pl-2 text-lg mx-3" style={{ height: sidebarTitleHeight }}>
+										{import.meta.env.VITE_GLOB_APP_TITLE}
+									</Typography.Title>
+								)
 							: null
 					}
 					<div
@@ -80,5 +80,5 @@ export default function LayoutMixedSidebar({
 			</aside>
 
 		</ConfigProvider>
-	);
+	)
 }

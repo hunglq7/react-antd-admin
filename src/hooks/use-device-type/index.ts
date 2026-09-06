@@ -1,4 +1,4 @@
-import { useResponsive } from "ahooks";
+import { useResponsive } from "ahooks"
 
 /**
  * 判断当前设备类型（移动设备、iPad、PC 等）
@@ -17,10 +17,10 @@ export function useDeviceType() {
 	 *   xl: 1200,
 	 * }
 	 */
-	const responsive = useResponsive();
-	const isMobile = (responsive.xs && !responsive.sm) || (responsive.sm && !responsive.md);
-	const isIpad = responsive.md && !responsive.xl;
-	const isPC = responsive.xl;
+	const responsive = useResponsive()
+	const isMobile = (responsive.xs && !responsive.sm) || (responsive.sm && !responsive.md)
+	const isIpad = responsive.md && !responsive.xl
+	const isPC = responsive.xl
 
-	return { isMobile, isIpad, isPC };
+	return { isMobile, isIpad, isPC }
 }

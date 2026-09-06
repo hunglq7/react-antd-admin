@@ -1,10 +1,10 @@
-import type { EChartsOption } from "echarts";
-import { Card } from "antd";
-import ReactECharts from "echarts-for-react";
-import { useTranslation } from "react-i18next";
+import type { EChartsOption } from "echarts"
+import { Card } from "antd"
+import ReactECharts from "echarts-for-react"
+import { useTranslation } from "react-i18next"
 
 export default function BarChart() {
-	const { t } = useTranslation();
+	const { t } = useTranslation()
 	const option: EChartsOption = {
 		title: {
 			text: "",
@@ -34,10 +34,10 @@ export default function BarChart() {
 				],
 			},
 		],
-	};
+	}
 	return (
 		<Card title={t("home.views")}>
 			<ReactECharts opts={{ height: "auto", width: "auto" }} option={option} />
 		</Card>
-	);
+	)
 }

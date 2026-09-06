@@ -1,7 +1,7 @@
-import type { TonghopbienapItemType } from "./types";
-import { request } from "#src/utils/request";
+import type { TonghopbienapItemType } from "./types"
+import { request } from "#src/utils/request"
 
-export * from "./types";
+export * from "./types"
 
 /* 获取 tổng hợp biến áp 列表 */
 export async function fetchTonghopbienapList(): Promise<
@@ -9,13 +9,13 @@ export async function fetchTonghopbienapList(): Promise<
 > {
 	const response = (await request
 		.get("api/Tonghopbienap", { ignoreLoading: true })
-		.json()) as TonghopbienapItemType[] | { data: TonghopbienapItemType[] };
+		.json()) as TonghopbienapItemType[] | { data: TonghopbienapItemType[] }
 
 	if (Array.isArray(response)) {
-		return response;
+		return response
 	}
 
-	return response?.data ?? [];
+	return response?.data ?? []
 }
 
 /* 新增 tổng hợp biến áp */
@@ -25,7 +25,7 @@ export function fetchAddTonghopbienapItem(data: TonghopbienapItemType) {
 			json: data,
 			ignoreLoading: true,
 		})
-		.json();
+		.json()
 }
 
 /* 修改 tổng hợp biến áp */
@@ -35,14 +35,14 @@ export function fetchUpdateTonghopbienapItem(data: TonghopbienapItemType) {
 			json: data,
 			ignoreLoading: true,
 		})
-		.json();
+		.json()
 }
 
 /* 删除 tổng hợp biến áp */
 export function fetchDeleteTonghopbienapItem(id: number) {
 	return request
 		.delete(`api/Tonghopbienap/${id}`, { ignoreLoading: true })
-		.json();
+		.json()
 }
 
 /* 批量删除 tổng hợp biến áp */
@@ -52,5 +52,5 @@ export function fetchDeleteTonghopbienapItems(ids: number[]) {
 			json: ids,
 			ignoreLoading: true,
 		})
-		.json();
+		.json()
 }

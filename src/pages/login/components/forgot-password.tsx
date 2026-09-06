@@ -1,47 +1,47 @@
-import { BasicButton } from "#src/components/basic-button";
+import { BasicButton } from "#src/components/basic-button"
 
-import { LeftOutlined } from "@ant-design/icons";
-import { useCountDown } from "ahooks";
+import { LeftOutlined } from "@ant-design/icons"
+import { useCountDown } from "ahooks"
 import {
 	Button,
 	Form,
 	Input,
 	Space,
 	Typography,
-} from "antd";
-import { use, useState } from "react";
-import { useTranslation } from "react-i18next";
-import { FormModeContext } from "../form-mode-context";
+} from "antd"
+import { use, useState } from "react"
+import { useTranslation } from "react-i18next"
+import { FormModeContext } from "../form-mode-context"
 
-const { Title } = Typography;
+const { Title } = Typography
 
 const FORM_INITIAL_VALUES = {
 	email: "",
-};
-export type ForgotPasswordFormType = typeof FORM_INITIAL_VALUES;
+}
+export type ForgotPasswordFormType = typeof FORM_INITIAL_VALUES
 
 export function ForgotPassword() {
-	const [targetDate, setTargetDate] = useState<number>(0);
+	const [targetDate, setTargetDate] = useState<number>(0)
 
 	const [countdown] = useCountDown({
 		targetDate,
 		onEnd: () => {
-			setTargetDate(0);
+			setTargetDate(0)
 		},
-	});
+	})
 
-	const [loading, setLoading] = useState(false);
-	const [forgotForm] = Form.useForm();
-	const { t } = useTranslation();
-	const { setFormMode } = use(FormModeContext);
+	const [loading, setLoading] = useState(false)
+	const [forgotForm] = Form.useForm()
+	const { t } = useTranslation()
+	const { setFormMode } = use(FormModeContext)
 
 	const handleFinish = async () => {
-		setLoading(true);
-		setTargetDate(new Date().getTime() + 1000 * 30);
+		setLoading(true)
+		setTargetDate(new Date().getTime() + 1000 * 30)
 		setTimeout(() => {
-			setLoading(false);
-		}, 1000);
-	};
+			setLoading(false)
+		}, 1000)
+	}
 
 	return (
 		<>
@@ -97,7 +97,7 @@ export function ForgotPassword() {
 						icon={<LeftOutlined />}
 						className="px-1"
 						onPointerDown={() => {
-							setFormMode("login");
+							setFormMode("login")
 						}}
 					>
 						{t("common.back")}
@@ -105,5 +105,5 @@ export function ForgotPassword() {
 				</div>
 			</Form>
 		</>
-	);
+	)
 }

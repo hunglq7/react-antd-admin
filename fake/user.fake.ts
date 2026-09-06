@@ -1,8 +1,8 @@
-import { defineFakeRoute } from "vite-plugin-fake-server/client";
+import { defineFakeRoute } from "vite-plugin-fake-server/client"
 
 // import { systemManagementRouter } from "./async-routes.fake";
-import { ADMIN_TOKEN } from "./constants";
-import { resultSuccess } from "./utils";
+import { ADMIN_TOKEN } from "./constants"
+import { resultSuccess } from "./utils"
 
 export default defineFakeRoute([
 	{
@@ -20,7 +20,7 @@ export default defineFakeRoute([
 					description: "manager",
 					roles: ["admin"],
 					// menus: [systemManagementRouter],
-				});
+				})
 			}
 			else {
 				return resultSuccess({
@@ -31,8 +31,8 @@ export default defineFakeRoute([
 					phoneNumber: "9876543210",
 					description: "employee",
 					roles: ["common"],
-				});
+				})
 			}
 		},
 	},
-]);
+])

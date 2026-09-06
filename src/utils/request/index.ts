@@ -1,21 +1,21 @@
-import type { Options } from "ky";
+import type { Options } from "ky"
 
-import { loginPath } from "#src/router/extra-info";
-import { useAuthStore } from "#src/store/auth";
-import { usePreferencesStore } from "#src/store/preferences";
-import ky from "ky";
+import { loginPath } from "#src/router/extra-info"
+import { useAuthStore } from "#src/store/auth"
+import { usePreferencesStore } from "#src/store/preferences"
+import ky from "ky"
 
-import { AUTH_HEADER, LANG_HEADER, REFRESH_TOKEN_PATH } from "./constants";
-import { handleErrorResponse } from "./error-response";
-import { globalProgress } from "./global-progress";
-import { goLogin } from "./go-login";
-import { refreshTokenAndRetry } from "./refresh";
+import { AUTH_HEADER, LANG_HEADER, REFRESH_TOKEN_PATH } from "./constants"
+import { handleErrorResponse } from "./error-response"
+import { globalProgress } from "./global-progress"
+import { goLogin } from "./go-login"
+import { refreshTokenAndRetry } from "./refresh"
 
 // 请求白名单, 请求白名单内的接口不需要携带 token
-const requestWhiteList = [loginPath];
+const requestWhiteList = [loginPath]
 
 // 请求超时时间
-const API_TIMEOUT = Number(import.meta.env.VITE_API_TIMEOUT) || 10000;
+const API_TIMEOUT = Number(import.meta.env.VITE_API_TIMEOUT) || 10000
 
 const defaultConfig: Options = {
 	// The input argument cannot start with a slash / when using prefixUrl option.
@@ -28,30 +28,30 @@ const defaultConfig: Options = {
 	hooks: {
 		beforeRequest: [
 			(request, options) => {
-				const ignoreLoading = options.ignoreLoading;
+				const ignoreLoading = options.ignoreLoading
 				if (!ignoreLoading) {
-					globalProgress.start();
+					globalProgress.start()
 				}
 				// 不需要携带 token 的请求
 				const isWhiteRequest = requestWhiteList.some(url =>
 					request.url.endsWith(url),
-				);
+				)
 				if (!isWhiteRequest) {
-					const { token } = useAuthStore.getState();
-					request.headers.set(AUTH_HEADER, `Bearer ${token}`);
+					const { token } = useAuthStore.getState()
+					request.headers.set(AUTH_HEADER, `Bearer ${token}`)
 				}
 				// 语言等所有的接口都需要携带
 				request.headers.set(
 					LANG_HEADER,
 					usePreferencesStore.getState().language,
-				);
+				)
 			},
 		],
 		afterResponse: [
 			async (request, options, response) => {
-				const ignoreLoading = options.ignoreLoading;
+				const ignoreLoading = options.ignoreLoading
 				if (!ignoreLoading) {
-					globalProgress.done();
+					globalProgress.done()
 				}
 				// request error
 				if (!response.ok) {
@@ -62,34 +62,34 @@ const defaultConfig: Options = {
 								request.url.endsWith(url),
 							)
 						) {
-							goLogin();
-							return response;
+							goLogin()
+							return response
 						}
 						// If the token is expired, refresh it and try again.
-						const { refreshToken } = useAuthStore.getState();
+						const { refreshToken } = useAuthStore.getState()
 						// If there is no refresh token, it means that the user has not logged in.
 						if (!refreshToken) {
 							// 如果页面的路由已经重定向到登录页，则不用跳转直接返回结果
 							if (location.pathname === loginPath) {
-								return response;
+								return response
 							}
 							else {
-								goLogin();
-								return response;
+								goLogin()
+								return response
 							}
 						}
 
-						return refreshTokenAndRetry(request, options, refreshToken);
+						return refreshTokenAndRetry(request, options, refreshToken)
 					}
 					else {
-						return handleErrorResponse(response);
+						return handleErrorResponse(response)
 					}
 				}
 				// request success
-				return response;
+				return response
 			},
 		],
 	},
-};
+}
 
-export const request = ky.create(defaultConfig);
+export const request = ky.create(defaultConfig)

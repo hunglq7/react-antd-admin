@@ -1,7 +1,7 @@
-import type { ProColumns } from "@ant-design/pro-components";
-import type { TFunction } from "i18next";
-import type { DonviItemType } from "#src/api/danhmuc/donvi/types";
-import { Tag } from "antd";
+import type { DonviItemType } from "#src/api/danhmuc/donvi/types"
+import type { ProColumns } from "@ant-design/pro-components"
+import type { TFunction } from "i18next"
+import { Tag } from "antd"
 
 export function getConstantColumns(
 	t: TFunction<"translation", undefined>,
@@ -38,5 +38,5 @@ export function getConstantColumns(
 				<Tag color={value ? "success" : "default"}>{value ? "Hoạt động" : "Không hoạt động"}</Tag>
 			),
 		},
-	];
+	]
 }

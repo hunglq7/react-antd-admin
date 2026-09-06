@@ -1,8 +1,8 @@
-import { usePreferencesStore } from "#src/store/preferences";
-import { isDarkTheme } from "#src/utils/is-dark-theme";
+import { usePreferencesStore } from "#src/store/preferences"
+import { isDarkTheme } from "#src/utils/is-dark-theme"
 
-export const loadingId = "loading-e8a3a985";
-export const loadingContainerId = "loading-container-e8a3a985";
+export const loadingId = "loading-e8a3a985"
+export const loadingContainerId = "loading-container-e8a3a985"
 /**
  * Preview loading page.
  * https://github.com/user-attachments/assets/110701a8-2cf4-4e5f-a07e-b832da4e1586
@@ -78,17 +78,17 @@ export function setupLoading() {
 }
 </style>
 <div id="${loadingId}"></div>
-`;
-	const loadingContainerElement = document.getElementById(loadingContainerId);
+`
+	const loadingContainerElement = document.getElementById(loadingContainerId)
 	if (!loadingContainerElement) {
-		const loadingDiv = document.createElement("div");
-		loadingDiv.id = loadingContainerId;
-		loadingDiv.innerHTML = `<!-- A loading animation displayed before code loads, driven by setupLoading function -->${loading}`;
+		const loadingDiv = document.createElement("div")
+		loadingDiv.id = loadingContainerId
+		loadingDiv.innerHTML = `<!-- A loading animation displayed before code loads, driven by setupLoading function -->${loading}`
 
-		const app = document.getElementById("root");
+		const app = document.getElementById("root")
 
 		if (app) {
-			app.before(loadingDiv);
+			app.before(loadingDiv)
 		}
 	}
 }

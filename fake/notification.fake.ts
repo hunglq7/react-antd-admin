@@ -1,6 +1,6 @@
-import { defineFakeRoute } from "vite-plugin-fake-server/client";
+import { defineFakeRoute } from "vite-plugin-fake-server/client"
 
-import { resultSuccess } from "./utils";
+import { resultSuccess } from "./utils"
 
 export default defineFakeRoute([
 	{
@@ -39,4 +39,4 @@ export default defineFakeRoute([
 		]),
 	},
 
-]);
+])

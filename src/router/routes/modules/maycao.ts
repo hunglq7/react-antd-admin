@@ -1,11 +1,11 @@
-import type { AppRouteRecordRaw } from "#src/router/types";
-import ContainerLayout from "#src/layout/container-layout";
-import { maycao } from "#src/router/extra-info/order";
-import { lazy } from "react";
+import type { AppRouteRecordRaw } from "#src/router/types"
+import ContainerLayout from "#src/layout/container-layout"
+import { maycao } from "#src/router/extra-info/order"
+import { lazy } from "react"
 
-const MaycaoDanhmuc = lazy(() => import("#src/pages/maycao/danhmuc/index"));
-const MaycaoThongso = lazy(() => import("#src/pages/maycao/thongso/index"));
-const MaycaoTonghop = lazy(() => import("#src/pages/maycao/tonghop/index"));
+const MaycaoDanhmuc = lazy(() => import("#src/pages/maycao/danhmuc/index"))
+const MaycaoThongso = lazy(() => import("#src/pages/maycao/thongso/index"))
+const MaycaoTonghop = lazy(() => import("#src/pages/maycao/tonghop/index"))
 const routes: AppRouteRecordRaw[] = [
 	{
 		path: "/maycao",
@@ -61,6 +61,6 @@ const routes: AppRouteRecordRaw[] = [
 			},
 		],
 	},
-];
+]
 
-export default routes;
+export default routes

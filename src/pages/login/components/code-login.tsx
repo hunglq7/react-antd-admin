@@ -1,41 +1,41 @@
-import { BasicButton } from "#src/components/basic-button";
-import { MOBILE_PHONE_RULES } from "#src/constants/rules";
+import { BasicButton } from "#src/components/basic-button"
+import { MOBILE_PHONE_RULES } from "#src/constants/rules"
 
-import { LeftOutlined } from "@ant-design/icons";
-import { ProFormCaptcha } from "@ant-design/pro-components";
+import { LeftOutlined } from "@ant-design/icons"
+import { ProFormCaptcha } from "@ant-design/pro-components"
 import {
 	Button,
 	Form,
 	InputNumber,
 	Space,
 	Typography,
-} from "antd";
-import { use, useState } from "react";
-import { useTranslation } from "react-i18next";
+} from "antd"
+import { use, useState } from "react"
+import { useTranslation } from "react-i18next"
 
-import { FormModeContext } from "../form-mode-context";
+import { FormModeContext } from "../form-mode-context"
 
-const { Title } = Typography;
+const { Title } = Typography
 
 const FORM_INITIAL_VALUES = {
 	phoneNumber: "",
 	captcha: "",
-};
-export type CodeLoginFormType = typeof FORM_INITIAL_VALUES;
+}
+export type CodeLoginFormType = typeof FORM_INITIAL_VALUES
 
 export function CodeLogin() {
-	const [loading, setLoading] = useState(false);
-	const [codeLoginForm] = Form.useForm();
-	const { t } = useTranslation();
-	const { setFormMode } = use(FormModeContext);
+	const [loading, setLoading] = useState(false)
+	const [codeLoginForm] = Form.useForm()
+	const { t } = useTranslation()
+	const { setFormMode } = use(FormModeContext)
 
 	const handleFinish = async () => {
-		setLoading(true);
+		setLoading(true)
 		setTimeout(() => {
-			setLoading(false);
-			window.$message?.success(t("common.success"));
-		}, 1000);
-	};
+			setLoading(false)
+			window.$message?.success(t("common.success"))
+		}, 1000)
+	}
 
 	return (
 		<>
@@ -65,13 +65,13 @@ export function CodeLogin() {
 					label={t("authority.code")}
 					placeholder={t("form.code.required")}
 					captchaTextRender={(timing, count) => {
-						return timing ? t("authority.sendText", { second: count }) : t("authority.sendCode");
+						return timing ? t("authority.sendText", { second: count }) : t("authority.sendCode")
 					}}
 					// onGetCaptcha={(phone) => {
 					onGetCaptcha={() => {
 						// console.log("phoneNumber:", phone);
-						window.$message?.success(t("common.success"));
-						return Promise.resolve();
+						window.$message?.success(t("common.success"))
+						return Promise.resolve()
 					}}
 					// onTiming={(count) => {
 					// 	console.log("timing:", count);
@@ -102,7 +102,7 @@ export function CodeLogin() {
 						icon={<LeftOutlined />}
 						className="px-1"
 						onPointerDown={() => {
-							setFormMode("login");
+							setFormMode("login")
 						}}
 					>
 						{t("common.back")}
@@ -110,5 +110,5 @@ export function CodeLogin() {
 				</div>
 			</Form>
 		</>
-	);
+	)
 }

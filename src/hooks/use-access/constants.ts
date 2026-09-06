@@ -5,7 +5,7 @@
 /**
  * 按钮权限前缀
  */
-export const permissionPrefix = "permission:button";
+export const permissionPrefix = "permission:button"
 
 /**
  * 常见按钮权限：
@@ -19,10 +19,10 @@ export const accessControlCodes = {
 	update: `${permissionPrefix}:update`,
 	delete: `${permissionPrefix}:delete`,
 	add: `${permissionPrefix}:add`,
-};
+}
 
 export const AccessControlRoles = {
 	admin: "admin",
 	common: "common",
 	// user: "user",
-};
+}

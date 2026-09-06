@@ -1,50 +1,50 @@
-import type { ActionType, ProColumns, ProCoreActionType } from "@ant-design/pro-components";
-import type { TonghopbienapItemType } from "#src/api/bienap/tonghop";
+import type { TonghopbienapItemType } from "#src/api/bienap/tonghop"
+import type { ActionType, ProColumns, ProCoreActionType } from "@ant-design/pro-components"
 
-import { DownloadOutlined, PlusCircleOutlined } from "@ant-design/icons";
-import { Button, Popconfirm } from "antd";
-import { useRef, useState } from "react";
-import { useTranslation } from "react-i18next";
-import * as XLSX from "xlsx";
+import { fetchDeleteTonghopbienapItem, fetchDeleteTonghopbienapItems, fetchTonghopbienapList } from "#src/api/bienap/tonghop"
+import { BasicButton } from "#src/components/basic-button"
+import { BasicContent } from "#src/components/basic-content"
+import { BasicTable } from "#src/components/basic-table"
+import { accessControlCodes, useAccess } from "#src/hooks/use-access"
 
-import { fetchDeleteTonghopbienapItem, fetchDeleteTonghopbienapItems, fetchTonghopbienapList } from "#src/api/bienap/tonghop";
-import { BasicButton } from "#src/components/basic-button";
-import { BasicContent } from "#src/components/basic-content";
-import { BasicTable } from "#src/components/basic-table";
-import { accessControlCodes, useAccess } from "#src/hooks/use-access";
+import { DownloadOutlined, PlusCircleOutlined } from "@ant-design/icons"
+import { Button, Popconfirm } from "antd"
+import { useRef, useState } from "react"
+import { useTranslation } from "react-i18next"
+import * as XLSX from "xlsx"
 
-import { Detail } from "./components/detail";
-import { getConstantColumns } from "./constants";
+import { Detail } from "./components/detail"
+import { getConstantColumns } from "./constants"
 
 export default function Tonghopbienap() {
-	const { t } = useTranslation();
-	const { hasAccessByCodes } = useAccess();
-	const [isOpen, setIsOpen] = useState(false);
-	const [title, setTitle] = useState("");
-	const [detailData, setDetailData] = useState<Partial<TonghopbienapItemType>>({});
-	const [selectedRowKeys, setSelectedRowKeys] = useState<React.Key[]>([]);
-	const actionRef = useRef<ActionType>(null);
+	const { t } = useTranslation()
+	const { hasAccessByCodes } = useAccess()
+	const [isOpen, setIsOpen] = useState(false)
+	const [title, setTitle] = useState("")
+	const [detailData, setDetailData] = useState<Partial<TonghopbienapItemType>>({})
+	const [selectedRowKeys, setSelectedRowKeys] = useState<React.Key[]>([])
+	const actionRef = useRef<ActionType>(null)
 
 	const handleDeleteRow = async (id: number, action?: ProCoreActionType<object>) => {
-		await fetchDeleteTonghopbienapItem(id);
-		setSelectedRowKeys([]);
-		await action?.reload?.();
-		window.$message?.success(t("common.deleteSuccess"));
-	};
+		await fetchDeleteTonghopbienapItem(id)
+		setSelectedRowKeys([])
+		await action?.reload?.()
+		window.$message?.success(t("common.deleteSuccess"))
+	}
 
 	const handleBulkDelete = async () => {
 		if (selectedRowKeys.length === 0) {
-			return;
+			return
 		}
-		await fetchDeleteTonghopbienapItems(selectedRowKeys as number[]);
-		setSelectedRowKeys([]);
-		await actionRef.current?.reload();
-		window.$message?.success(t("common.deleteSuccess"));
-	};
+		await fetchDeleteTonghopbienapItems(selectedRowKeys as number[])
+		setSelectedRowKeys([])
+		await actionRef.current?.reload()
+		window.$message?.success(t("common.deleteSuccess"))
+	}
 
 	const handleExportExcel = async () => {
 		try {
-			const data = await fetchTonghopbienapList();
+			const data = await fetchTonghopbienapList()
 			const exportData = data.map((item, index) => ({
 				"STT": index + 1,
 				"Tên thiết bị": item.tenThietBi ?? item.bienapId,
@@ -53,22 +53,22 @@ export default function Tonghopbienap() {
 				"Ngày lắp": item.ngayLap,
 				"Dự phòng": item.duPhong ? "Có" : "Không",
 				"Ghi chú": item.ghiChu,
-			}));
+			}))
 			const worksheet = XLSX.utils.json_to_sheet(exportData, {
 				header: ["STT", "ID Biến áp", "ID Phòng ban", "Vị trí lắp đặt", "Ngày lắp", "Dự phòng", "Ghi chú"],
-			});
+			})
 			// Set độ rộng cột
-			worksheet["!cols"] = [{ wch: 5 }, { wch: 15 }, { wch: 15 }, { wch: 25 }, { wch: 15 }, { wch: 10 }, { wch: 30 }];
-			const workbook = XLSX.utils.book_new();
-			XLSX.utils.book_append_sheet(workbook, worksheet, "Tonghopbienap");
-			XLSX.writeFile(workbook, "tonghopbienap.xlsx");
-			window.$message?.success(t("common.exportSuccess"));
+			worksheet["!cols"] = [{ wch: 5 }, { wch: 15 }, { wch: 15 }, { wch: 25 }, { wch: 15 }, { wch: 10 }, { wch: 30 }]
+			const workbook = XLSX.utils.book_new()
+			XLSX.utils.book_append_sheet(workbook, worksheet, "Tonghopbienap")
+			XLSX.writeFile(workbook, "tonghopbienap.xlsx")
+			window.$message?.success(t("common.exportSuccess"))
 		}
 		catch (error) {
-			console.error("Export failed", error);
-			window.$message?.error(t("common.exportFailed"));
+			console.error("Export failed", error)
+			window.$message?.error(t("common.exportFailed"))
 		}
-	};
+	}
 
 	const columns: ProColumns<TonghopbienapItemType>[] = [
 		...getConstantColumns(t),
@@ -85,9 +85,9 @@ export default function Tonghopbienap() {
 					size="small"
 					disabled={!hasAccessByCodes(accessControlCodes.update)}
 					onClick={() => {
-						setIsOpen(true);
-						setTitle(t("system.tonghopbienap.editTonghopbienap"));
-						setDetailData(record);
+						setIsOpen(true)
+						setTitle(t("system.tonghopbienap.editTonghopbienap"))
+						setDetailData(record)
 					}}
 				>
 					{t("common.edit")}
@@ -110,16 +110,16 @@ export default function Tonghopbienap() {
 				</Popconfirm>,
 			],
 		},
-	];
+	]
 
 	const onCloseChange = () => {
-		setIsOpen(false);
-		setDetailData({});
-	};
+		setIsOpen(false)
+		setDetailData({})
+	}
 
 	const refreshTable = () => {
-		actionRef.current?.reload();
-	};
+		actionRef.current?.reload()
+	}
 
 	return (
 		<BasicContent className="h-full">
@@ -142,19 +142,19 @@ export default function Tonghopbienap() {
 					</Button>
 				)}
 				request={async (params) => {
-					const data = await fetchTonghopbienapList();
+					const data = await fetchTonghopbienapList()
 					const filtered = data.filter((item) => {
-						const keyword = String(params?.viTriLapDat ?? "").trim().toLowerCase();
-						const donvi = String(params?.tenPhongBan ?? "").trim().toLowerCase();
+						const keyword = String(params?.viTriLapDat ?? "").trim().toLowerCase()
+						const donvi = String(params?.tenPhongBan ?? "").trim().toLowerCase()
 						return (
 							(item.viTriLapDat?.toLowerCase().includes(keyword) ?? false)
 							&& (item.tenPhongBan?.toLowerCase().includes(donvi) ?? false)
-						);
-					});
+						)
+					})
 					return {
 						data: filtered,
 						total: filtered.length,
-					};
+					}
 				}}
 				search={{
 					labelWidth: "auto",
@@ -168,9 +168,9 @@ export default function Tonghopbienap() {
 						type="primary"
 						disabled={!hasAccessByCodes(accessControlCodes.add)}
 						onClick={() => {
-							setIsOpen(true);
-							setTitle(t("system.tonghopbienap.addTonghopbienap"));
-							setDetailData({});
+							setIsOpen(true)
+							setTitle(t("system.tonghopbienap.addTonghopbienap"))
+							setDetailData({})
 						}}
 					>
 						{t("common.add")}
@@ -200,5 +200,5 @@ export default function Tonghopbienap() {
 				refreshTable={refreshTable}
 			/>
 		</BasicContent>
-	);
+	)
 }

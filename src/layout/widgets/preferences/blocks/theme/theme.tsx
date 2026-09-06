@@ -1,17 +1,17 @@
-import type { ThemeType } from "#src/store/preferences/types";
-import type { InputNumberProps } from "antd";
+import type { ThemeType } from "#src/store/preferences/types"
+import type { InputNumberProps } from "antd"
 
-import { RiContrastFill, RiMoonIcon, RiSunIcon } from "#src/icons";
-import { usePreferencesStore } from "#src/store/preferences";
+import { RiContrastFill, RiMoonIcon, RiSunIcon } from "#src/icons"
+import { usePreferencesStore } from "#src/store/preferences"
 
-import { cn } from "#src/utils/cn";
-import { InputNumber, Slider } from "antd";
-import { useTranslation } from "react-i18next";
+import { cn } from "#src/utils/cn"
+import { InputNumber, Slider } from "antd"
+import { useTranslation } from "react-i18next"
 
-import { SwitchItem } from "../../switch-item";
+import { SwitchItem } from "../../switch-item"
 
 export function SiteTheme() {
-	const { t } = useTranslation();
+	const { t } = useTranslation()
 	const {
 		theme,
 		colorBlindMode,
@@ -19,7 +19,7 @@ export function SiteTheme() {
 		themeRadius,
 		changeSiteTheme,
 		setPreferences,
-	} = usePreferencesStore();
+	} = usePreferencesStore()
 
 	const themePresets = [
 		{
@@ -37,15 +37,15 @@ export function SiteTheme() {
 			icon: <RiContrastFill className="text-xl" />,
 			type: "auto",
 		},
-	] as const;
+	] as const
 
 	function handleClick(value: ThemeType) {
-		changeSiteTheme(value);
+		changeSiteTheme(value)
 	}
 
 	const handleChange: InputNumberProps["onChange"] = (newValue) => {
-		setPreferences("themeRadius", newValue!);
-	};
+		setPreferences("themeRadius", newValue!)
+	}
 
 	return (
 		<>
@@ -119,5 +119,5 @@ export function SiteTheme() {
 			</div>
 
 		</>
-	);
+	)
 }

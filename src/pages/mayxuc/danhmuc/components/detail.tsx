@@ -1,9 +1,9 @@
-import type { MayxucItemType } from "#src/api/mayxuc/danhmuc";
-import { fetchAddMayxucItem, fetchUpdateMayxucItem } from "#src/api/mayxuc/danhmuc";
-import { ModalForm, ProFormSwitch, ProFormText, ProFormTextArea } from "@ant-design/pro-components";
-import { Form } from "antd";
-import { useEffect } from "react";
-import { useTranslation } from "react-i18next";
+import type { MayxucItemType } from "#src/api/mayxuc/danhmuc"
+import { fetchAddMayxucItem, fetchUpdateMayxucItem } from "#src/api/mayxuc/danhmuc"
+import { ModalForm, ProFormSwitch, ProFormText, ProFormTextArea } from "@ant-design/pro-components"
+import { Form } from "antd"
+import { useEffect } from "react"
+import { useTranslation } from "react-i18next"
 
 interface DetailProps {
 	title: React.ReactNode
@@ -14,28 +14,28 @@ interface DetailProps {
 }
 
 export function Detail({ title, open, onCloseChange, detailData, refreshTable }: DetailProps) {
-	const { t } = useTranslation();
-	const [form] = Form.useForm<MayxucItemType>();
+	const { t } = useTranslation()
+	const [form] = Form.useForm<MayxucItemType>()
 
 	const onFinish = async (values: MayxucItemType) => {
-		const payload = detailData.id ? { ...detailData, ...values } : values;
+		const payload = detailData.id ? { ...detailData, ...values } : values
 		if (detailData.id) {
-			await fetchUpdateMayxucItem(payload);
-			window.$message?.success(t("common.updateSuccess"));
+			await fetchUpdateMayxucItem(payload)
+			window.$message?.success(t("common.updateSuccess"))
 		}
 		else {
-			await fetchAddMayxucItem(payload);
-			window.$message?.success(t("common.addSuccess"));
+			await fetchAddMayxucItem(payload)
+			window.$message?.success(t("common.addSuccess"))
 		}
-		refreshTable?.();
-		return true;
-	};
+		refreshTable?.()
+		return true
+	}
 
 	useEffect(() => {
 		if (open) {
-			form.setFieldsValue(detailData);
+			form.setFieldsValue(detailData)
 		}
-	}, [open, detailData, form]);
+	}, [open, detailData, form])
 
 	return (
 		<ModalForm<MayxucItemType>
@@ -43,7 +43,7 @@ export function Detail({ title, open, onCloseChange, detailData, refreshTable }:
 			open={open}
 			onOpenChange={(visible) => {
 				if (!visible)
-					onCloseChange();
+					onCloseChange()
 			}}
 			labelCol={{ md: 6, xl: 5 }}
 			layout="horizontal"
@@ -71,5 +71,5 @@ export function Detail({ title, open, onCloseChange, detailData, refreshTable }:
 			<ProFormSwitch name="tinhTrang" label="Tình trạng" />
 			<ProFormTextArea name="ghiChu" label="Ghi chú" placeholder="Nhập ghi chú" />
 		</ModalForm>
-	);
+	)
 }

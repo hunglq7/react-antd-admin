@@ -1,6 +1,6 @@
-import type { MenuItemType } from "#src/api/system/menu";
-import { fetchAddMenuItem, fetchUpdateMenuItem } from "#src/api/system/menu";
-import { handleTree } from "#src/utils/tree";
+import type { MenuItemType } from "#src/api/system/menu"
+import { fetchAddMenuItem, fetchUpdateMenuItem } from "#src/api/system/menu"
+import { handleTree } from "#src/utils/tree"
 
 import {
 	ModalForm,
@@ -9,12 +9,12 @@ import {
 	ProFormDigit,
 	ProFormRadio,
 	ProFormText,
-} from "@ant-design/pro-components";
-import { Form } from "antd";
-import { useEffect } from "react";
-import { useTranslation } from "react-i18next";
+} from "@ant-design/pro-components"
+import { Form } from "antd"
+import { useEffect } from "react"
+import { useTranslation } from "react-i18next"
 
-import { getMenuTypeOptions } from "../constants";
+import { getMenuTypeOptions } from "../constants"
 
 interface DetailProps {
 	title: React.ReactNode
@@ -33,31 +33,31 @@ export function Detail({
 	detailData,
 	refreshTable,
 }: DetailProps) {
-	const { t } = useTranslation();
-	const [form] = Form.useForm<MenuItemType>();
+	const { t } = useTranslation()
+	const [form] = Form.useForm<MenuItemType>()
 
 	const onFinish = async (values: MenuItemType) => {
 		// console.info(values);
 		/* 有 id 则为修改，否则为新增 */
 		if (detailData.id) {
-			await fetchUpdateMenuItem(values);
-			window.$message?.success(t("common.updateSuccess"));
+			await fetchUpdateMenuItem(values)
+			window.$message?.success(t("common.updateSuccess"))
 		}
 		else {
-			await fetchAddMenuItem(values);
-			window.$message?.success(t("common.addSuccess"));
+			await fetchAddMenuItem(values)
+			window.$message?.success(t("common.addSuccess"))
 		}
 		/* 刷新表格 */
-		refreshTable?.();
+		refreshTable?.()
 		// 不返回不会关闭弹框
-		return true;
-	};
+		return true
+	}
 
 	useEffect(() => {
 		if (open) {
-			form.setFieldsValue(detailData);
+			form.setFieldsValue(detailData)
 		}
-	}, [open]);
+	}, [open])
 
 	return (
 		<ModalForm<MenuItemType>
@@ -65,7 +65,7 @@ export function Detail({
 			open={open}
 			onOpenChange={(visible) => {
 				if (visible === false) {
-					onCloseChange();
+					onCloseChange()
 				}
 			}}
 			labelCol={{ md: 5, xl: 3 }}
@@ -112,7 +112,7 @@ export function Detail({
 					},
 				}}
 				request={async () => {
-					return handleTree(flatParentMenus);
+					return handleTree(flatParentMenus)
 				}}
 			/>
 
@@ -266,11 +266,11 @@ export function Detail({
 								/>
 
 							</>
-						);
+						)
 					}
 				}}
 			</ProFormDependency>
 
 		</ModalForm>
-	);
+	)
 };

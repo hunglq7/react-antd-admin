@@ -1,7 +1,7 @@
-import type { SelectProps } from "antd";
+import type { SelectProps } from "antd"
 
-import { usePreferencesStore } from "#src/store/preferences";
-import { Select } from "antd";
+import { usePreferencesStore } from "#src/store/preferences"
+import { Select } from "antd"
 
 export interface SelectItemProps {
 	children: React.ReactNode
@@ -14,7 +14,7 @@ export interface SelectItemProps {
 export function SelectItem({ children, items, disabled, value, name }: SelectItemProps) {
 	const {
 		setPreferences,
-	} = usePreferencesStore();
+	} = usePreferencesStore()
 	return (
 		<div className="hover:bg-gray-100 dark:hover:bg-gray-700 my-1 flex w-full items-center justify-between rounded-md px-2 py-2.5">
 			<span className="flex items-center text-sm">{children}</span>
@@ -26,5 +26,5 @@ export function SelectItem({ children, items, disabled, value, name }: SelectIte
 				onChange={value => setPreferences(name, value)}
 			/>
 		</div>
-	);
+	)
 }

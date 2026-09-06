@@ -1,11 +1,11 @@
-import type { AppRouteRecordRaw } from "#src/router/types";
-import ContainerLayout from "#src/layout/container-layout";
-import { bienap } from "#src/router/extra-info/order";
+import type { AppRouteRecordRaw } from "#src/router/types"
+import ContainerLayout from "#src/layout/container-layout"
+import { bienap } from "#src/router/extra-info/order"
 
-import { lazy } from "react";
+import { lazy } from "react"
 
-const BienapDanhmuc = lazy(() => import("#src/pages/bienap/danhmuc"));
-const Tonghopbienap = lazy(() => import("#src/pages/bienap/tonghop"));
+const BienapDanhmuc = lazy(() => import("#src/pages/bienap/danhmuc"))
+const Tonghopbienap = lazy(() => import("#src/pages/bienap/tonghop"))
 
 const routes: AppRouteRecordRaw[] = [
 	{
@@ -48,6 +48,6 @@ const routes: AppRouteRecordRaw[] = [
 			},
 		],
 	},
-];
+]
 
-export default routes;
+export default routes

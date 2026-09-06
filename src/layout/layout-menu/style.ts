@@ -1,4 +1,4 @@
-import { createUseStyles } from "react-jss";
+import { createUseStyles } from "react-jss"
 
 export const useStyles = createUseStyles({
 	menuBackgroundColor: {
@@ -6,4 +6,4 @@ export const useStyles = createUseStyles({
 			backgroundColor: "var(--ant-menu-item-selected-bg)",
 		},
 	},
-});
+})

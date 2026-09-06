@@ -1,4 +1,4 @@
-import { useEffect, useMemo } from "react";
+import { useEffect, useMemo } from "react"
 
 export interface UseCssVarOptions {
 	initialValue?: string
@@ -16,7 +16,7 @@ export interface CssVarControls {
 	remove: () => void
 }
 
-const defaultRoot = typeof document !== "undefined" ? document.body : undefined;
+const defaultRoot = typeof document !== "undefined" ? document.body : undefined
 
 /**
  * @see https://soorria.com/snippets/use-css-var-react
@@ -33,17 +33,17 @@ export function useCssVar(
 			remove: () => root.style.removeProperty(name),
 		}),
 		[name, root],
-	);
+	)
 
 	useEffect(() => {
 		if (options?.initialValue) {
-			controls.set(options.initialValue);
+			controls.set(options.initialValue)
 		}
-	}, [options?.initialValue]);
+	}, [options?.initialValue])
 
 	useEffect(() => {
-		return () => controls.remove();
-	}, [controls]);
+		return () => controls.remove()
+	}, [controls])
 
-	return controls;
+	return controls
 }

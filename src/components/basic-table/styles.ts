@@ -1,4 +1,4 @@
-import { createUseStyles } from "react-jss";
+import { createUseStyles } from "react-jss"
 
 export const useStyles = createUseStyles(({ prefixCls, isDark }) => {
 	return {
@@ -13,5 +13,5 @@ export const useStyles = createUseStyles(({ prefixCls, isDark }) => {
 				},
 			},
 		},
-	};
-});
+	}
+})

@@ -1,10 +1,10 @@
-import type { MenuItemType } from "#src/api/system/menu";
-import type { ProColumns } from "@ant-design/pro-components";
-import type { TFunction } from "i18next";
+import type { MenuItemType } from "#src/api/system/menu"
+import type { ProColumns } from "@ant-design/pro-components"
+import type { TFunction } from "i18next"
 
-import { getYesNoOptions } from "#src/constants/options";
+import { getYesNoOptions } from "#src/constants/options"
 
-import { Tag } from "antd";
+import { Tag } from "antd"
 
 export function getMenuTypeOptions(t: TFunction<"translation", undefined>) {
 	return [
@@ -24,7 +24,7 @@ export function getMenuTypeOptions(t: TFunction<"translation", undefined>) {
 			label: t("system.menu.button"),
 			value: 3,
 		},
-	];
+	]
 }
 
 export function getConstantColumns(t: TFunction<"translation", undefined>): ProColumns<MenuItemType>[] {
@@ -41,7 +41,7 @@ export function getConstantColumns(t: TFunction<"translation", undefined>): ProC
 			ellipsis: true,
 			width: 200,
 			render: (_, record) => {
-				return t(record.name);
+				return t(record.name)
 			},
 			formItemProps: {
 				rules: [
@@ -78,7 +78,7 @@ export function getConstantColumns(t: TFunction<"translation", undefined>): ProC
 			valueType: "select",
 			width: 80,
 			render: (text, record) => {
-				return <Tag color={record.status === 1 ? "success" : "default"}>{text}</Tag>;
+				return <Tag color={record.status === 1 ? "success" : "default"}>{text}</Tag>
 			},
 			valueEnum: {
 				1: {
@@ -94,8 +94,8 @@ export function getConstantColumns(t: TFunction<"translation", undefined>): ProC
 			dataIndex: "menuType",
 			width: 100,
 			valueEnum: getMenuTypeOptions(t).reduce((acc, curr) => {
-				acc[curr.value] = curr.label;
-				return acc;
+				acc[curr.value] = curr.label
+				return acc
 			}, {} as Record<number, string>),
 		},
 		{
@@ -110,11 +110,11 @@ export function getConstantColumns(t: TFunction<"translation", undefined>): ProC
 			valueType: "select",
 			width: 80,
 			render: (_, record) => {
-				return t(record.keepAlive ? "common.yes" : "common.no");
+				return t(record.keepAlive ? "common.yes" : "common.no")
 			},
 			valueEnum: getYesNoOptions(t).reduce((acc, curr) => {
-				acc.set(curr.value, curr.label);
-				return acc;
+				acc.set(curr.value, curr.label)
+				return acc
 			}, new Map()),
 		},
 		{
@@ -123,11 +123,11 @@ export function getConstantColumns(t: TFunction<"translation", undefined>): ProC
 			valueType: "select",
 			width: 120,
 			render: (_, record) => {
-				return t(record.hideInMenu ? "common.yes" : "common.no");
+				return t(record.hideInMenu ? "common.yes" : "common.no")
 			},
 			valueEnum: getYesNoOptions(t).reduce((acc, curr) => {
-				acc.set(curr.value, curr.label);
-				return acc;
+				acc.set(curr.value, curr.label)
+				return acc
 			}, new Map()),
 		},
 		{
@@ -159,5 +159,5 @@ export function getConstantColumns(t: TFunction<"translation", undefined>): ProC
 			width: 170,
 			search: false,
 		},
-	];
+	]
 }

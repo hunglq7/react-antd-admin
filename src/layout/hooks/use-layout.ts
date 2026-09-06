@@ -1,13 +1,13 @@
-import { useDeviceType } from "#src/hooks/use-device-type";
+import { useDeviceType } from "#src/hooks/use-device-type"
 import {
 	MIXED_NAVIGATION,
 	SIDE_NAVIGATION,
 	TOP_NAVIGATION,
 	TWO_COLUMN_NAVIGATION,
-} from "#src/layout/widgets/preferences/blocks/layout/constants";
-import { usePreferencesStore } from "#src/store/preferences";
+} from "#src/layout/widgets/preferences/blocks/layout/constants"
+import { usePreferencesStore } from "#src/store/preferences"
 
-import { useMemo } from "react";
+import { useMemo } from "react"
 
 /**
  * 获取当前页面的布局类型信息
@@ -20,12 +20,12 @@ import { useMemo } from "react";
  * - isTwoColumnNav: 是否为双列导航
  */
 export function useLayout() {
-	const { isMobile } = useDeviceType();
+	const { isMobile } = useDeviceType()
 	// LayoutType
-	const navigationStyle = usePreferencesStore(state => state.navigationStyle);
-	const sidebarWidth = usePreferencesStore(state => state.sidebarWidth);
-	const sideCollapsedWidth = usePreferencesStore(state => state.sideCollapsedWidth);
-	const firstColumnWidthInTwoColumnNavigation = usePreferencesStore(state => state.firstColumnWidthInTwoColumnNavigation);
+	const navigationStyle = usePreferencesStore(state => state.navigationStyle)
+	const sidebarWidth = usePreferencesStore(state => state.sidebarWidth)
+	const sideCollapsedWidth = usePreferencesStore(state => state.sideCollapsedWidth)
+	const firstColumnWidthInTwoColumnNavigation = usePreferencesStore(state => state.firstColumnWidthInTwoColumnNavigation)
 
 	/**
 	 * 当前导航类型
@@ -33,7 +33,7 @@ export function useLayout() {
 	const currentLayout = useMemo(
 		() => isMobile ? SIDE_NAVIGATION : navigationStyle,
 		[isMobile, navigationStyle],
-	);
+	)
 
 	/**
 	 * 是否为侧边导航
@@ -41,7 +41,7 @@ export function useLayout() {
 	const isSideNav = useMemo(
 		() => currentLayout === SIDE_NAVIGATION,
 		[currentLayout],
-	);
+	)
 
 	/**
 	 * 是否为顶部导航
@@ -49,7 +49,7 @@ export function useLayout() {
 	const isTopNav = useMemo(
 		() => currentLayout === TOP_NAVIGATION,
 		[currentLayout],
-	);
+	)
 
 	/**
 	 * 是否为双列导航
@@ -57,7 +57,7 @@ export function useLayout() {
 	const isTwoColumnNav = useMemo(
 		() => currentLayout === TWO_COLUMN_NAVIGATION,
 		[currentLayout],
-	);
+	)
 
 	/**
 	 * 是否为混合导航
@@ -65,7 +65,7 @@ export function useLayout() {
 	const isMixedNav = useMemo(
 		() => currentLayout === MIXED_NAVIGATION,
 		[currentLayout],
-	);
+	)
 
 	return {
 		currentLayout,
@@ -76,5 +76,5 @@ export function useLayout() {
 		sidebarWidth,
 		sideCollapsedWidth,
 		firstColumnWidthInTwoColumnNavigation,
-	};
+	}
 }

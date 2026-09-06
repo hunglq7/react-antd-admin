@@ -1,13 +1,13 @@
-import type { RefreshTokenResult } from "#src/api/user";
-import type { KyResponse, Options } from "ky";
-import { fetchRefreshToken } from "#src/api/user";
+import type { RefreshTokenResult } from "#src/api/user"
+import type { KyResponse, Options } from "ky"
+import { fetchRefreshToken } from "#src/api/user"
 
-import { useAuthStore } from "#src/store/auth";
-import ky from "ky";
-import { AUTH_HEADER } from "./constants";
-import { goLogin } from "./go-login";
+import { useAuthStore } from "#src/store/auth"
+import ky from "ky"
+import { AUTH_HEADER } from "./constants"
+import { goLogin } from "./go-login"
 
-let isRefreshing = false;
+let isRefreshing = false
 
 /**
  * 刷新token并重新发起请求
@@ -24,39 +24,39 @@ export async function refreshTokenAndRetry(
 	refreshToken: string,
 ) {
 	if (!isRefreshing) {
-		isRefreshing = true;
+		isRefreshing = true
 		try {
 			// 调用 fetchRefreshToken 函数，使用传入的 refreshToken 获取新的 token 和 refreshToken
 			const freshResponse = (await fetchRefreshToken({
 				refreshToken,
-			})) as RefreshTokenResult;
+			})) as RefreshTokenResult
 			// 从响应中提取新的 token
-			const newToken = freshResponse.result.token;
+			const newToken = freshResponse.result.token
 			// 从响应中提取新的 refreshToken
-			const newRefreshToken = freshResponse.result.refreshToken;
+			const newRefreshToken = freshResponse.result.refreshToken
 			// 将新的 token 和 refreshToken 保存到 userStore 中
-			useAuthStore.setState({ token: newToken, refreshToken: newRefreshToken });
+			useAuthStore.setState({ token: newToken, refreshToken: newRefreshToken })
 			// 调用 onRefreshed 函数，传入新的 token
-			onRefreshed(newToken);
+			onRefreshed(newToken)
 
 			// 设置请求的 Authorization 头部为新的 token
 			// 重试当前请求
-			request.headers.set(AUTH_HEADER, `Bearer ${newToken}`);
+			request.headers.set(AUTH_HEADER, `Bearer ${newToken}`)
 			// 使用新的 token 重新发起请求
-			return ky(request, options);
+			return ky(request, options)
 		}
 		catch (error) {
 			// 调用 onRefreshFailed 函数，传入错误对象
 			// refreshToken 认证未通过，拒绝所有等待的请求
-			onRefreshFailed(error);
+			onRefreshFailed(error)
 			// 跳转到登录页
-			goLogin();
+			goLogin()
 			// 抛出错误
-			throw error;
+			throw error
 		}
 		finally {
 			// 无论是否发生错误，都将 isRefreshing 设置为 false
-			isRefreshing = false;
+			isRefreshing = false
 		}
 	}
 	else {
@@ -66,13 +66,13 @@ export async function refreshTokenAndRetry(
 			addRefreshSubscriber({
 				// 当 token 刷新成功后，将新的 token 设置到请求的 Authorization 头部，并重新发起请求
 				resolve: async (newToken) => {
-					request.headers.set(AUTH_HEADER, `Bearer ${newToken}`);
-					resolve(ky(request, options));
+					request.headers.set(AUTH_HEADER, `Bearer ${newToken}`)
+					resolve(ky(request, options))
 				},
 				// 当 token 刷新失败时，拒绝当前 Promise
 				reject,
-			});
-		});
+			})
+		})
 	}
 }
 
@@ -81,7 +81,7 @@ export async function refreshTokenAndRetry(
 let refreshSubscribers: Array<{
 	resolve: (token: string) => void // 当 token 刷新成功时调用的函数，传入新的 token
 	reject: (error: any) => void // 当 token 刷新失败时调用的函数，传入错误信息
-}> = [];
+}> = []
 
 /**
  * 当 token 刷新成功时，通知所有等待的订阅者。
@@ -91,8 +91,8 @@ let refreshSubscribers: Array<{
  * @param token 刷新后的令牌字符串
  */
 function onRefreshed(token: string) {
-	refreshSubscribers.forEach(subscriber => subscriber.resolve(token));
-	refreshSubscribers = []; // 清空订阅者列表
+	refreshSubscribers.forEach(subscriber => subscriber.resolve(token))
+	refreshSubscribers = [] // 清空订阅者列表
 }
 
 /**
@@ -103,8 +103,8 @@ function onRefreshed(token: string) {
  * @param error 刷新失败时产生的错误信息
  */
 function onRefreshFailed(error: any) {
-	refreshSubscribers.forEach(subscriber => subscriber.reject(error));
-	refreshSubscribers = []; // 清空订阅者列表
+	refreshSubscribers.forEach(subscriber => subscriber.reject(error))
+	refreshSubscribers = [] // 清空订阅者列表
 }
 
 /**
@@ -117,5 +117,5 @@ function addRefreshSubscriber(subscriber: {
 	resolve: (token: string) => void // 当 token 刷新成功时调用的函数
 	reject: (error: any) => void // 当 token 刷新失败时调用的函数
 }) {
-	refreshSubscribers.push(subscriber); // 将新的订阅者添加到列表中
+	refreshSubscribers.push(subscriber) // 将新的订阅者添加到列表中
 }

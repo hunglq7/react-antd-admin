@@ -1,8 +1,8 @@
 /* == Local Icon == */
-export * from "./local-icons";
+export * from "./local-icons"
 
 /* == Menu Icon == */
-export * from "./menu-icons";
+export * from "./menu-icons"
 
 /* == Remix Icon == */
-export * from "./ri";
+export * from "./ri"

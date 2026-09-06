@@ -6,10 +6,10 @@ import {
 	personalCenter,
 	routeNest,
 	system,
-} from "#/src/router/extra-info";
-import { defineFakeRoute } from "vite-plugin-fake-server/client";
-import { ADMIN_TOKEN } from "./constants";
-import { resultSuccess } from "./utils";
+} from "#/src/router/extra-info"
+import { defineFakeRoute } from "vite-plugin-fake-server/client"
+import { ADMIN_TOKEN } from "./constants"
+import { resultSuccess } from "./utils"
 
 /**
  * roles：页面级别权限，这里模拟二种 "admin"、"common"
@@ -99,7 +99,7 @@ const systemManagementRouter = {
 			},
 		},
 	],
-};
+}
 
 const homeRouter = {
 	path: "/home",
@@ -109,7 +109,7 @@ const homeRouter = {
 		title: "common.menu.home",
 		order: home,
 	},
-};
+}
 
 const aboutRouter = {
 	path: "/about",
@@ -119,7 +119,7 @@ const aboutRouter = {
 		title: "common.menu.about",
 		order: about,
 	},
-};
+}
 
 const outsideRouter = {
 	path: "/outside",
@@ -173,7 +173,7 @@ const outsideRouter = {
 			],
 		},
 	],
-};
+}
 
 const personalCenterRouter = {
 	path: "/personal-center",
@@ -198,7 +198,7 @@ const personalCenterRouter = {
 			},
 		},
 	],
-};
+}
 
 const routeNestRouter = {
 	path: "/route-nest",
@@ -239,7 +239,7 @@ const routeNestRouter = {
 			},
 		},
 	],
-};
+}
 
 export default defineFakeRoute([
 	{
@@ -247,8 +247,8 @@ export default defineFakeRoute([
 		timeout: 1000,
 		method: "get",
 		response: ({ headers }) => {
-			const userToken = headers.authorization?.split(" ")?.[1];
-			const isAdmin = userToken === ADMIN_TOKEN;
+			const userToken = headers.authorization?.split(" ")?.[1]
+			const isAdmin = userToken === ADMIN_TOKEN
 			const accessRouter = {
 				path: "/access",
 				handle: {
@@ -282,31 +282,31 @@ export default defineFakeRoute([
 							title: "common.menu.buttonControl",
 							permissions: isAdmin
 								? [
-									"permission:button:get",
-									"permission:button:update",
-									"permission:button:delete",
-									"permission:button:add",
-								]
+										"permission:button:get",
+										"permission:button:update",
+										"permission:button:delete",
+										"permission:button:add",
+									]
 								: ["permission:button:get"],
 						},
 					},
 					isAdmin
 						? {
-							path: "/access/admin-visible",
-							handle: {
-								icon: "EyeOutlined",
-								title: "common.menu.adminVisible",
-							},
-						}
+								path: "/access/admin-visible",
+								handle: {
+									icon: "EyeOutlined",
+									title: "common.menu.adminVisible",
+								},
+							}
 						: {
-							path: "/access/common-visible",
-							handle: {
-								icon: "EyeOutlined",
-								title: "common.menu.commonVisible",
+								path: "/access/common-visible",
+								handle: {
+									icon: "EyeOutlined",
+									title: "common.menu.commonVisible",
+								},
 							},
-						},
 				],
-			};
+			}
 			return resultSuccess([
 				homeRouter,
 				accessRouter,
@@ -315,7 +315,7 @@ export default defineFakeRoute([
 				outsideRouter,
 				personalCenterRouter,
 				routeNestRouter,
-			]);
+			])
 		},
 	},
-]);
+])

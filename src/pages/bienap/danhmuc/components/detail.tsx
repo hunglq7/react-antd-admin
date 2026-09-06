@@ -1,10 +1,10 @@
-import type { BienapItemType } from "#src/api/bienap/danhmuc";
-import { fetchAddBienapItem, fetchUpdateBienapItem } from "#src/api/bienap/danhmuc";
+import type { BienapItemType } from "#src/api/bienap/danhmuc"
+import { fetchAddBienapItem, fetchUpdateBienapItem } from "#src/api/bienap/danhmuc"
 
-import { ModalForm, ProFormText, ProFormTextArea } from "@ant-design/pro-components";
-import { Form } from "antd";
-import { useEffect } from "react";
-import { useTranslation } from "react-i18next";
+import { ModalForm, ProFormText, ProFormTextArea } from "@ant-design/pro-components"
+import { Form } from "antd"
+import { useEffect } from "react"
+import { useTranslation } from "react-i18next"
 
 interface DetailProps {
 	title: React.ReactNode
@@ -21,28 +21,28 @@ export function Detail({
 	detailData,
 	refreshTable,
 }: DetailProps) {
-	const { t } = useTranslation();
-	const [form] = Form.useForm<BienapItemType>();
+	const { t } = useTranslation()
+	const [form] = Form.useForm<BienapItemType>()
 
 	const onFinish = async (values: BienapItemType) => {
-		const payload = detailData.id ? { ...detailData, ...values } : values;
+		const payload = detailData.id ? { ...detailData, ...values } : values
 		if (detailData.id) {
-			await fetchUpdateBienapItem(payload);
-			window.$message?.success(t("common.updateSuccess"));
+			await fetchUpdateBienapItem(payload)
+			window.$message?.success(t("common.updateSuccess"))
 		}
 		else {
-			await fetchAddBienapItem(payload);
-			window.$message?.success(t("common.addSuccess"));
+			await fetchAddBienapItem(payload)
+			window.$message?.success(t("common.addSuccess"))
 		}
-		refreshTable?.();
-		return true;
-	};
+		refreshTable?.()
+		return true
+	}
 
 	useEffect(() => {
 		if (open) {
-			form.setFieldsValue(detailData);
+			form.setFieldsValue(detailData)
 		}
-	}, [open]);
+	}, [open])
 
 	return (
 		<ModalForm<BienapItemType>
@@ -50,7 +50,7 @@ export function Detail({
 			open={open}
 			onOpenChange={(visible) => {
 				if (!visible)
-					onCloseChange();
+					onCloseChange()
 			}}
 			labelCol={{ md: 6, xl: 4 }}
 			layout="horizontal"
@@ -77,5 +77,5 @@ export function Detail({
 				placeholder="Nhập ghi chú"
 			/>
 		</ModalForm>
-	);
+	)
 }

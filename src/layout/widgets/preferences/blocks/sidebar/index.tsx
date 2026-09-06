@@ -1,9 +1,9 @@
-import { RiContrastFill, RiMoonIcon } from "#src/icons";
-import { NumberInputSpinner } from "#src/layout/widgets/preferences/number-input-spinner";
-import { usePreferencesStore } from "#src/store/preferences";
+import { RiContrastFill, RiMoonIcon } from "#src/icons"
+import { NumberInputSpinner } from "#src/layout/widgets/preferences/number-input-spinner"
+import { usePreferencesStore } from "#src/store/preferences"
 
-import { useTranslation } from "react-i18next";
-import { SwitchItem } from "../../switch-item";
+import { useTranslation } from "react-i18next"
+import { SwitchItem } from "../../switch-item"
 
 export function Sidebar() {
 	const {
@@ -15,8 +15,8 @@ export function Sidebar() {
 		sideCollapsedWidth,
 		sidebarTheme,
 		firstColumnWidthInTwoColumnNavigation,
-	} = usePreferencesStore();
-	const { t } = useTranslation();
+	} = usePreferencesStore()
+	const { t } = useTranslation()
 
 	const sidebarPreset = [
 		{
@@ -37,11 +37,11 @@ export function Sidebar() {
 			value: accordion,
 			disabled: !sidebarEnable,
 		},
-	] as const;
+	] as const
 
 	const handleChange = (name: string, value: unknown) => {
-		setPreferences(name, value);
-	};
+		setPreferences(name, value)
+	}
 
 	return (
 		<>
@@ -56,7 +56,7 @@ export function Sidebar() {
 							children={item.label}
 							disabled={item.disabled}
 						/>
-					);
+					)
 				})
 			}
 			<SwitchItem
@@ -96,5 +96,5 @@ export function Sidebar() {
 				{t("preferences.sidebar.firstColumnWidthInTwoColumnNavigation")}
 			</NumberInputSpinner>
 		</>
-	);
+	)
 }

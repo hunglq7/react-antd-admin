@@ -1,23 +1,23 @@
-import type { LanguageType } from "#src/locales";
-import { usePreferencesStore } from "#src/store/preferences";
+import type { LanguageType } from "#src/locales"
+import { usePreferencesStore } from "#src/store/preferences"
 
-import { useCallback, useMemo } from "react";
-import { useTranslation } from "react-i18next";
+import { useCallback, useMemo } from "react"
+import { useTranslation } from "react-i18next"
 
 export function useLanguage() {
-	const { i18n } = useTranslation();
-	const { changeLanguage } = usePreferencesStore();
+	const { i18n } = useTranslation()
+	const { changeLanguage } = usePreferencesStore()
 
 	const handleChangeLanguage = useCallback(
 		async (locale: LanguageType) => {
 			// store language
-			changeLanguage(locale);
+			changeLanguage(locale)
 			// react-i18n language
-			await i18n.changeLanguage(locale);
+			await i18n.changeLanguage(locale)
 			// If you need to reload the page, please delete `key={lng}` in other files
 		},
 		[changeLanguage, i18n],
-	);
+	)
 
 	return useMemo(
 		() => ({
@@ -25,5 +25,5 @@ export function useLanguage() {
 			setLanguage: handleChangeLanguage,
 		}),
 		[handleChangeLanguage, i18n.language],
-	);
+	)
 }

@@ -1,11 +1,11 @@
-import type { MenuItemType } from "#src/layout/layout-menu/types";
-import type { ReactElement } from "react";
+import type { MenuItemType } from "#src/layout/layout-menu/types"
+import type { ReactElement } from "react"
 
-import { CloseOutlined } from "@ant-design/icons";
-import { Button } from "antd";
-import { clsx } from "clsx";
-import { cloneElement, isValidElement } from "react";
-import { useTranslation } from "react-i18next";
+import { CloseOutlined } from "@ant-design/icons"
+import { Button } from "antd"
+import { clsx } from "clsx"
+import { cloneElement, isValidElement } from "react"
+import { useTranslation } from "react-i18next"
 
 interface SearchPanelProps {
 	menuItem: MenuItemType
@@ -17,12 +17,12 @@ interface SearchPanelProps {
 }
 
 export function SearchPanel({ menuItem, active, enter, setActiveKey, showCloseButton, removeHistoryItem }: SearchPanelProps) {
-	const { t } = useTranslation();
+	const { t } = useTranslation()
 
-	const isExternalLink = isValidElement(menuItem?.label);
+	const isExternalLink = isValidElement(menuItem?.label)
 
 	function handleMouseEnter(key: string) {
-		setActiveKey(key);
+		setActiveKey(key)
 	}
 
 	return (
@@ -30,7 +30,7 @@ export function SearchPanel({ menuItem, active, enter, setActiveKey, showCloseBu
 			<li
 				data-search-item={menuItem.key}
 				onMouseEnter={() => {
-					handleMouseEnter(menuItem.key);
+					handleMouseEnter(menuItem.key)
 				}}
 				onClick={() => enter(isExternalLink)}
 				className={clsx(
@@ -57,13 +57,13 @@ export function SearchPanel({ menuItem, active, enter, setActiveKey, showCloseBu
 							shape="circle"
 							icon={<CloseOutlined />}
 							onClick={(e) => {
-								e.stopPropagation();
-								removeHistoryItem(menuItem.key);
+								e.stopPropagation()
+								removeHistoryItem(menuItem.key)
 							}}
 						/>
 					</div>
 				</div>
 			</li>
 		</>
-	);
+	)
 }

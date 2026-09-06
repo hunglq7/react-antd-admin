@@ -1,5 +1,5 @@
 // CSS 变量前缀
-export const prefix = "oo";
+export const prefix = "oo"
 // 基础色
 export const colors = [
 	"blue",
@@ -15,7 +15,7 @@ export const colors = [
 	"geekblue",
 	"gold",
 	"lime",
-];
+]
 // 品牌色
 export const brandColors = [
 	"colorPrimary",
@@ -28,7 +28,7 @@ export const brandColors = [
 	"colorPrimaryTextHover",
 	"colorPrimaryText",
 	"colorPrimaryTextActive",
-];
+]
 // 成功色
 export const successColors = [
 	"colorSuccess",
@@ -41,7 +41,7 @@ export const successColors = [
 	"colorSuccessTextHover",
 	"colorSuccessText",
 	"colorSuccessTextActive",
-];
+]
 // 警告色
 export const warningColors = [
 	"colorWarning",
@@ -54,7 +54,7 @@ export const warningColors = [
 	"colorWarningTextHover",
 	"colorWarningText",
 	"colorWarningTextActive",
-];
+]
 // 错误色
 export const errorColors = [
 	"colorError",
@@ -67,7 +67,7 @@ export const errorColors = [
 	"colorErrorTextHover",
 	"colorErrorText",
 	"colorErrorTextActive",
-];
+]
 // 信息色
 export const infoColors = [
 	"colorInfo",
@@ -80,14 +80,14 @@ export const infoColors = [
 	"colorInfoTextHover",
 	"colorInfoText",
 	"colorInfoTextActive",
-];
+]
 // 功能性色
 export const functionalColors = [
 	...successColors,
 	...warningColors,
 	...errorColors,
 	...infoColors,
-];
+]
 // 中性色
 export const neutralColors = [
 	"colorText",
@@ -110,18 +110,18 @@ export const neutralColors = [
 	"colorFillSecondary",
 	"colorFillTertiary",
 	"colorFillQuaternary",
-];
+]
 export const productLevelColorSystem = [
 	...brandColors,
 	...functionalColors,
-];
-export const colorPaletteNumbers = [50, 100, 200, 300, 400, 500, 600, 700, 800, 900, 950];
-export const colorVariantsCount = 10;
+]
+export const colorPaletteNumbers = [50, 100, 200, 300, 400, 500, 600, 700, 800, 900, 950]
+export const colorVariantsCount = 10
 
 // ['blue', 'blue-1', 'blue-2', ……, 'blue-10', 'purple',……]
 export const baseColorPalettes = colors.flatMap(color =>
 	[color, ...Array.from({ length: colorVariantsCount }, (_, i) => `${color}-${i + 1}`)],
-);
+)
 
 /**
  * antd 的 token 中未提供关于 gray 系列的颜色
@@ -135,4 +135,4 @@ export const baseColorPalettes = colors.flatMap(color =>
  * 颜色来源：
  * @see https://ant.design/docs/spec/colors#neutral-color-palette
  */
-export const neutralColorPalettes = ["#fafafa", "#f5f5f5", "#f0f0f0", "#d9d9d9", "#bfbfbf", "#8c8c8c", "#595959", "#434343", "#262626", "#1f1f1f", "#141414"];
+export const neutralColorPalettes = ["#fafafa", "#f5f5f5", "#f0f0f0", "#d9d9d9", "#bfbfbf", "#8c8c8c", "#595959", "#434343", "#262626", "#1f1f1f", "#141414"]

@@ -1,37 +1,37 @@
-import type { MenuItemType } from "#src/api/system/menu";
-import type { ActionType, ProColumns, ProCoreActionType } from "@ant-design/pro-components";
+import type { MenuItemType } from "#src/api/system/menu"
+import type { ActionType, ProColumns, ProCoreActionType } from "@ant-design/pro-components"
 
-import { fetchDeleteMenuItem, fetchMenuList } from "#src/api/system/menu";
-import { BasicButton } from "#src/components/basic-button";
-import { BasicContent } from "#src/components/basic-content";
-import { BasicTable } from "#src/components/basic-table";
-import { accessControlCodes, useAccess } from "#src/hooks/use-access";
-import { handleTree } from "#src/utils/tree";
+import { fetchDeleteMenuItem, fetchMenuList } from "#src/api/system/menu"
+import { BasicButton } from "#src/components/basic-button"
+import { BasicContent } from "#src/components/basic-content"
+import { BasicTable } from "#src/components/basic-table"
+import { accessControlCodes, useAccess } from "#src/hooks/use-access"
+import { handleTree } from "#src/utils/tree"
 
-import { PlusCircleOutlined } from "@ant-design/icons";
-import { Button, Popconfirm } from "antd";
-import { useRef, useState } from "react";
-import { useTranslation } from "react-i18next";
+import { PlusCircleOutlined } from "@ant-design/icons"
+import { Button, Popconfirm } from "antd"
+import { useRef, useState } from "react"
+import { useTranslation } from "react-i18next"
 
-import { Detail } from "./components/detail";
-import { getConstantColumns } from "./constants";
+import { Detail } from "./components/detail"
+import { getConstantColumns } from "./constants"
 
 export default function Menu() {
-	const { t } = useTranslation();
-	const { hasAccessByCodes } = useAccess();
+	const { t } = useTranslation()
+	const { hasAccessByCodes } = useAccess()
 	/* Detail Data */
-	const [isOpen, setIsOpen] = useState(false);
-	const [title, setTitle] = useState("");
-	const [detailData, setDetailData] = useState<Partial<MenuItemType>>({});
-	const [flatParentMenus, setFlatParentMenus] = useState<MenuItemType[]>([]);
+	const [isOpen, setIsOpen] = useState(false)
+	const [title, setTitle] = useState("")
+	const [detailData, setDetailData] = useState<Partial<MenuItemType>>({})
+	const [flatParentMenus, setFlatParentMenus] = useState<MenuItemType[]>([])
 
-	const actionRef = useRef<ActionType>(null);
+	const actionRef = useRef<ActionType>(null)
 
 	const handleDeleteRow = async (id: number, action?: ProCoreActionType<object>) => {
-		const responseData = await fetchDeleteMenuItem(id);
-		await action?.reload?.();
-		window.$message?.success(`${t("common.deleteSuccess")} id = ${responseData.result}`);
-	};
+		const responseData = await fetchDeleteMenuItem(id)
+		await action?.reload?.()
+		window.$message?.success(`${t("common.deleteSuccess")} id = ${responseData.result}`)
+	}
 
 	const columns: ProColumns<MenuItemType>[] = [
 		...getConstantColumns(t),
@@ -49,9 +49,9 @@ export default function Menu() {
 						size="small"
 						disabled={!hasAccessByCodes(accessControlCodes.update)}
 						onClick={async () => {
-							setIsOpen(true);
-							setTitle(t("system.menu.editMenu"));
-							setDetailData({ ...record });
+							setIsOpen(true)
+							setTitle(t("system.menu.editMenu"))
+							setDetailData({ ...record })
 						}}
 					>
 						{t("common.edit")}
@@ -65,19 +65,19 @@ export default function Menu() {
 					>
 						<BasicButton type="link" size="small" disabled={!hasAccessByCodes(accessControlCodes.delete)}>{t("common.delete")}</BasicButton>
 					</Popconfirm>,
-				];
+				]
 			},
 		},
-	];
+	]
 
 	const onCloseChange = () => {
-		setIsOpen(false);
-		setDetailData({});
-	};
+		setIsOpen(false)
+		setDetailData({})
+	}
 
 	const refreshTable = () => {
-		actionRef.current?.reload();
-	};
+		actionRef.current?.reload()
+	}
 
 	return (
 		<BasicContent className="h-full">
@@ -87,19 +87,19 @@ export default function Menu() {
 				actionRef={actionRef}
 				request={async (params) => {
 					// console.log(sort, filter);
-					const responseData = await fetchMenuList(params);
-					const menuTree = handleTree(responseData.result.list);
+					const responseData = await fetchMenuList(params)
+					const menuTree = handleTree(responseData.result.list)
 					setFlatParentMenus(
 						responseData.result.list
 							.filter(
 								item => Number(item.menuType) === 0,
 							).map(item => ({ ...item, name: t(item.name) })),
-					);
+					)
 					return {
 						...responseData,
 						data: menuTree,
 						total: responseData.result.total,
-					};
+					}
 				}}
 				headerTitle={`${t("common.menu.menu")} （${t("common.demoOnly")}）`}
 				toolBarRender={() => [
@@ -110,8 +110,8 @@ export default function Menu() {
 						type="primary"
 						disabled={!hasAccessByCodes(accessControlCodes.add)}
 						onClick={() => {
-							setIsOpen(true);
-							setTitle(t("system.menu.addMenu"));
+							setIsOpen(true)
+							setTitle(t("system.menu.addMenu"))
 						}}
 					>
 						{t("common.add")}
@@ -128,5 +128,5 @@ export default function Menu() {
 				refreshTable={refreshTable}
 			/>
 		</BasicContent>
-	);
+	)
 };

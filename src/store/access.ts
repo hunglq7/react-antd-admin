@@ -1,14 +1,14 @@
-import type { MenuItemType } from "#src/layout/layout-menu/types";
-import type { AppRouteRecordRaw } from "#src/router/types";
+import type { MenuItemType } from "#src/layout/layout-menu/types"
+import type { AppRouteRecordRaw } from "#src/router/types"
 
-import { rootRoute, router } from "#src/router";
-import { ROOT_ROUTE_ID } from "#src/router/constants";
-import { baseRoutes } from "#src/router/routes";
-import { ascending } from "#src/router/utils/ascending";
-import { flattenRoutes } from "#src/router/utils/flatten-routes";
-import { generateMenuItemsFromRoutes } from "#src/router/utils/generate-menu-items-from-routes";
+import { rootRoute, router } from "#src/router"
+import { ROOT_ROUTE_ID } from "#src/router/constants"
+import { baseRoutes } from "#src/router/routes"
+import { ascending } from "#src/router/utils/ascending"
+import { flattenRoutes } from "#src/router/utils/flatten-routes"
+import { generateMenuItemsFromRoutes } from "#src/router/utils/generate-menu-items-from-routes"
 
-import { create } from "zustand";
+import { create } from "zustand"
 
 interface AccessState {
 	// 路由菜单
@@ -26,7 +26,7 @@ const initialState: AccessState = {
 	routeList: [],
 	flatRouteList: {},
 	isAccessChecked: false,
-};
+}
 
 interface AccessAction {
 	setAccessStore: (routes: AppRouteRecordRaw[]) => AccessState
@@ -37,24 +37,24 @@ export const useAccessStore = create<AccessState & AccessAction>(set => ({
 	...initialState,
 
 	setAccessStore: (routes) => {
-		const newRoutes = ascending([...baseRoutes, ...routes]);
+		const newRoutes = ascending([...baseRoutes, ...routes])
 		/* 添加新的路由到根路由 */
-		router.patchRoutes(ROOT_ROUTE_ID, routes);
-		const flatRouteList = flattenRoutes(newRoutes);
-		const wholeMenus = generateMenuItemsFromRoutes(newRoutes);
+		router.patchRoutes(ROOT_ROUTE_ID, routes)
+		const flatRouteList = flattenRoutes(newRoutes)
+		const wholeMenus = generateMenuItemsFromRoutes(newRoutes)
 		const newState = {
 			wholeMenus,
 			routeList: newRoutes,
 			flatRouteList,
 			isAccessChecked: true,
-		};
-		set(() => newState);
-		return newState;
+		}
+		set(() => newState)
+		return newState
 	},
 
 	reset: () => {
 		/* 移除动态路由 */
-		router._internalSetRoutes(rootRoute);
-		set(initialState);
+		router._internalSetRoutes(rootRoute)
+		set(initialState)
 	},
-}));
+}))

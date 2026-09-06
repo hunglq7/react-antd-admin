@@ -1,8 +1,8 @@
-import { usePreferencesStore } from "#src/store/preferences";
-import { cn } from "#src/utils/cn";
+import { usePreferencesStore } from "#src/store/preferences"
+import { cn } from "#src/utils/cn"
 
-import { useTranslation } from "react-i18next";
-import { SwitchItem } from "../../switch-item";
+import { useTranslation } from "react-i18next"
+import { SwitchItem } from "../../switch-item"
 
 const transitionPreset = [
 	"fade",
@@ -10,18 +10,18 @@ const transitionPreset = [
 	"fade-up",
 	"fade-down",
 	"fade-zoom",
-];
+]
 
 export function Animation() {
-	const transitionEnable = usePreferencesStore(state => state.transitionEnable);
-	const transitionLoading = usePreferencesStore(state => state.transitionLoading);
-	const transitionProgress = usePreferencesStore(state => state.transitionProgress);
-	const transitionName = usePreferencesStore(state => state.transitionName);
-	const setPreferences = usePreferencesStore(state => state.setPreferences);
-	const { t } = useTranslation();
+	const transitionEnable = usePreferencesStore(state => state.transitionEnable)
+	const transitionLoading = usePreferencesStore(state => state.transitionLoading)
+	const transitionProgress = usePreferencesStore(state => state.transitionProgress)
+	const transitionName = usePreferencesStore(state => state.transitionName)
+	const setPreferences = usePreferencesStore(state => state.setPreferences)
+	const { t } = useTranslation()
 
 	function handleClick(value: string) {
-		setPreferences("transitionName", value);
+		setPreferences("transitionName", value)
 	}
 
 	return (
@@ -83,5 +83,5 @@ export function Animation() {
 				}
 			</ul>
 		</>
-	);
+	)
 }

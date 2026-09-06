@@ -1,48 +1,48 @@
-import type { ActionType, ProColumns, ProCoreActionType } from "@ant-design/pro-components";
-import type { MayxucItemType } from "#src/api/mayxuc/danhmuc";
+import type { MayxucItemType } from "#src/api/mayxuc/danhmuc"
+import type { ActionType, ProColumns, ProCoreActionType } from "@ant-design/pro-components"
 
-import { DownloadOutlined, PlusCircleOutlined } from "@ant-design/icons";
-import { Button, Popconfirm, Tag } from "antd";
-import { useRef, useState } from "react";
-import { useTranslation } from "react-i18next";
-import * as XLSX from "xlsx";
+import { fetchDeleteMayxucItem, fetchDeleteMayxucItems, fetchMayxucList } from "#src/api/mayxuc/danhmuc"
+import { BasicButton } from "#src/components/basic-button"
+import { BasicContent } from "#src/components/basic-content"
+import { BasicTable } from "#src/components/basic-table"
+import { accessControlCodes, useAccess } from "#src/hooks/use-access"
 
-import { fetchDeleteMayxucItem, fetchDeleteMayxucItems, fetchMayxucList } from "#src/api/mayxuc/danhmuc";
-import { BasicButton } from "#src/components/basic-button";
-import { BasicContent } from "#src/components/basic-content";
-import { BasicTable } from "#src/components/basic-table";
-import { accessControlCodes, useAccess } from "#src/hooks/use-access";
+import { DownloadOutlined, PlusCircleOutlined } from "@ant-design/icons"
+import { Button, Popconfirm, Tag } from "antd"
+import { useRef, useState } from "react"
+import { useTranslation } from "react-i18next"
+import * as XLSX from "xlsx"
 
-import { Detail } from "./components/detail";
+import { Detail } from "./components/detail"
 
 export default function MayxucDanhmuc() {
-	const { t } = useTranslation();
-	const { hasAccessByCodes } = useAccess();
-	const [isOpen, setIsOpen] = useState(false);
-	const [title, setTitle] = useState("");
-	const [detailData, setDetailData] = useState<Partial<MayxucItemType>>({});
-	const [selectedRowKeys, setSelectedRowKeys] = useState<React.Key[]>([]);
-	const actionRef = useRef<ActionType>(null);
+	const { t } = useTranslation()
+	const { hasAccessByCodes } = useAccess()
+	const [isOpen, setIsOpen] = useState(false)
+	const [title, setTitle] = useState("")
+	const [detailData, setDetailData] = useState<Partial<MayxucItemType>>({})
+	const [selectedRowKeys, setSelectedRowKeys] = useState<React.Key[]>([])
+	const actionRef = useRef<ActionType>(null)
 
 	const handleDeleteRow = async (id: number, action?: ProCoreActionType<object>) => {
-		await fetchDeleteMayxucItem(id);
-		setSelectedRowKeys([]);
-		await action?.reload?.();
-		window.$message?.success(t("common.deleteSuccess"));
-	};
+		await fetchDeleteMayxucItem(id)
+		setSelectedRowKeys([])
+		await action?.reload?.()
+		window.$message?.success(t("common.deleteSuccess"))
+	}
 
 	const handleBulkDelete = async () => {
 		if (selectedRowKeys.length === 0)
-			return;
-		await fetchDeleteMayxucItems(selectedRowKeys as number[]);
-		setSelectedRowKeys([]);
-		await actionRef.current?.reload();
-		window.$message?.success(t("common.deleteSuccess"));
-	};
+			return
+		await fetchDeleteMayxucItems(selectedRowKeys as number[])
+		setSelectedRowKeys([])
+		await actionRef.current?.reload()
+		window.$message?.success(t("common.deleteSuccess"))
+	}
 
 	const handleExportExcel = async () => {
 		try {
-			const data = await fetchMayxucList();
+			const data = await fetchMayxucList()
 			const exportData = data.map((item, index) => ({
 				"STT": index + 1,
 				"Mã tài sản": item.maTaiSan,
@@ -52,21 +52,21 @@ export default function MayxucDanhmuc() {
 				"Hãng sản xuất": item.hangSanXuat,
 				"Tình trạng": item.tinhTrang ? "Hoạt động" : "Không hoạt động",
 				"Ghi chú": item.ghiChu,
-			}));
+			}))
 			const worksheet = XLSX.utils.json_to_sheet(exportData, {
 				header: ["STT", "Mã tài sản", "Tên thiết bị", "Loại thiết bị", "Năm sản xuất", "Hãng sản xuất", "Tình trạng", "Ghi chú"],
-			});
-			worksheet["!cols"] = [{ wch: 5 }, { wch: 18 }, { wch: 30 }, { wch: 20 }, { wch: 15 }, { wch: 20 }, { wch: 18 }, { wch: 30 }];
-			const workbook = XLSX.utils.book_new();
-			XLSX.utils.book_append_sheet(workbook, worksheet, "Mayxuc");
-			XLSX.writeFile(workbook, "mayxuc_danhmuc.xlsx");
-			window.$message?.success(t("common.exportSuccess"));
+			})
+			worksheet["!cols"] = [{ wch: 5 }, { wch: 18 }, { wch: 30 }, { wch: 20 }, { wch: 15 }, { wch: 20 }, { wch: 18 }, { wch: 30 }]
+			const workbook = XLSX.utils.book_new()
+			XLSX.utils.book_append_sheet(workbook, worksheet, "Mayxuc")
+			XLSX.writeFile(workbook, "mayxuc_danhmuc.xlsx")
+			window.$message?.success(t("common.exportSuccess"))
 		}
 		catch (error) {
-			console.error(error);
-			window.$message?.error(t("common.exportFailed"));
+			console.error(error)
+			window.$message?.error(t("common.exportFailed"))
 		}
-	};
+	}
 
 	const columns: ProColumns<MayxucItemType>[] = [
 		{
@@ -124,9 +124,9 @@ export default function MayxucDanhmuc() {
 					size="small"
 					disabled={!hasAccessByCodes(accessControlCodes.update)}
 					onClick={() => {
-						setIsOpen(true);
-						setTitle("Sửa máy xúc");
-						setDetailData(record);
+						setIsOpen(true)
+						setTitle("Sửa máy xúc")
+						setDetailData(record)
 					}}
 				>
 					{t("common.edit")}
@@ -144,12 +144,12 @@ export default function MayxucDanhmuc() {
 				</Popconfirm>,
 			],
 		},
-	];
+	]
 
 	const onCloseChange = () => {
-		setIsOpen(false);
-		setDetailData({});
-	};
+		setIsOpen(false)
+		setDetailData({})
+	}
 
 	return (
 		<BasicContent className="h-full">
@@ -168,21 +168,21 @@ export default function MayxucDanhmuc() {
 					</Button>
 				)}
 				request={async (params) => {
-					const data = await fetchMayxucList();
+					const data = await fetchMayxucList()
 					const filtered = data.filter((item) => {
-						const keyword = String(params?.tenThietBi ?? "").trim().toLowerCase();
-						const code = String(params?.maTaiSan ?? "").trim().toLowerCase();
-						const type = String(params?.loaiThietBi ?? "").trim().toLowerCase();
+						const keyword = String(params?.tenThietBi ?? "").trim().toLowerCase()
+						const code = String(params?.maTaiSan ?? "").trim().toLowerCase()
+						const type = String(params?.loaiThietBi ?? "").trim().toLowerCase()
 						return (
 							(item.tenThietBi?.toLowerCase().includes(keyword) ?? false)
 							&& (item.maTaiSan?.toLowerCase().includes(code) ?? false)
 							&& (item.loaiThietBi?.toLowerCase().includes(type) ?? false)
-						);
-					});
+						)
+					})
 					return {
 						data: filtered,
 						total: filtered.length,
-					};
+					}
 				}}
 				search={{ labelWidth: "auto", defaultCollapsed: false }}
 				headerTitle="Danh mục máy xúc"
@@ -193,9 +193,9 @@ export default function MayxucDanhmuc() {
 						type="primary"
 						disabled={!hasAccessByCodes(accessControlCodes.add)}
 						onClick={() => {
-							setIsOpen(true);
-							setTitle("Thêm máy xúc");
-							setDetailData({});
+							setIsOpen(true)
+							setTitle("Thêm máy xúc")
+							setDetailData({})
 						}}
 					>
 						{t("common.add")}
@@ -210,5 +210,5 @@ export default function MayxucDanhmuc() {
 			/>
 			<Detail title={title} open={isOpen} detailData={detailData} onCloseChange={onCloseChange} refreshTable={() => actionRef.current?.reload()} />
 		</BasicContent>
-	);
+	)
 }

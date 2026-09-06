@@ -4,5 +4,5 @@ export function resultSuccess(result: unknown, { message = "ok" } = {}) {
 		result,
 		message,
 		success: true,
-	};
+	}
 }

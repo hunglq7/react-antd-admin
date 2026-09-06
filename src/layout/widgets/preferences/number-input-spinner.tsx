@@ -1,7 +1,7 @@
-import type { InputNumberProps } from "antd";
+import type { InputNumberProps } from "antd"
 
-import { isNumber } from "#src/utils/is";
-import { InputNumber } from "antd";
+import { isNumber } from "#src/utils/is"
+import { InputNumber } from "antd"
 
 export interface NumberInputSpinnerProps {
 	children: React.ReactNode
@@ -24,9 +24,9 @@ export function NumberInputSpinner({
 }: NumberInputSpinnerProps) {
 	const handleChange: InputNumberProps["onChange"] = (v) => {
 		if (v && isNumber(v)) {
-			onChange?.(name, v as number);
+			onChange?.(name, v as number)
 		}
-	};
+	}
 
 	return (
 		<div className="hover:bg-gray-100 dark:hover:bg-gray-700 my-1 flex w-full items-center justify-between rounded-md px-2 py-2.5">
@@ -43,5 +43,5 @@ export function NumberInputSpinner({
 				onChange={handleChange}
 			/>
 		</div>
-	);
+	)
 }

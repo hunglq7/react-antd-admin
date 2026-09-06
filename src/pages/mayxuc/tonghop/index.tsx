@@ -1,48 +1,61 @@
-import type { ActionType, ProColumns, ProCoreActionType } from "@ant-design/pro-components";
-import type { TonghopmayxucItemType } from "#src/api/mayxuc/tonghop";
+import type { TonghopmayxucItemType } from "#src/api/mayxuc/tonghop"
+import type {
+	ActionType,
+	ProColumns,
+	ProCoreActionType,
+} from "@ant-design/pro-components"
 
-import { DownloadOutlined, PlusCircleOutlined } from "@ant-design/icons";
-import { Button, Popconfirm, Tag } from "antd";
-import { useRef, useState } from "react";
-import { useTranslation } from "react-i18next";
-import * as XLSX from "xlsx";
+import {
+	fetchDeleteTonghopmayxucItem,
+	fetchDeleteTonghopmayxucItems,
+	fetchTonghopmayxucList,
+} from "#src/api/mayxuc/tonghop"
+import { BasicButton } from "#src/components/basic-button"
+import { BasicContent } from "#src/components/basic-content"
+import { BasicTable } from "#src/components/basic-table"
+import { accessControlCodes, useAccess } from "#src/hooks/use-access"
 
-import { fetchDeleteTonghopmayxucItem, fetchDeleteTonghopmayxucItems, fetchTonghopmayxucList } from "#src/api/mayxuc/tonghop";
-import { BasicButton } from "#src/components/basic-button";
-import { BasicContent } from "#src/components/basic-content";
-import { BasicTable } from "#src/components/basic-table";
-import { accessControlCodes, useAccess } from "#src/hooks/use-access";
+import { DownloadOutlined, PlusCircleOutlined } from "@ant-design/icons"
+import { Button, Popconfirm, Tag } from "antd"
+import { useRef, useState } from "react"
+import { useTranslation } from "react-i18next"
+import * as XLSX from "xlsx"
 
-import { Detail } from "./components/detail";
+import { Detail } from "./components/detail"
 
 export default function MayxucDanhmuc() {
-	const { t } = useTranslation();
-	const { hasAccessByCodes } = useAccess();
-	const [isOpen, setIsOpen] = useState(false);
-	const [title, setTitle] = useState("");
-	const [detailData, setDetailData] = useState<Partial<TonghopmayxucItemType>>({});
-	const [selectedRowKeys, setSelectedRowKeys] = useState<React.Key[]>([]);
-	const actionRef = useRef<ActionType>(null);
+	const { t } = useTranslation()
+	const { hasAccessByCodes } = useAccess()
+	const [isOpen, setIsOpen] = useState(false)
+	const [title, setTitle] = useState("")
+	const [detailData, setDetailData] = useState<Partial<TonghopmayxucItemType>>(
+		{},
+	)
+	const [selectedRowKeys, setSelectedRowKeys] = useState<React.Key[]>([])
+	const actionRef = useRef<ActionType>(null)
 
-	const handleDeleteRow = async (id: number, action?: ProCoreActionType<object>) => {
-		await fetchDeleteTonghopmayxucItem(id);
-		setSelectedRowKeys([]);
-		await action?.reload?.();
-		window.$message?.success(t("common.deleteSuccess"));
-	};
+	const handleDeleteRow = async (
+		id: number,
+		action?: ProCoreActionType<object>,
+	) => {
+		await fetchDeleteTonghopmayxucItem(id)
+		setSelectedRowKeys([])
+		await action?.reload?.()
+		window.$message?.success(t("common.deleteSuccess"))
+	}
 
 	const handleBulkDelete = async () => {
 		if (selectedRowKeys.length === 0)
-			return;
-		await fetchDeleteTonghopmayxucItems(selectedRowKeys as number[]);
-		setSelectedRowKeys([]);
-		await actionRef.current?.reload();
-		window.$message?.success(t("common.deleteSuccess"));
-	};
+			return
+		await fetchDeleteTonghopmayxucItems(selectedRowKeys as number[])
+		setSelectedRowKeys([])
+		await actionRef.current?.reload()
+		window.$message?.success(t("common.deleteSuccess"))
+	}
 
 	const handleExportExcel = async () => {
 		try {
-			const data = await fetchTonghopmayxucList();
+			const data = await fetchTonghopmayxucList()
 			const exportData = data.map((item, index) => ({
 				"STT": index + 1,
 				"Mã quản lý": item.maQuanLy,
@@ -54,21 +67,43 @@ export default function MayxucDanhmuc() {
 				"Số lượng": item.soLuong,
 				"Dự phòng": item.duPhong ? "Đang dùng" : "Dự phòng",
 				"Ghi chú": item.ghiChu,
-			}));
+			}))
 			const worksheet = XLSX.utils.json_to_sheet(exportData, {
-				header: ["STT", "Mã quản lý", "Thiết bị", "Đơn vị", "Loại thiết bị", "Vị trí lắp đặt", "Ngày lắp", "Số lượng", "Dự phòng", "Ghi chú"],
-			});
-			worksheet["!cols"] = [{ wch: 5 }, { wch: 18 }, { wch: 30 }, { wch: 20 }, { wch: 15 }, { wch: 20 }, { wch: 18 }, { wch: 20 }, { wch: 18 }, { wch: 30 }];
-			const workbook = XLSX.utils.book_new();
-			XLSX.utils.book_append_sheet(workbook, worksheet, "TonghopMayxuc");
-			XLSX.writeFile(workbook, "tonghop_mayxuc.xlsx");
-			window.$message?.success(t("common.exportSuccess"));
+				header: [
+					"STT",
+					"Mã quản lý",
+					"Thiết bị",
+					"Đơn vị",
+					"Loại thiết bị",
+					"Vị trí lắp đặt",
+					"Ngày lắp",
+					"Số lượng",
+					"Dự phòng",
+					"Ghi chú",
+				],
+			})
+			worksheet["!cols"] = [
+				{ wch: 5 },
+				{ wch: 18 },
+				{ wch: 30 },
+				{ wch: 20 },
+				{ wch: 15 },
+				{ wch: 20 },
+				{ wch: 18 },
+				{ wch: 20 },
+				{ wch: 18 },
+				{ wch: 30 },
+			]
+			const workbook = XLSX.utils.book_new()
+			XLSX.utils.book_append_sheet(workbook, worksheet, "TonghopMayxuc")
+			XLSX.writeFile(workbook, "tonghop_mayxuc.xlsx")
+			window.$message?.success(t("common.exportSuccess"))
 		}
 		catch (error) {
-			console.error(error);
-			window.$message?.error(t("common.exportFailed"));
+			console.error(error)
+			window.$message?.error(t("common.exportFailed"))
 		}
-	};
+	}
 
 	const columns: ProColumns<TonghopmayxucItemType>[] = [
 		{
@@ -116,7 +151,9 @@ export default function MayxucDanhmuc() {
 			dataIndex: "duPhong",
 			valueType: "switch",
 			render: value => (
-				<Tag color={value ? "success" : "default"}>{value ? "Đang dùng" : "Dự phòng"}</Tag>
+				<Tag color={value ? "success" : "default"}>
+					{value ? "Đang dùng" : "Dự phòng"}
+				</Tag>
 			),
 		},
 		{
@@ -138,9 +175,9 @@ export default function MayxucDanhmuc() {
 					size="small"
 					disabled={!hasAccessByCodes(accessControlCodes.update)}
 					onClick={() => {
-						setIsOpen(true);
-						setTitle("Sửa máy xúc");
-						setDetailData(record);
+						setIsOpen(true)
+						setTitle("Sửa máy xúc")
+						setDetailData(record)
 					}}
 				>
 					{t("common.edit")}
@@ -152,18 +189,23 @@ export default function MayxucDanhmuc() {
 					okText={t("common.confirm")}
 					cancelText={t("common.cancel")}
 				>
-					<BasicButton type="link" size="small" danger disabled={!hasAccessByCodes(accessControlCodes.delete)}>
+					<BasicButton
+						type="link"
+						size="small"
+						danger
+						disabled={!hasAccessByCodes(accessControlCodes.delete)}
+					>
 						{t("common.delete")}
 					</BasicButton>
 				</Popconfirm>,
 			],
 		},
-	];
+	]
 
 	const onCloseChange = () => {
-		setIsOpen(false);
-		setDetailData({});
-	};
+		setIsOpen(false)
+		setDetailData({})
+	}
 
 	return (
 		<BasicContent className="h-full">
@@ -175,28 +217,38 @@ export default function MayxucDanhmuc() {
 					selectedRowKeys,
 					onChange: keys => setSelectedRowKeys(keys),
 				}}
-				tableAlertRender={({ selectedRowKeys }) => <div>{t("common.selectedRows", { count: selectedRowKeys?.length ?? 0 })}</div>}
+				tableAlertRender={({ selectedRowKeys }) => (
+					<div>
+						{t("common.selectedRows", { count: selectedRowKeys?.length ?? 0 })}
+					</div>
+				)}
 				tableAlertOptionRender={({ onCleanSelected }) => (
 					<Button type="link" onClick={onCleanSelected}>
 						{t("common.cancelAll")}
 					</Button>
 				)}
 				request={async (params) => {
-					const data = await fetchTonghopmayxucList();
+					const data = await fetchTonghopmayxucList()
 					const filtered = data.filter((item) => {
-						const keyword = String(params?.tenMayXuc ?? "").trim().toLowerCase();
-						const code = String(params?.maQuanLy ?? "").trim().toLowerCase();
-						const type = String(params?.loaiThietBi ?? "").trim().toLowerCase();
+						const keyword = String(params?.tenMayXuc ?? "")
+							.trim()
+							.toLowerCase()
+						const code = String(params?.maQuanLy ?? "")
+							.trim()
+							.toLowerCase()
+						const type = String(params?.loaiThietBi ?? "")
+							.trim()
+							.toLowerCase()
 						return (
 							(item.tenMayXuc?.toLowerCase().includes(keyword) ?? false)
 							&& (item.maQuanLy?.toLowerCase().includes(code) ?? false)
 							&& (item.loaiThietBi?.toLowerCase().includes(type) ?? false)
-						);
-					});
+						)
+					})
 					return {
 						data: filtered,
 						total: filtered.length,
-					};
+					}
 				}}
 				search={{ labelWidth: "auto", defaultCollapsed: false }}
 				headerTitle="Danh mục máy xúc"
@@ -207,22 +259,40 @@ export default function MayxucDanhmuc() {
 						type="primary"
 						disabled={!hasAccessByCodes(accessControlCodes.add)}
 						onClick={() => {
-							setIsOpen(true);
-							setTitle("Thêm máy xúc");
-							setDetailData({});
+							setIsOpen(true)
+							setTitle("Thêm máy xúc")
+							setDetailData({})
 						}}
 					>
 						{t("common.add")}
 					</Button>,
-					<Button key="export" icon={<DownloadOutlined />} onClick={handleExportExcel}>
+					<Button
+						key="export"
+						icon={<DownloadOutlined />}
+						onClick={handleExportExcel}
+					>
 						{t("common.exportExcel")}
 					</Button>,
-					<Button key="delete" danger hidden={!hasAccessByCodes(accessControlCodes.delete) || selectedRowKeys.length === 0} onClick={handleBulkDelete}>
+					<Button
+						key="delete"
+						danger
+						hidden={
+							!hasAccessByCodes(accessControlCodes.delete)
+							|| selectedRowKeys.length === 0
+						}
+						onClick={handleBulkDelete}
+					>
 						{t("common.batchDelete")}
 					</Button>,
 				]}
 			/>
-			<Detail title={title} open={isOpen} detailData={detailData} onCloseChange={onCloseChange} refreshTable={() => actionRef.current?.reload()} />
+			<Detail
+				title={title}
+				open={isOpen}
+				detailData={detailData}
+				onCloseChange={onCloseChange}
+				refreshTable={() => actionRef.current?.reload()}
+			/>
 		</BasicContent>
-	);
+	)
 }

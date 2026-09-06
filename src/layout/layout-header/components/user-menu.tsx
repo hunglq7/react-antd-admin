@@ -1,46 +1,46 @@
-import type { ButtonProps, MenuProps } from "antd";
+import type { ButtonProps, MenuProps } from "antd"
 
-import { BasicButton } from "#src/components/basic-button";
-import { RiAccountCircleLine } from "#src/icons";
-import { loginPath } from "#src/router/extra-info";
-import { useAuthStore } from "#src/store/auth";
-import { useUserStore } from "#src/store/user";
-import { cn } from "#src/utils/cn";
+import { BasicButton } from "#src/components/basic-button"
+import { RiAccountCircleLine } from "#src/icons"
+import { loginPath } from "#src/router/extra-info"
+import { useAuthStore } from "#src/store/auth"
+import { useUserStore } from "#src/store/user"
+import { cn } from "#src/utils/cn"
 
-import { isWindowsOs } from "#src/utils/is-windows-os";
-import { LogoutOutlined } from "@ant-design/icons";
-import { useKeyPress } from "ahooks";
-import { Avatar, Dropdown } from "antd";
-import { useMemo } from "react";
-import { useTranslation } from "react-i18next";
-import { useNavigate } from "react-router";
+import { isWindowsOs } from "#src/utils/is-windows-os"
+import { LogoutOutlined } from "@ant-design/icons"
+import { useKeyPress } from "ahooks"
+import { Avatar, Dropdown } from "antd"
+import { useMemo } from "react"
+import { useTranslation } from "react-i18next"
+import { useNavigate } from "react-router"
 
-const leadingSlashPattern = /^\//;
+const leadingSlashPattern = /^\//
 
 export function UserMenu({ ...restProps }: ButtonProps) {
-	const navigate = useNavigate();
-	const { t } = useTranslation();
-	const avatar = useUserStore(state => state.avatar);
-	const username = useUserStore(state => state.username);
-	const email = useUserStore(state => state.email);
-	const logout = useAuthStore(state => state.logout);
+	const navigate = useNavigate()
+	const { t } = useTranslation()
+	const avatar = useUserStore(state => state.avatar)
+	const username = useUserStore(state => state.username)
+	const email = useUserStore(state => state.email)
+	const logout = useAuthStore(state => state.logout)
 
 	const onClick: MenuProps["onClick"] = async ({ key }) => {
 		if (key === "logout") {
-			await logout();
-			navigate(loginPath);
+			await logout()
+			navigate(loginPath)
 		}
 		if (key === "personal-center") {
-			navigate("/personal-center/my-profile");
+			navigate("/personal-center/my-profile")
 		}
-	};
+	}
 
 	const avatarSrc = avatar
 		? (avatar.startsWith("http")
-			? avatar
-			: new URL(avatar.replace(leadingSlashPattern, ""), import.meta.env.VITE_API_BASE_URL).toString())
-		: undefined;
-	const altView = useMemo(() => isWindowsOs() ? "Alt" : "⌥", [isWindowsOs]);
+				? avatar
+				: new URL(avatar.replace(leadingSlashPattern, ""), import.meta.env.VITE_API_BASE_URL).toString())
+		: undefined
+	const altView = useMemo(() => isWindowsOs() ? "Alt" : "⌥", [isWindowsOs])
 	const items: MenuProps["items"] = [
 		{
 			label: t("common.menu.personalCenter"),
@@ -54,15 +54,15 @@ export function UserMenu({ ...restProps }: ButtonProps) {
 			icon: <LogoutOutlined />,
 			extra: `${altView}Q`,
 		},
-	];
+	]
 
 	useKeyPress(["alt.P"], () => {
-		navigate("/personal-center/my-profile");
-	});
+		navigate("/personal-center/my-profile")
+	})
 
 	useKeyPress(["alt.Q"], () => {
-		onClick({ key: "logout" } as any);
-	});
+		onClick({ key: "logout" } as any)
+	})
 
 	return (
 		<Dropdown
@@ -87,5 +87,5 @@ export function UserMenu({ ...restProps }: ButtonProps) {
 				</div>
 			</BasicButton>
 		</Dropdown>
-	);
+	)
 }

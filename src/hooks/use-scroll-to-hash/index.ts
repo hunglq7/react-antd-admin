@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect } from "react"
 
 interface ScrollToHashOptions {
 	behavior?: ScrollBehavior
@@ -18,20 +18,20 @@ export function useScrollToHash(
 	{ behavior = "smooth", interval = 200 }: ScrollToHashOptions = {},
 ) {
 	useEffect(() => {
-		const { hash } = window.location;
-		const id = decodeURIComponent(hash.slice(1));
+		const { hash } = window.location
+		const id = decodeURIComponent(hash.slice(1))
 
 		const scrollToHash = () => {
-			const element = document.getElementById(id);
+			const element = document.getElementById(id)
 			if (element) {
 				element.scrollIntoView({
 					behavior,
-				});
+				})
 			}
-		};
+		}
 
-		const delayScroll = setTimeout(scrollToHash, interval);
+		const delayScroll = setTimeout(scrollToHash, interval)
 
-		return () => clearTimeout(delayScroll);
-	}, [trigger]);
+		return () => clearTimeout(delayScroll)
+	}, [trigger])
 }

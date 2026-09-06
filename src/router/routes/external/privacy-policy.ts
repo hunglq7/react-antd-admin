@@ -1,10 +1,10 @@
-import type { AppRouteRecordRaw } from "#src/router/types";
-import { $t } from "#src/locales";
+import type { AppRouteRecordRaw } from "#src/router/types"
+import { $t } from "#src/locales"
 
-import { lazy } from "react";
-import { Outlet } from "react-router";
+import { lazy } from "react"
+import { Outlet } from "react-router"
 
-const PrivacyPolicy = lazy(() => import("#src/pages/privacy-policy"));
+const PrivacyPolicy = lazy(() => import("#src/pages/privacy-policy"))
 
 const routes: AppRouteRecordRaw[] = [
 	{
@@ -24,6 +24,6 @@ const routes: AppRouteRecordRaw[] = [
 			},
 		],
 	},
-];
+]
 
-export default routes;
+export default routes

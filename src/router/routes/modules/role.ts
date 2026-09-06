@@ -1,10 +1,10 @@
-import type { AppRouteRecordRaw } from "#src/router/types";
-import ContainerLayout from "#src/layout/container-layout";
-import { role } from "#src/router/extra-info/order";
-import { lazy } from "react";
+import type { AppRouteRecordRaw } from "#src/router/types"
+import ContainerLayout from "#src/layout/container-layout"
+import { role } from "#src/router/extra-info/order"
+import { lazy } from "react"
 
-const RoleDanhmuc = lazy(() => import("#src/pages/role/danhmuc"));
-const Tonghoprole = lazy(() => import("#src/pages/role/tonghop"));
+const RoleDanhmuc = lazy(() => import("#src/pages/role/danhmuc"))
+const Tonghoprole = lazy(() => import("#src/pages/role/tonghop"))
 const routes: AppRouteRecordRaw[] = [
 	{
 		path: "/role",
@@ -46,6 +46,6 @@ const routes: AppRouteRecordRaw[] = [
 			},
 		],
 	},
-];
+]
 
-export default routes;
+export default routes

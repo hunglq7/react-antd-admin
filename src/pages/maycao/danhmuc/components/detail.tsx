@@ -1,9 +1,9 @@
-import type { MaycaoDanhmucItemType } from "#src/api/maycao/danhmuc/types";
-import { fetchAddMaycaoDanhmucItem, fetchUpdateMaycaoDanhmucItem } from "#src/api/maycao/danhmuc";
-import { ModalForm, ProFormText, ProFormTextArea } from "@ant-design/pro-components";
-import { Form } from "antd";
-import { useEffect } from "react";
-import { useTranslation } from "react-i18next";
+import type { MaycaoDanhmucItemType } from "#src/api/maycao/danhmuc/types"
+import { fetchAddMaycaoDanhmucItem, fetchUpdateMaycaoDanhmucItem } from "#src/api/maycao/danhmuc"
+import { ModalForm, ProFormText, ProFormTextArea } from "@ant-design/pro-components"
+import { Form } from "antd"
+import { useEffect } from "react"
+import { useTranslation } from "react-i18next"
 
 interface DetailProps {
 	title: React.ReactNode
@@ -20,28 +20,28 @@ export function Detail({
 	detailData,
 	refreshTable,
 }: DetailProps) {
-	const { t } = useTranslation();
-	const [form] = Form.useForm<MaycaoDanhmucItemType>();
+	const { t } = useTranslation()
+	const [form] = Form.useForm<MaycaoDanhmucItemType>()
 
 	const onFinish = async (values: MaycaoDanhmucItemType) => {
-		const payload = detailData.id ? { ...detailData, ...values } : values;
+		const payload = detailData.id ? { ...detailData, ...values } : values
 		if (detailData.id) {
-			await fetchUpdateMaycaoDanhmucItem(payload);
-			window.$message?.success(t("common.updateSuccess"));
+			await fetchUpdateMaycaoDanhmucItem(payload)
+			window.$message?.success(t("common.updateSuccess"))
 		}
 		else {
-			await fetchAddMaycaoDanhmucItem(payload);
-			window.$message?.success(t("common.addSuccess"));
+			await fetchAddMaycaoDanhmucItem(payload)
+			window.$message?.success(t("common.addSuccess"))
 		}
-		refreshTable?.();
-		return true;
-	};
+		refreshTable?.()
+		return true
+	}
 
 	useEffect(() => {
 		if (open) {
-			form.setFieldsValue(detailData);
+			form.setFieldsValue(detailData)
 		}
-	}, [open]);
+	}, [open])
 
 	return (
 		<ModalForm<MaycaoDanhmucItemType>
@@ -49,7 +49,7 @@ export function Detail({
 			open={open}
 			onOpenChange={(visible) => {
 				if (!visible)
-					onCloseChange();
+					onCloseChange()
 			}}
 			labelCol={{ md: 6, xl: 4 }}
 			layout="horizontal"
@@ -78,5 +78,5 @@ export function Detail({
 			/>
 
 		</ModalForm>
-	);
+	)
 }

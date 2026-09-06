@@ -1,7 +1,7 @@
-import { useGlobalStore } from "#src/store/global";
+import { useGlobalStore } from "#src/store/global"
 
 // 定义一个全局变量用于追踪当前有多少请求正在进行中
-let requestCount = 0;
+let requestCount = 0
 
 export const globalProgress = {
 	/**
@@ -12,10 +12,10 @@ export const globalProgress = {
 	start() {
 		if (requestCount === 0) {
 			// 显示全局加载动画
-			useGlobalStore.getState().openGlobalSpin();
+			useGlobalStore.getState().openGlobalSpin()
 		}
 		// 请求计数加 1
-		requestCount++;
+		requestCount++
 	},
 
 	/**
@@ -26,10 +26,10 @@ export const globalProgress = {
 	 */
 	done() {
 		// 请求计数减 1，但保证请求计数不会小于 0
-		requestCount = Math.max(requestCount - 1, 0);
+		requestCount = Math.max(requestCount - 1, 0)
 		if (requestCount === 0) {
 			// 隐藏全局加载动画
-			useGlobalStore.getState().closeGlobalSpin();
+			useGlobalStore.getState().closeGlobalSpin()
 		}
 	},
 
@@ -40,8 +40,8 @@ export const globalProgress = {
 	 */
 	forceFinish() {
 		// 直接将请求计数设置为 0
-		requestCount = 0;
+		requestCount = 0
 		// 隐藏全局加载动画
-		useGlobalStore.getState().closeGlobalSpin();
+		useGlobalStore.getState().closeGlobalSpin()
 	},
-};
+}

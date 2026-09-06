@@ -1,6 +1,6 @@
-import type { BienapItemType } from "#src/api/bienap/danhmuc";
-import type { ProColumns } from "@ant-design/pro-components";
-import type { TFunction } from "i18next";
+import type { BienapItemType } from "#src/api/bienap/danhmuc"
+import type { ProColumns } from "@ant-design/pro-components"
+import type { TFunction } from "i18next"
 
 export function getConstantColumns(t: TFunction<"translation", undefined>): ProColumns<BienapItemType>[] {
 	return [
@@ -36,5 +36,5 @@ export function getConstantColumns(t: TFunction<"translation", undefined>): ProC
 			width: 300,
 			ellipsis: true,
 		},
-	];
+	]
 }

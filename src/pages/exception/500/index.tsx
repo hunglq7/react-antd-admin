@@ -1,11 +1,11 @@
-import { ArrowLeftOutlined } from "@ant-design/icons";
-import { Button, Result } from "antd";
-import { useTranslation } from "react-i18next";
-import { useNavigate } from "react-router";
+import { ArrowLeftOutlined } from "@ant-design/icons"
+import { Button, Result } from "antd"
+import { useTranslation } from "react-i18next"
+import { useNavigate } from "react-router"
 
 export default function Exception500() {
-	const { t } = useTranslation();
-	const navigate = useNavigate();
+	const { t } = useTranslation()
+	const navigate = useNavigate()
 
 	const Result500 = (
 		<Result
@@ -17,14 +17,14 @@ export default function Exception500() {
 					icon={<ArrowLeftOutlined />}
 					type="primary"
 					onClick={() => {
-						navigate(import.meta.env.VITE_BASE_HOME_PATH);
+						navigate(import.meta.env.VITE_BASE_HOME_PATH)
 					}}
 				>
 					{t("common.backHome")}
 				</Button>
 			)}
 		/>
-	);
+	)
 
-	return Result500;
+	return Result500
 }

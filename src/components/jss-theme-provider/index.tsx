@@ -1,10 +1,10 @@
-import type { ReactNode } from "react";
+import type { ReactNode } from "react"
 
-import { usePreferences } from "#src/hooks/use-preferences";
+import { usePreferences } from "#src/hooks/use-preferences"
 
-import { ConfigProvider, theme } from "antd";
-import { use } from "react";
-import { ThemeProvider } from "react-jss";
+import { ConfigProvider, theme } from "antd"
+import { use } from "react"
+import { ThemeProvider } from "react-jss"
 
 /**
  * 自定义的JSS主题提供者组件
@@ -22,7 +22,7 @@ export interface JSSThemeProviderProps {
 	children: ReactNode
 }
 
-const { useToken } = theme;
+const { useToken } = theme
 
 /**
  * JSSThemeProvider 组件
@@ -34,14 +34,14 @@ const { useToken } = theme;
  * @returns {JSX.Element} 返回的JSX元素
  */
 export function JSSThemeProvider({ children }: JSSThemeProviderProps) {
-	const antdContext = use(ConfigProvider.ConfigContext);
-	const prefixCls = antdContext.getPrefixCls();
-	const { token } = useToken();
-	const { theme, isDark, isLight } = usePreferences();
+	const antdContext = use(ConfigProvider.ConfigContext)
+	const prefixCls = antdContext.getPrefixCls()
+	const { token } = useToken()
+	const { theme, isDark, isLight } = usePreferences()
 
 	return (
 		<ThemeProvider theme={{ token, theme, isDark, isLight, prefixCls }}>
 			{children}
 		</ThemeProvider>
-	);
+	)
 }

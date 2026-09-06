@@ -1,9 +1,9 @@
-import type { TreeProps } from "antd";
+import type { TreeProps } from "antd"
 
-import type { BasicDataNode } from "antd/lib/tree";
-import { Checkbox, Input, Tree } from "antd";
-import { useEffect, useMemo, useState } from "react";
-import { useTranslation } from "react-i18next";
+import type { BasicDataNode } from "antd/lib/tree"
+import { Checkbox, Input, Tree } from "antd"
+import { useEffect, useMemo, useState } from "react"
+import { useTranslation } from "react-i18next"
 
 export interface TreeDataNodeWithId extends BasicDataNode {
 	id: string
@@ -17,102 +17,93 @@ interface FormTreeItemProps {
 	onChange?: (value: React.Key[]) => void
 }
 
-const { Search } = Input;
+const { Search } = Input
 
 function getParentKey(key: React.Key, tree: TreeDataNodeWithId[]): React.Key {
-	let parentKey: React.Key;
+	let parentKey: React.Key
 	for (let i = 0; i < tree.length; i++) {
-		const node = tree[i];
+		const node = tree[i]
 		if (node.children) {
-			if (node.children.some(item => item.id === key)) {
-				parentKey = node.id;
-			}
-			else if (getParentKey(key, node.children)) {
-				parentKey = getParentKey(key, node.children);
+			if (node.children.some((item) => item.id === key)) {
+				parentKey = node.id
+			} else if (getParentKey(key, node.children)) {
+				parentKey = getParentKey(key, node.children)
 			}
 		}
 	}
-	return parentKey!;
+	return parentKey!
 }
 
 export function FormTreeItem({ treeData, value, onChange }: FormTreeItemProps) {
-	const [expandedKeys, setExpandedKeys] = useState<React.Key[]>([]);
-	const [searchValue, setSearchValue] = useState("");
-	const [checkedOptions, setCheckedOptions] = useState<string[]>([]);
-	const [autoExpandParent, setAutoExpandParent] = useState(true);
-	const { t } = useTranslation();
+	const [expandedKeys, setExpandedKeys] = useState<React.Key[]>([])
+	const [searchValue, setSearchValue] = useState("")
+	const [checkedOptions, setCheckedOptions] = useState<string[]>([])
+	const [autoExpandParent, setAutoExpandParent] = useState(true)
+	const { t } = useTranslation()
 
 	// const onSelect: TreeProps["onSelect"] = (selectedKeys) => {
 	// 	onChange?.(selectedKeys);
 	// };
 
 	const onCheck: TreeProps["onCheck"] = (checkedKeys) => {
-		onChange?.(checkedKeys as React.Key[]);
-	};
+		onChange?.(checkedKeys as React.Key[])
+	}
 
 	const onExpand = (newExpandedKeys: React.Key[]) => {
-		setExpandedKeys(newExpandedKeys);
-		setAutoExpandParent(false);
-	};
+		setExpandedKeys(newExpandedKeys)
+		setAutoExpandParent(false)
+	}
 
 	const flattenTreeData = useMemo(() => {
-		const dataList: { id: React.Key, title: string }[] = [];
+		const dataList: { id: React.Key; title: string }[] = []
 		const generateList = (data: TreeDataNodeWithId[]) => {
 			for (let i = 0; i < data.length; i++) {
-				const node = data[i];
-				dataList.push({ id: node.id, title: node.title as string });
+				const node = data[i]
+				dataList.push({ id: node.id, title: node.title as string })
 				if (node.children) {
-					generateList(node.children);
+					generateList(node.children)
 				}
 			}
-		};
-		generateList(treeData);
+		}
+		generateList(treeData)
 
-		return dataList;
-	}, [treeData]);
+		return dataList
+	}, [treeData])
 
 	const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-		const { value } = e.target;
+		const { value } = e.target
 		const newExpandedKeys = flattenTreeData
 			.map((item) => {
 				if (t(item.title).includes(value)) {
-					return getParentKey(item.id, treeData);
+					return getParentKey(item.id, treeData)
 				}
-				return null;
+				return null
 			})
-			.filter((item, i, self): item is React.Key => !!(item && self.indexOf(item) === i));
-		setExpandedKeys(newExpandedKeys);
-		setSearchValue(value);
-		setAutoExpandParent(true);
-	};
+			.filter((item, i, self): item is React.Key => !!(item && self.indexOf(item) === i))
+		setExpandedKeys(newExpandedKeys)
+		setSearchValue(value)
+		setAutoExpandParent(true)
+	}
 
 	const onCheckboxChange = (checkedValues: string[]) => {
-		setCheckedOptions(checkedValues);
-	};
+		setCheckedOptions(checkedValues)
+	}
 
 	useEffect(() => {
 		if (checkedOptions.includes("expandAll")) {
-			setExpandedKeys(flattenTreeData.map(item => item.id));
-		}
-		else {
-			setExpandedKeys([]);
+			setExpandedKeys(flattenTreeData.map((item) => item.id))
+		} else {
+			setExpandedKeys([])
 		}
 		if (checkedOptions.includes("checkAll")) {
-			onChange?.(flattenTreeData.map(item => item.id));
+			onChange?.(flattenTreeData.map((item) => item.id))
+		} else {
+			onChange?.([])
 		}
-		else {
-			onChange?.([]);
-		}
-	}, [checkedOptions, flattenTreeData]);
+	}, [checkedOptions, flattenTreeData])
 	return (
 		<>
-			<Search
-				className="mb-3"
-				placeholder={t("common.keywordSearch")}
-				allowClear
-				value={searchValue}
-				onChange={handleSearchChange}
-			/>
+			<Search className="mb-3" placeholder={t("common.keywordSearch")} allowClear value={searchValue} onChange={handleSearchChange} />
 			<Checkbox.Group
 				options={[
 					{ label: checkedOptions.includes("expandAll") ? t("common.collapseAll") : t("common.expandAll"), value: "expandAll" },
@@ -128,7 +119,7 @@ export function FormTreeItem({ treeData, value, onChange }: FormTreeItemProps) {
 				blockNode
 				defaultExpandAll
 				// checkStrictly
-				titleRender={node => t(node.title as string)}
+				titleRender={(node) => t(node.title as string)}
 				onExpand={onExpand}
 				expandedKeys={expandedKeys}
 				autoExpandParent={autoExpandParent}
@@ -141,5 +132,5 @@ export function FormTreeItem({ treeData, value, onChange }: FormTreeItemProps) {
 				onCheck={onCheck}
 			/>
 		</>
-	);
+	)
 }

@@ -1,8 +1,8 @@
-import type { LoginInfo } from "#src/api/user";
+import type { LoginInfo } from "#src/api/user"
 
-import { BasicButton } from "#src/components/basic-button";
-import { PASSWORD_RULES } from "#src/constants/rules";
-import { useAuthStore } from "#src/store/auth";
+import { BasicButton } from "#src/components/basic-button"
+import { PASSWORD_RULES } from "#src/constants/rules"
+import { useAuthStore } from "#src/store/auth"
 
 import {
 	Button,
@@ -10,52 +10,52 @@ import {
 	Input,
 	message,
 	Space,
-} from "antd";
-import { use, useState } from "react";
-import { useTranslation } from "react-i18next";
-import { useNavigate, useSearchParams } from "react-router";
+} from "antd"
+import { use, useState } from "react"
+import { useTranslation } from "react-i18next"
+import { useNavigate, useSearchParams } from "react-router"
 
-import { FormModeContext } from "../form-mode-context";
+import { FormModeContext } from "../form-mode-context"
 
 const FORM_INITIAL_VALUES: LoginInfo = {
 	email: "codien@thanmongduong.vn",
 	password: "Codien@123",
-};
+}
 
 export function PasswordLogin() {
-	const [loading, setLoading] = useState(false);
-	const [passwordLoginForm] = Form.useForm();
-	const { t } = useTranslation();
-	const [messageLoadingApi, contextLoadingHolder] = message.useMessage();
-	const [searchParams] = useSearchParams();
-	const navigate = useNavigate();
-	const login = useAuthStore(state => state.login);
-	const { setFormMode } = use(FormModeContext);
+	const [loading, setLoading] = useState(false)
+	const [passwordLoginForm] = Form.useForm()
+	const { t } = useTranslation()
+	const [messageLoadingApi, contextLoadingHolder] = message.useMessage()
+	const [searchParams] = useSearchParams()
+	const navigate = useNavigate()
+	const login = useAuthStore(state => state.login)
+	const { setFormMode } = use(FormModeContext)
 
 	const handleFinish = async (values: LoginInfo) => {
-		setLoading(true);
-		messageLoadingApi?.loading(t("authority.loginInProgress"), 0);
+		setLoading(true)
+		messageLoadingApi?.loading(t("authority.loginInProgress"), 0)
 
 		login(values).then(() => {
-			messageLoadingApi?.destroy();
-			window.$message?.success(t("authority.loginSuccess"));
-			const redirect = searchParams.get("redirect");
+			messageLoadingApi?.destroy()
+			window.$message?.success(t("authority.loginSuccess"))
+			const redirect = searchParams.get("redirect")
 
 			if (redirect) {
-				navigate(`/${redirect.slice(1)}`);
+				navigate(`/${redirect.slice(1)}`)
 			}
 			// else {
 			// 	navigate(import.meta.env.VITE_BASE_HOME_PATH);
 			// }
 		}).finally(() => {
-			messageLoadingApi?.destroy();
+			messageLoadingApi?.destroy()
 			// Prevent multiple requests from being made by clicking the login button
 			setTimeout(() => {
-				window.$message?.destroy();
-				setLoading(false);
-			}, 1000);
-		});
-	};
+				window.$message?.destroy()
+				setLoading(false)
+			}, 1000)
+		})
+	}
 
 	return (
 		<>
@@ -100,7 +100,7 @@ export function PasswordLogin() {
 							type="link"
 							className="p-0"
 							onPointerDown={() => {
-								setFormMode("codeLogin");
+								setFormMode("codeLogin")
 							}}
 						>
 							{t("authority.codeLogin")}
@@ -109,7 +109,7 @@ export function PasswordLogin() {
 							type="link"
 							className="p-0"
 							onPointerDown={() => {
-								setFormMode("forgotPassword");
+								setFormMode("forgotPassword")
 							}}
 						>
 							{t("authority.forgotPassword")}
@@ -126,7 +126,7 @@ export function PasswordLogin() {
 						type="link"
 						className="px-1"
 						onPointerDown={() => {
-							setFormMode("register");
+							setFormMode("register")
 						}}
 					>
 						{t("authority.goToRegister")}
@@ -134,5 +134,5 @@ export function PasswordLogin() {
 				</div>
 			</Form>
 		</>
-	);
+	)
 }

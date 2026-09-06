@@ -1,70 +1,70 @@
-import type { DanhmucRoleItemType } from "#src/api/role/danhmuc/types.js";
-import type { ActionType, ProColumns, ProCoreActionType } from "@ant-design/pro-components";
-import { fetchDanhmucRoleLiest, fetchDeleteDanhmucRoleItem, fetchDeleteMultipleDanhmucRoleItems } from "#src/api/role/danhmuc/index.js";
-import { BasicButton } from "#src/components/basic-button";
-import { BasicContent } from "#src/components/basic-content";
-import { BasicTable } from "#src/components/basic-table";
-import { accessControlCodes, useAccess } from "#src/hooks/use-access";
-import { DownloadOutlined, PlusCircleOutlined } from "@ant-design/icons";
-import { Button, Popconfirm } from "antd";
-import { useRef, useState } from "react";
-import { useTranslation } from "react-i18next";
-import * as XLSX from "xlsx";
-import { Detail } from "./component/detail";
-import { getConstantColumns } from "./contstants";
+import type { DanhmucRoleItemType } from "#src/api/role/danhmuc/types.js"
+import type { ActionType, ProColumns, ProCoreActionType } from "@ant-design/pro-components"
+import { fetchDanhmucRoleLiest, fetchDeleteDanhmucRoleItem, fetchDeleteMultipleDanhmucRoleItems } from "#src/api/role/danhmuc/index.js"
+import { BasicButton } from "#src/components/basic-button"
+import { BasicContent } from "#src/components/basic-content"
+import { BasicTable } from "#src/components/basic-table"
+import { accessControlCodes, useAccess } from "#src/hooks/use-access"
+import { DownloadOutlined, PlusCircleOutlined } from "@ant-design/icons"
+import { Button, Popconfirm } from "antd"
+import { useRef, useState } from "react"
+import { useTranslation } from "react-i18next"
+import * as XLSX from "xlsx"
+import { Detail } from "./component/detail"
+import { getConstantColumns } from "./contstants"
 
 export default function DanhmucRole() {
-	const { t } = useTranslation();
-	const { hasAccessByCodes } = useAccess();
-	const [isOpen, setIsOpen] = useState(false);
-	const [title, setTitle] = useState("");
-	const [detailData, setDetailData] = useState<Partial<DanhmucRoleItemType>>({});
-	const [selectedRowKeys, setSelectedRowKeys] = useState<React.Key[]>([]);
-	const actionRef = useRef<ActionType>(null);
+	const { t } = useTranslation()
+	const { hasAccessByCodes } = useAccess()
+	const [isOpen, setIsOpen] = useState(false)
+	const [title, setTitle] = useState("")
+	const [detailData, setDetailData] = useState<Partial<DanhmucRoleItemType>>({})
+	const [selectedRowKeys, setSelectedRowKeys] = useState<React.Key[]>([])
+	const actionRef = useRef<ActionType>(null)
 
 	// Xóa một bản ghi
 	const handleDeleteRow = async (id: number, action?: ProCoreActionType<object>) => {
-		await fetchDeleteDanhmucRoleItem(id);
-		setSelectedRowKeys([]);
-		await action?.reload?.();
-		window.$message?.success(t("common.deleteSuccess"));
-	};
+		await fetchDeleteDanhmucRoleItem(id)
+		setSelectedRowKeys([])
+		await action?.reload?.()
+		window.$message?.success(t("common.deleteSuccess"))
+	}
 	// Xóa nhiều bản ghi
 	const handleBulkDelete = async () => {
 		if (selectedRowKeys.length === 0) {
-			return;
+			return
 		}
-		await fetchDeleteMultipleDanhmucRoleItems(selectedRowKeys as number[]);
-		setSelectedRowKeys([]);
-		await actionRef.current?.reload();
-		window.$message?.success(t("common.deleteSuccess"));
-	};
+		await fetchDeleteMultipleDanhmucRoleItems(selectedRowKeys as number[])
+		setSelectedRowKeys([])
+		await actionRef.current?.reload()
+		window.$message?.success(t("common.deleteSuccess"))
+	}
 
 	// Xuất ra file Excel
 	const handleExportExcel = async () => {
 		try {
-			const data = await fetchDanhmucRoleLiest();
+			const data = await fetchDanhmucRoleLiest()
 			const exportData = data.map((item, index) => ({
 				"STT": index + 1,
 				"Tên thiết bị": item.tenThietBi,
 				"Loại thiết bị": item.loaiThietBi,
 				"Ghi chú": item.ghiChu,
-			}));
+			}))
 			const worksheet = XLSX.utils.json_to_sheet(exportData, {
 				header: ["STT", "Tên thiết bị", "Loại thiết bị", "Ghi chú"],
-			});
+			})
 			// Set độ rộng cột
-			worksheet["!cols"] = [{ wch: 5 }, { wch: 25 }, { wch: 35 }, { wch: 30 }];
-			const workbook = XLSX.utils.book_new();
-			XLSX.utils.book_append_sheet(workbook, worksheet, "Role");
-			XLSX.writeFile(workbook, "role_danhmuc.xlsx");
-			window.$message?.success(t("common.exportSuccess"));
+			worksheet["!cols"] = [{ wch: 5 }, { wch: 25 }, { wch: 35 }, { wch: 30 }]
+			const workbook = XLSX.utils.book_new()
+			XLSX.utils.book_append_sheet(workbook, worksheet, "Role")
+			XLSX.writeFile(workbook, "role_danhmuc.xlsx")
+			window.$message?.success(t("common.exportSuccess"))
 		}
 		catch (error) {
-			console.error("Export failed", error);
-			window.$message?.error(t("common.exportFailed"));
+			console.error("Export failed", error)
+			window.$message?.error(t("common.exportFailed"))
 		}
-	};
+	}
 
 	const columns: ProColumns<DanhmucRoleItemType>[] = [
 		...getConstantColumns(t),
@@ -81,9 +81,9 @@ export default function DanhmucRole() {
 					size="small"
 					disabled={!hasAccessByCodes(accessControlCodes.update)}
 					onClick={() => {
-						setIsOpen(true);
-						setTitle(t("system.role.editRole"));
-						setDetailData(record);
+						setIsOpen(true)
+						setTitle(t("system.role.editRole"))
+						setDetailData(record)
 					}}
 				>
 					{t("common.edit")}
@@ -106,16 +106,16 @@ export default function DanhmucRole() {
 				</Popconfirm>,
 			],
 		},
-	];
+	]
 
 	const onCloseChange = () => {
-		setIsOpen(false);
-		setDetailData({});
-	};
+		setIsOpen(false)
+		setDetailData({})
+	}
 
 	const refreshTable = () => {
-		actionRef.current?.reload();
-	};
+		actionRef.current?.reload()
+	}
 
 	return (
 		<BasicContent className="h-full">
@@ -138,19 +138,19 @@ export default function DanhmucRole() {
 					</Button>
 				)}
 				request={async (params) => {
-					const data = await fetchDanhmucRoleLiest();
+					const data = await fetchDanhmucRoleLiest()
 					const filtered = data.filter((item) => {
-						const keyword = String(params?.tenThietBi ?? "").trim().toLowerCase();
-						const type = String(params?.loaiThietBi ?? "").trim().toLowerCase();
+						const keyword = String(params?.tenThietBi ?? "").trim().toLowerCase()
+						const type = String(params?.loaiThietBi ?? "").trim().toLowerCase()
 						return (
 							(item.tenThietBi?.toLowerCase().includes(keyword) ?? false)
 							&& (type ? (item.loaiThietBi?.toLowerCase().includes(type) ?? false) : true)
-						);
-					});
+						)
+					})
 					return {
 						data: filtered,
 						total: filtered.length,
-					};
+					}
 				}}
 				search={{
 					labelWidth: "auto",
@@ -164,9 +164,9 @@ export default function DanhmucRole() {
 						type="primary"
 						disabled={!hasAccessByCodes(accessControlCodes.add)}
 						onClick={() => {
-							setIsOpen(true);
-							setTitle(t("system.role.role.addRole"));
-							setDetailData({});
+							setIsOpen(true)
+							setTitle(t("system.role.role.addRole"))
+							setDetailData({})
 						}}
 					>
 						{t("common.add")}
@@ -196,5 +196,5 @@ export default function DanhmucRole() {
 				refreshTable={refreshTable}
 			/>
 		</BasicContent>
-	);
+	)
 }

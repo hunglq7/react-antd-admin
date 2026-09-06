@@ -1,9 +1,9 @@
-import { BasicButton } from "#src/components/basic-button";
-import { useTabsStore } from "#src/store/tabs";
-import { cn } from "#src/utils/cn";
+import { BasicButton } from "#src/components/basic-button"
+import { useTabsStore } from "#src/store/tabs"
+import { cn } from "#src/utils/cn"
 
-import { FullscreenExitOutlined, FullscreenOutlined } from "@ant-design/icons";
-import { useShallow } from "zustand/shallow";
+import { FullscreenExitOutlined, FullscreenOutlined } from "@ant-design/icons"
+import { useShallow } from "zustand/shallow"
 
 interface TabMaximizeProps {
 	className?: string
@@ -18,13 +18,13 @@ export function TabMaximize({ className }: TabMaximizeProps) {
 	 * useShallow - it may cause infinite loops in zustand v5
 	 * https://github.com/pmndrs/zustand/blob/v5.0.0/docs/migrations/migrating-to-v5.md#requiring-stable-selector-outputs
 	 */
-	const { isMaximize } = useTabsStore(useShallow(state => ({ isMaximize: state.isMaximize })));
-	const { toggleMaximize } = useTabsStore(useShallow(state => ({ toggleMaximize: state.toggleMaximize })));
+	const { isMaximize } = useTabsStore(useShallow(state => ({ isMaximize: state.isMaximize })))
+	const { toggleMaximize } = useTabsStore(useShallow(state => ({ toggleMaximize: state.toggleMaximize })))
 
 	/** 切换最大化 / 最小化 */
 	const onClick = () => {
-		toggleMaximize(!isMaximize);
-	};
+		toggleMaximize(!isMaximize)
+	}
 
 	return (
 		<BasicButton
@@ -34,5 +34,5 @@ export function TabMaximize({ className }: TabMaximizeProps) {
 			icon={isMaximize ? <FullscreenExitOutlined /> : <FullscreenOutlined />}
 			onClick={onClick}
 		/>
-	);
+	)
 }

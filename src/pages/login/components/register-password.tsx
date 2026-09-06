@@ -1,5 +1,5 @@
-import { BasicButton } from "#src/components/basic-button";
-import { PASSWORD_RULES, USERNAME_RULES } from "#src/constants/rules";
+import { BasicButton } from "#src/components/basic-button"
+import { PASSWORD_RULES, USERNAME_RULES } from "#src/constants/rules"
 
 import {
 	Button,
@@ -8,31 +8,31 @@ import {
 	Input,
 	Space,
 	Typography,
-} from "antd";
-import { use, useState } from "react";
-import { Trans, useTranslation } from "react-i18next";
+} from "antd"
+import { use, useState } from "react"
+import { Trans, useTranslation } from "react-i18next"
 
-import { Link } from "react-router";
-import { FormModeContext } from "../form-mode-context";
+import { Link } from "react-router"
+import { FormModeContext } from "../form-mode-context"
 
-const { Title } = Typography;
+const { Title } = Typography
 
 const FORM_INITIAL_VALUES = {
 	username: "",
 	password: "",
 	confirmPassword: "",
-};
-export type RegisterPasswordFormType = typeof FORM_INITIAL_VALUES;
+}
+export type RegisterPasswordFormType = typeof FORM_INITIAL_VALUES
 
 export function RegisterPassword() {
-	const [loading] = useState(false);
-	const [registerForm] = Form.useForm();
-	const { t } = useTranslation();
-	const { setFormMode } = use(FormModeContext);
+	const [loading] = useState(false)
+	const [registerForm] = Form.useForm()
+	const { t } = useTranslation()
+	const { setFormMode } = use(FormModeContext)
 
 	const handleFinish = async () => {
-		window.$message?.success("注册成功");
-	};
+		window.$message?.success("注册成功")
+	}
 
 	return (
 		<>
@@ -81,9 +81,9 @@ export function RegisterPassword() {
 						({ getFieldValue }) => ({
 							validator(_, value) {
 								if (!value || getFieldValue("password") === value) {
-									return Promise.resolve();
+									return Promise.resolve()
 								}
-								return Promise.reject(new Error(t("form.confirmPassword.invalid")));
+								return Promise.reject(new Error(t("form.confirmPassword.invalid")))
 							},
 						}),
 					]}
@@ -95,7 +95,7 @@ export function RegisterPassword() {
 					rules={[
 						() => ({
 							validator(_, value) {
-								return value !== true ? Promise.reject(new Error(t("form.agree.required"))) : Promise.resolve();
+								return value !== true ? Promise.reject(new Error(t("form.agree.required"))) : Promise.resolve()
 							},
 						}),
 					]}
@@ -127,7 +127,7 @@ export function RegisterPassword() {
 						type="link"
 						className="px-1"
 						onPointerDown={() => {
-							setFormMode("login");
+							setFormMode("login")
 						}}
 					>
 						{t("authority.goToLogin")}
@@ -135,5 +135,5 @@ export function RegisterPassword() {
 				</div>
 			</Form>
 		</>
-	);
+	)
 }

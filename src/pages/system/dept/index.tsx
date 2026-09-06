@@ -1,9 +1,9 @@
-import { BasicContent } from "#src/components/basic-content";
+import { BasicContent } from "#src/components/basic-content"
 
-import { useState } from "react";
+import { useState } from "react"
 
 export default function Dept() {
-	const [count, setCount] = useState(0);
+	const [count, setCount] = useState(0)
 
 	return (
 		<BasicContent>
@@ -17,5 +17,5 @@ export default function Dept() {
 				<button onClick={() => setCount(count - 1)}>减少</button>
 			</div>
 		</BasicContent>
-	);
+	)
 }

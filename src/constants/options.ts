@@ -1,4 +1,4 @@
-import type { TFunction } from "i18next";
+import type { TFunction } from "i18next"
 
 export function getYesNoOptions(t: TFunction<"translation", undefined>) {
 	return [
@@ -10,7 +10,7 @@ export function getYesNoOptions(t: TFunction<"translation", undefined>) {
 			label: t("common.no"),
 			value: 0,
 		},
-	];
+	]
 }
 
 export function getBooleanOptions(t: TFunction<"translation", undefined>) {
@@ -23,5 +23,5 @@ export function getBooleanOptions(t: TFunction<"translation", undefined>) {
 			label: t("common.no"),
 			value: false,
 		},
-	];
+	]
 }

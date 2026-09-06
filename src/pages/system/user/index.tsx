@@ -1,6 +1,6 @@
-import { BasicContent } from "#src/components/basic-content";
+import { BasicContent } from "#src/components/basic-content"
 
-import { Input } from "antd";
+import { Input } from "antd"
 
 export default function User() {
 	return (
@@ -8,5 +8,5 @@ export default function User() {
 			<h1>User</h1>
 			<Input placeholder="Enter your username" />
 		</BasicContent>
-	);
+	)
 }

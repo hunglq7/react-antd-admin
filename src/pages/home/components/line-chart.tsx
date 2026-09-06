@@ -1,16 +1,16 @@
-import type { EChartsOption } from "echarts";
-import { fetchLine } from "#src/api/home";
-import { Card, Radio } from "antd";
-import ReactECharts from "echarts-for-react";
-import { useEffect, useState } from "react";
+import type { EChartsOption } from "echarts"
+import { fetchLine } from "#src/api/home"
+import { Card, Radio } from "antd"
+import ReactECharts from "echarts-for-react"
+import { useEffect, useState } from "react"
 
-import { useTranslation } from "react-i18next";
+import { useTranslation } from "react-i18next"
 
 export default function LineChart() {
-	const { t } = useTranslation();
-	const [value, setValue] = useState("week");
+	const { t } = useTranslation()
+	const [value, setValue] = useState("week")
 
-	const [data, setData] = useState<string[]>([]);
+	const [data, setData] = useState<string[]>([])
 
 	const DATA_KEYS = {
 		week: [
@@ -22,7 +22,7 @@ export default function LineChart() {
 			t("home.saturday"),
 			t("home.sunday"),
 		],
-	};
+	}
 
 	const option: EChartsOption = {
 		dataZoom: {
@@ -50,15 +50,15 @@ export default function LineChart() {
 				data,
 			},
 		],
-	};
+	}
 
 	useEffect(() => {
 		if (value) {
 			fetchLine({ range: value }).then(({ result }) => {
-				setData(result);
-			});
+				setData(result)
+			})
 		}
-	}, [value]);
+	}, [value])
 
 	return (
 		<Card
@@ -81,5 +81,5 @@ export default function LineChart() {
 				option={option}
 			/>
 		</Card>
-	);
+	)
 }

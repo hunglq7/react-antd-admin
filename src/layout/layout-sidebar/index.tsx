@@ -1,11 +1,11 @@
-import { Scrollbar } from "#src/components/scrollbar";
-import { usePreferences } from "#src/hooks/use-preferences";
+import { Scrollbar } from "#src/components/scrollbar"
+import { usePreferences } from "#src/hooks/use-preferences"
 
-import { theme as antdTheme, ConfigProvider } from "antd";
+import { theme as antdTheme, ConfigProvider } from "antd"
 
-import { headerHeight, siderTriggerHeight } from "../constants";
-import { Logo } from "../widgets/logo";
-import { SiderTrigger } from "../widgets/sider-trigger";
+import { headerHeight, siderTriggerHeight } from "../constants"
+import { Logo } from "../widgets/logo"
+import { SiderTrigger } from "../widgets/sider-trigger"
 
 export interface LayoutSidebarProps {
 	children?: React.ReactNode
@@ -13,12 +13,12 @@ export interface LayoutSidebarProps {
 }
 
 export default function LayoutSidebar({ children, computedSidebarWidth }: LayoutSidebarProps) {
-	const { sidebarCollapsed, sidebarTheme, isDark } = usePreferences();
+	const { sidebarCollapsed, sidebarTheme, isDark } = usePreferences()
 	const {
 		token: { Menu },
-	} = antdTheme.useToken();
+	} = antdTheme.useToken()
 
-	const isFixedDarkTheme = isDark || sidebarTheme === "dark";
+	const isFixedDarkTheme = isDark || sidebarTheme === "dark"
 
 	return (
 		<ConfigProvider
@@ -48,5 +48,5 @@ export default function LayoutSidebar({ children, computedSidebarWidth }: Layout
 				<SiderTrigger />
 			</aside>
 		</ConfigProvider>
-	);
+	)
 }

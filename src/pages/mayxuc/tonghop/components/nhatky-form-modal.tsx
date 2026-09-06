@@ -1,10 +1,10 @@
-import type { NhatkymayxucItemType } from "#src/api/mayxuc/nhatky";
-import type { Dayjs } from "dayjs";
+import type { NhatkymayxucItemType } from "#src/api/mayxuc/nhatky"
+import type { Dayjs } from "dayjs"
 import {
 	fetchAddNhatkymayxucItem,
 	fetchUpdateNhatkymayxucItem,
-} from "#src/api/mayxuc/nhatky";
-import { fetchPhongbanList } from "#src/api/system/phongban";
+} from "#src/api/mayxuc/nhatky"
+import { fetchPhongbanList } from "#src/api/system/phongban"
 import {
 	ModalForm,
 	ProFormDatePicker,
@@ -12,11 +12,11 @@ import {
 	ProFormSwitch,
 	ProFormText,
 	ProFormTextArea,
-} from "@ant-design/pro-components";
-import { Form } from "antd";
-import dayjs from "dayjs";
-import { useEffect } from "react";
-import { useTranslation } from "react-i18next";
+} from "@ant-design/pro-components"
+import { Form } from "antd"
+import dayjs from "dayjs"
+import { useEffect } from "react"
+import { useTranslation } from "react-i18next"
 
 interface NhatkyFormModalProps {
 	title: React.ReactNode
@@ -35,37 +35,45 @@ export function NhatkyFormModal({
 	onCloseChange,
 	refreshTable,
 }: NhatkyFormModalProps) {
-	const { t } = useTranslation();
-	type NhatkymayxucFormType = Omit<NhatkymayxucItemType, "ngaythang" | "trangThai"> & {
+	const { t } = useTranslation()
+	type NhatkymayxucFormType = Omit<
+		NhatkymayxucItemType,
+		"ngaythang" | "trangThai"
+	> & {
 		ngaythang?: Dayjs | string
 		trangThai?: boolean
-	};
-	const [form] = Form.useForm<NhatkymayxucFormType>();
+	}
+	const [form] = Form.useForm<NhatkymayxucFormType>()
 
 	const onFinish = async (values: NhatkymayxucFormType) => {
 		if (!tonghopmayxucId) {
-			window.$message?.error("Vui lòng lưu thông tin tổng hợp trước khi thêm nhật ký");
-			return false;
+			window.$message?.error(
+				"Vui lòng lưu thông tin tổng hợp trước khi thêm nhật ký",
+			)
+			return false
 		}
 
 		if (!values.ngaythang) {
-			window.$message?.error(t("form.required"));
-			return false;
+			window.$message?.error(t("form.required"))
+			return false
 		}
 
-		let ngaythangStr: string;
+		let ngaythangStr: string
 		if (typeof values.ngaythang === "string") {
-			ngaythangStr = values.ngaythang;
+			ngaythangStr = values.ngaythang
 		}
-		else if (values.ngaythang && typeof values.ngaythang.format === "function") {
-			ngaythangStr = values.ngaythang.format("YYYY-MM-DD");
+		else if (
+			values.ngaythang
+			&& typeof values.ngaythang.format === "function"
+		) {
+			ngaythangStr = values.ngaythang.format("YYYY-MM-DD")
 		}
 		else {
-			window.$message?.error("Ngày thay không hợp lệ");
-			return false;
+			window.$message?.error("Ngày thay không hợp lệ")
+			return false
 		}
 
-		const statusValue = values.trangThai ? "Hoạt động" : "Hỏng";
+		const statusValue = values.trangThai ? "Hoạt động" : "Hỏng"
 
 		const payload: NhatkymayxucItemType = {
 			...detailData,
@@ -74,29 +82,31 @@ export function NhatkyFormModal({
 			donVi: values.donVi,
 			trangThai: statusValue,
 			tonghopmayxucId,
-		};
+		}
 
 		if (detailData.id) {
-			await fetchUpdateNhatkymayxucItem(detailData.id, payload);
-			window.$message?.success(t("common.updateSuccess"));
+			await fetchUpdateNhatkymayxucItem(detailData.id, payload)
+			window.$message?.success(t("common.updateSuccess"))
 		}
 		else {
-			await fetchAddNhatkymayxucItem(payload);
-			window.$message?.success(t("common.addSuccess"));
+			await fetchAddNhatkymayxucItem(payload)
+			window.$message?.success(t("common.addSuccess"))
 		}
-		refreshTable?.();
-		return true;
-	};
+		refreshTable?.()
+		return true
+	}
 
 	useEffect(() => {
 		if (open) {
 			form.setFieldsValue({
 				...detailData,
-				ngaythang: detailData.ngaythang ? dayjs(detailData.ngaythang) : undefined,
+				ngaythang: detailData.ngaythang
+					? dayjs(detailData.ngaythang)
+					: undefined,
 				trangThai: detailData.trangThai !== "Hỏng",
-			});
+			})
 		}
-	}, [open, detailData, form]);
+	}, [open, detailData, form])
 
 	return (
 		<ModalForm<NhatkymayxucFormType>
@@ -104,13 +114,16 @@ export function NhatkyFormModal({
 			open={open}
 			onOpenChange={(visible) => {
 				if (!visible)
-					onCloseChange();
+					onCloseChange()
 			}}
 			labelCol={{ md: 6, xl: 5 }}
 			layout="horizontal"
 			form={form}
 			autoFocusFirstInput
-			modalProps={{ destroyOnHidden: true }}
+			modalProps={{
+				destroyOnHidden: true,
+				getContainer: () => document.body,
+			}}
 			width={600}
 			onFinish={onFinish}
 			initialValues={{
@@ -130,33 +143,39 @@ export function NhatkyFormModal({
 				placeholder="Chọn đơn vị"
 				showSearch
 				request={async () => {
-					const res: any = await fetchPhongbanList();
-					const list = Array.isArray(res?.data) ? res.data : Array.isArray(res) ? res : [];
+					const res: any = await fetchPhongbanList()
+					const list = Array.isArray(res?.data)
+						? res.data
+						: Array.isArray(res)
+							? res
+							: []
 
 					// 1. Lọc bỏ các bản ghi không có tenPhong hoặc bị trùng tên phòng
 					const uniqueList = list.filter(
 						(item: any, index: number, self: any[]) =>
 							item?.tenPhong
-							&& index === self.findIndex(t => t?.tenPhong?.trim() === item.tenPhong.trim()),
-					);
+							&& index
+							=== self.findIndex(
+								t => t?.tenPhong?.trim() === item.tenPhong.trim(),
+							),
+					)
 
 					// 2. Trả về label và value ĐỀU LÀ CHUỖI TENPHONG
 					return uniqueList.map((item: any) => ({
 						label: item.tenPhong.trim(),
 						value: item.tenPhong.trim(), // Backend nhận String (ví dụ: "Phòng KCS")
-					}));
+					}))
 				}}
 				fieldProps={{
 					filterOption: (input, option) =>
-						(option?.label ?? "").toString().toLowerCase().includes(input.toLowerCase()),
+						(option?.label ?? "")
+							.toString()
+							.toLowerCase()
+							.includes(input.toLowerCase()),
 				}}
 				rules={[{ required: true, message: "Vui lòng chọn đơn vị" }]}
 			/>
-			<ProFormText
-				name="viTri"
-				label="Vị trí"
-				placeholder="Nhập vị trí"
-			/>
+			<ProFormText name="viTri" label="Vị trí" placeholder="Nhập vị trí" />
 			<ProFormSwitch name="trangThai" label="Trạng thái" />
 			<ProFormTextArea
 				name="ghiChu"
@@ -164,5 +183,5 @@ export function NhatkyFormModal({
 				placeholder="Nhập ghi chú"
 			/>
 		</ModalForm>
-	);
+	)
 }

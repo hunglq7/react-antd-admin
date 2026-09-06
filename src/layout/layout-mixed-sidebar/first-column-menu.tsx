@@ -1,15 +1,15 @@
-import type { MenuProps } from "antd";
-import type { MenuItemType } from "../layout-menu/types";
+import type { MenuProps } from "antd"
+import type { MenuItemType } from "../layout-menu/types"
 
-import { Scrollbar } from "#src/components/scrollbar";
-import { usePreferences } from "#src/hooks/use-preferences";
-import { ConfigProvider, Menu } from "antd";
+import { Scrollbar } from "#src/components/scrollbar"
+import { usePreferences } from "#src/hooks/use-preferences"
+import { ConfigProvider, Menu } from "antd"
 
-import { clsx } from "clsx";
-import { createUseStyles } from "react-jss";
+import { clsx } from "clsx"
+import { createUseStyles } from "react-jss"
 
-import { headerHeight } from "../constants";
-import { Logo } from "../widgets/logo";
+import { headerHeight } from "../constants"
+import { Logo } from "../widgets/logo"
 
 const useStyles = createUseStyles(({ token }) => {
 	return {
@@ -28,8 +28,8 @@ const useStyles = createUseStyles(({ token }) => {
 				},
 			},
 		},
-	};
-});
+	}
+})
 
 interface FirstColumnMenuProps {
 	menus?: MenuItemType[]
@@ -37,14 +37,14 @@ interface FirstColumnMenuProps {
 	handleMenuSelect?: (key: string, mode: MenuProps["mode"]) => void
 }
 
-const emptyArray: MenuItemType[] = [];
+const emptyArray: MenuItemType[] = []
 export default function FirstColumnMenu({
 	handleMenuSelect,
 	menus = emptyArray,
 	sideNavMenuKeyInSplitMode,
 }: FirstColumnMenuProps) {
-	const classes = useStyles();
-	const { firstColumnWidthInTwoColumnNavigation, isDark, sidebarTheme } = usePreferences();
+	const classes = useStyles()
+	const { firstColumnWidthInTwoColumnNavigation, isDark, sidebarTheme } = usePreferences()
 
 	return (
 
@@ -80,5 +80,5 @@ export default function FirstColumnMenu({
 				</ConfigProvider>
 			</Scrollbar>
 		</div>
-	);
+	)
 }

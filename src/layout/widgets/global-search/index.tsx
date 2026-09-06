@@ -1,22 +1,22 @@
-import type { MenuItemType } from "#src/layout/layout-menu/types";
-import type { InputRef } from "antd";
+import type { MenuItemType } from "#src/layout/layout-menu/types"
+import type { InputRef } from "antd"
 
-import type { ReactElement } from "react";
-import { Scrollbar } from "#src/components/scrollbar";
-import { useDeviceType } from "#src/hooks/use-device-type";
-import { useAccessStore } from "#src/store/access";
+import type { ReactElement } from "react"
+import { Scrollbar } from "#src/components/scrollbar"
+import { useDeviceType } from "#src/hooks/use-device-type"
+import { useAccessStore } from "#src/store/access"
 
-import { isString } from "#src/utils/is";
-import { SearchOutlined } from "@ant-design/icons";
-import { useDebounceFn, useKeyPress, useLocalStorageState } from "ahooks";
-import { Divider, Empty, Input, Modal } from "antd";
-import { match } from "pinyin-pro";
-import { isValidElement, useEffect, useMemo, useRef, useState } from "react";
-import { useTranslation } from "react-i18next";
-import { useNavigate } from "react-router";
+import { isString } from "#src/utils/is"
+import { SearchOutlined } from "@ant-design/icons"
+import { useDebounceFn, useKeyPress, useLocalStorageState } from "ahooks"
+import { Divider, Empty, Input, Modal } from "antd"
+import { match } from "pinyin-pro"
+import { isValidElement, useEffect, useMemo, useRef, useState } from "react"
+import { useTranslation } from "react-i18next"
+import { useNavigate } from "react-router"
 
-import { SearchFooter } from "./components/search-footer";
-import { SearchPanel } from "./components/search-panel";
+import { SearchFooter } from "./components/search-footer"
+import { SearchPanel } from "./components/search-panel"
 
 /**
  * @zh 偏平化可跳转的菜单项
@@ -24,46 +24,46 @@ import { SearchPanel } from "./components/search-panel";
  */
 function transformMenuToFlatMenu(menus: MenuItemType[], flatMap: MenuItemType[] = []) {
 	if (menus && menus.length === 0)
-		return [];
+		return []
 	return menus.reduce((acc, cur) => {
 		if (!cur.children) {
-			acc.push(cur);
+			acc.push(cur)
 		}
 		if (cur.children && cur.children.length > 0) {
-			transformMenuToFlatMenu(cur.children, flatMap);
+			transformMenuToFlatMenu(cur.children, flatMap)
 		}
-		return acc;
-	}, flatMap);
+		return acc
+	}, flatMap)
 }
 
-const searchHistoryLocalStorageKey = `__search-history-${location.hostname}__`;
+const searchHistoryLocalStorageKey = `__search-history-${location.hostname}__`
 
 export function GlobalSearch() {
-	const wholeMenus = useAccessStore(state => state.wholeMenus);
-	const { isMobile } = useDeviceType();
-	const [open, setOpen] = useState(false);
-	const navigate = useNavigate();
-	const [keyword, setKeyword] = useState("");
-	const [activeKey, setActiveKey] = useState("");
-	const [resultOptions, setResultOptions] = useState<MenuItemType[]>([]);
-	const { t } = useTranslation();
-	const inputRef = useRef<InputRef>(null);
-	const listRef = useRef<HTMLUListElement>(null);
+	const wholeMenus = useAccessStore(state => state.wholeMenus)
+	const { isMobile } = useDeviceType()
+	const [open, setOpen] = useState(false)
+	const navigate = useNavigate()
+	const [keyword, setKeyword] = useState("")
+	const [activeKey, setActiveKey] = useState("")
+	const [resultOptions, setResultOptions] = useState<MenuItemType[]>([])
+	const { t } = useTranslation()
+	const inputRef = useRef<InputRef>(null)
+	const listRef = useRef<HTMLUListElement>(null)
 	const [searchHistory = [], setSearchHistory] = useLocalStorageState<string[]>(searchHistoryLocalStorageKey, {
 		defaultValue: [],
-	});
+	})
 
-	const searchMenuList = useMemo(() => transformMenuToFlatMenu(wholeMenus), [wholeMenus]);
+	const searchMenuList = useMemo(() => transformMenuToFlatMenu(wholeMenus), [wholeMenus])
 
 	function onClose() {
-		setOpen(false);
+		setOpen(false)
 	}
 
 	function handleClose() {
-		onClose();
-		setResultOptions([]);
-		setKeyword("");
-		setActiveKey("");
+		onClose()
+		setResultOptions([])
+		setKeyword("")
+		setActiveKey("")
 	}
 
 	/**
@@ -72,11 +72,11 @@ export function GlobalSearch() {
 	 */
 	function scrollSelectedIntoView(index: number) {
 		if (listRef.current) {
-			const item = listRef.current.children[index] as HTMLElement;
+			const item = listRef.current.children[index] as HTMLElement
 			item?.scrollIntoView({
 				behavior: "smooth",
 				block: "nearest",
-			});
+			})
 		}
 	}
 
@@ -85,67 +85,67 @@ export function GlobalSearch() {
 	 * @en Remove the specified record from search history
 	 */
 	function removeHistoryItem(key: string) {
-		setSearchHistory(prev => prev!.filter(item => item !== key));
+		setSearchHistory(prev => prev!.filter(item => item !== key))
 	}
 
 	function getActivePathIndex() {
-		return resultOptions.findIndex(item => item.key === activeKey);
+		return resultOptions.findIndex(item => item.key === activeKey)
 	}
 
 	function handleKeyPress(direction: 1 | -1) {
-		const { length } = resultOptions;
+		const { length } = resultOptions
 		if (length === 0)
-			return;
+			return
 
-		const index = getActivePathIndex();
+		const index = getActivePathIndex()
 		if (index === -1)
-			return;
+			return
 
-		const activeIndex = (index + direction + length) % length; // 确保 index 在范围内循环
-		const activeNameKey = resultOptions[activeIndex].key;
+		const activeIndex = (index + direction + length) % length // 确保 index 在范围内循环
+		const activeNameKey = resultOptions[activeIndex].key
 
-		setActiveKey(activeNameKey);
-		scrollSelectedIntoView(activeIndex);
+		setActiveKey(activeNameKey)
+		scrollSelectedIntoView(activeIndex)
 	}
 
 	const { run: setSearch } = useDebounceFn((e) => {
-		const inputValue = e.target.value?.trim()?.toLocaleLowerCase();
+		const inputValue = e.target.value?.trim()?.toLocaleLowerCase()
 		if (!inputValue) {
-			setResultOptions([]);
-			setActiveKey("");
-			return;
+			setResultOptions([])
+			setActiveKey("")
+			return
 		}
 		const matchRoutes = searchMenuList.filter((menuItem) => {
-			let labelText = "";
+			let labelText = ""
 			if (isValidElement(menuItem.label)) {
-				labelText = (menuItem.label as ReactElement<{ children: string }>).props.children;
+				labelText = (menuItem.label as ReactElement<{ children: string }>).props.children
 			}
 			if (isString(menuItem.label)) {
-				labelText = menuItem.label;
+				labelText = menuItem.label
 			}
-			const translatedLowerCaseLabel = t(labelText)?.toLocaleLowerCase();
-			const containsInputValue = translatedLowerCaseLabel?.includes(inputValue);
+			const translatedLowerCaseLabel = t(labelText)?.toLocaleLowerCase()
+			const containsInputValue = translatedLowerCaseLabel?.includes(inputValue)
 
-			return containsInputValue || match(translatedLowerCaseLabel, inputValue);
-		});
-		const activeName = matchRoutes[0]?.key ?? "";
-		setActiveKey(activeName);
-		setResultOptions(matchRoutes);
-	}, { wait: 100 });
+			return containsInputValue || match(translatedLowerCaseLabel, inputValue)
+		})
+		const activeName = matchRoutes[0]?.key ?? ""
+		setActiveKey(activeName)
+		setResultOptions(matchRoutes)
+	}, { wait: 100 })
 
 	const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-		const inputValue = e.target.value?.trim();
-		setKeyword(inputValue);
-	};
+		const inputValue = e.target.value?.trim()
+		setKeyword(inputValue)
+	}
 
 	/** key up */
 	function handleUp() {
-		handleKeyPress(-1); // 方向 -1 表示向上
+		handleKeyPress(-1) // 方向 -1 表示向上
 	}
 
 	/** key down */
 	function handleDown() {
-		handleKeyPress(1); // 方向 1 表示向下
+		handleKeyPress(1) // 方向 1 表示向下
 	}
 
 	/**
@@ -154,36 +154,36 @@ export function GlobalSearch() {
 	 */
 	useKeyPress(["meta.K"], () => {
 		if (!open) {
-			setOpen(true);
+			setOpen(true)
 		}
-	});
+	})
 
 	/** key enter */
 	function handleEnter(isExternalLink?: boolean) {
 		if (resultOptions.length === 0 || activeKey === "")
-			return;
+			return
 		if (!searchHistory?.includes(activeKey)) {
-			setSearchHistory([...(searchHistory ?? []), activeKey]);
+			setSearchHistory([...(searchHistory ?? []), activeKey])
 		}
-		handleClose();
+		handleClose()
 		if (isExternalLink) {
-			window.open(activeKey);
+			window.open(activeKey)
 		}
 		else {
-			navigate(activeKey);
+			navigate(activeKey)
 		}
 	}
 
-	useKeyPress("Escape", handleClose);
-	useKeyPress("Enter", () => handleEnter());
-	useKeyPress("uparrow", handleUp);
-	useKeyPress("downarrow", handleDown);
+	useKeyPress("Escape", handleClose)
+	useKeyPress("Enter", () => handleEnter())
+	useKeyPress("uparrow", handleUp)
+	useKeyPress("downarrow", handleDown)
 
 	useEffect(() => {
 		if (!keyword.length && Array.isArray(searchHistory)) {
-			setResultOptions(searchMenuList.filter(item => searchHistory?.includes(item.key)));
+			setResultOptions(searchMenuList.filter(item => searchHistory?.includes(item.key)))
 		}
-	}, [keyword, searchHistory]);
+	}, [keyword, searchHistory])
 
 	return (
 		<>
@@ -206,7 +206,7 @@ export function GlobalSearch() {
 				onCancel={() => handleClose()}
 				afterOpenChange={(open) => {
 					if (open) {
-						inputRef.current?.focus();
+						inputRef.current?.focus()
 					}
 				}}
 				keyboard
@@ -256,30 +256,30 @@ export function GlobalSearch() {
 					>
 						{resultOptions.length === 0
 							? (
-								<Empty
-									className="my-8"
-									styles={{ image: { height: 40 } }}
-									image={keyword.length ? <SearchOutlined className="text-colorTextTertiary" style={{ fontSize: 40 }} /> : Empty.PRESENTED_IMAGE_SIMPLE}
-									description={keyword.length ? `${t("widgets.search.noResults")} ${JSON.stringify(keyword)}` : t("widgets.search.noRecent")}
-								>
-								</Empty>
-							)
+									<Empty
+										className="my-8"
+										styles={{ image: { height: 40 } }}
+										image={keyword.length ? <SearchOutlined className="text-colorTextTertiary" style={{ fontSize: 40 }} /> : Empty.PRESENTED_IMAGE_SIMPLE}
+										description={keyword.length ? `${t("widgets.search.noResults")} ${JSON.stringify(keyword)}` : t("widgets.search.noRecent")}
+									>
+									</Empty>
+								)
 							: (
-								resultOptions.map(item => (
-									<SearchPanel
-										key={item.key}
-										active={item.key === activeKey}
-										enter={handleEnter}
-										removeHistoryItem={removeHistoryItem}
-										setActiveKey={setActiveKey}
-										menuItem={item}
-										showCloseButton={keyword.length === 0}
-									/>
-								))
-							)}
+									resultOptions.map(item => (
+										<SearchPanel
+											key={item.key}
+											active={item.key === activeKey}
+											enter={handleEnter}
+											removeHistoryItem={removeHistoryItem}
+											setActiveKey={setActiveKey}
+											menuItem={item}
+											showCloseButton={keyword.length === 0}
+										/>
+									))
+								)}
 					</ul>
 				</Scrollbar>
 			</Modal>
 		</>
-	);
+	)
 }

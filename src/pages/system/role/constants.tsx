@@ -1,8 +1,8 @@
-import type { RoleItemType } from "#src/api/system/role";
-import type { ProColumns } from "@ant-design/pro-components";
-import type { TFunction } from "i18next";
+import type { RoleItemType } from "#src/api/system/role"
+import type { ProColumns } from "@ant-design/pro-components"
+import type { TFunction } from "i18next"
 
-import { Tag } from "antd";
+import { Tag } from "antd"
 
 export function getConstantColumns(t: TFunction<"translation", undefined>): ProColumns<RoleItemType>[] {
 	return [
@@ -43,7 +43,7 @@ export function getConstantColumns(t: TFunction<"translation", undefined>): ProC
 			valueType: "select",
 			width: 80,
 			render: (text, record) => {
-				return <Tag color={record.status === 1 ? "success" : "default"}>{text}</Tag>;
+				return <Tag color={record.status === 1 ? "success" : "default"}>{text}</Tag>
 			},
 			valueEnum: {
 				1: {
@@ -73,5 +73,5 @@ export function getConstantColumns(t: TFunction<"translation", undefined>): ProC
 			width: 170,
 			search: false,
 		},
-	];
+	]
 }

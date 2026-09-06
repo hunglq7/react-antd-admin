@@ -1,29 +1,29 @@
-import type { TaikhoanDetailItemType } from "#src/api/hethong/taikhoan";
-import type { Dayjs } from "dayjs";
+import type { TaikhoanDetailItemType } from "#src/api/hethong/taikhoan"
+import type { Dayjs } from "dayjs"
 import {
 	fetchAddTaikhoan,
 	fetchUpdateTaikhoan,
-} from "#src/api/hethong/taikhoan";
+} from "#src/api/hethong/taikhoan"
 import {
 	ModalForm,
 	ProFormDatePicker,
 	ProFormText,
-} from "@ant-design/pro-components";
-import { Form } from "antd";
-import dayjs from "dayjs";
-import { useEffect } from "react";
-import { useTranslation } from "react-i18next";
+} from "@ant-design/pro-components"
+import { Form } from "antd"
+import dayjs from "dayjs"
+import { useEffect } from "react"
+import { useTranslation } from "react-i18next"
 
 type TaikhoanFormType = Omit<TaikhoanDetailItemType, "dob"> & {
-	dob?: Dayjs | string;
-};
+	dob?: Dayjs | string
+}
 
 interface DetailProps {
-	title: React.ReactNode;
-	open: boolean;
-	detailData: Partial<TaikhoanDetailItemType>;
-	onCloseChange: () => void;
-	refreshTable?: () => void;
+	title: React.ReactNode
+	open: boolean
+	detailData: Partial<TaikhoanDetailItemType>
+	onCloseChange: () => void
+	refreshTable?: () => void
 }
 
 export function Model({
@@ -33,68 +33,68 @@ export function Model({
 	onCloseChange,
 	refreshTable,
 }: DetailProps) {
-	const { t } = useTranslation();
-	const [form] = Form.useForm<TaikhoanFormType>();
+	const { t } = useTranslation()
+	const [form] = Form.useForm<TaikhoanFormType>()
 	const onFinish = async (values: TaikhoanFormType) => {
 		try {
 			if (!values.dob) {
-				window.$message?.error(t("form.required"));
-				return false;
+				window.$message?.error(t("form.required"))
+				return false
 			}
 
-			let ngaytaoStr: string;
+			let ngaytaoStr: string
 			if (typeof values.dob === "string") {
-				ngaytaoStr = values.dob;
+				ngaytaoStr = values.dob
 			}
 			else if (values.dob && typeof values.dob.format === "function") {
-				ngaytaoStr = values.dob.format("YYYY-MM-DD");
+				ngaytaoStr = values.dob.format("YYYY-MM-DD")
 			}
 			else {
-				window.$message?.error("Ngày lắp không hợp lệ");
-				return false;
+				window.$message?.error("Ngày lắp không hợp lệ")
+				return false
 			}
 
 			const normalizedValues: TaikhoanFormType = {
 				...values,
 				dob: ngaytaoStr ? dayjs(ngaytaoStr) : undefined,
-			};
+			}
 			const payload: TaikhoanFormType = detailData.id
 				? { ...detailData, ...normalizedValues }
-				: normalizedValues;
+				: normalizedValues
 			if (detailData.id) {
 				await fetchUpdateTaikhoan(
 					detailData.id,
 					payload as TaikhoanDetailItemType,
-				);
-				window.$message?.success(t("common.updateSuccess"));
+				)
+				window.$message?.success(t("common.updateSuccess"))
 			}
 			else {
-				await fetchAddTaikhoan(payload as TaikhoanDetailItemType);
-				window.$message?.success(t("common.addSuccess"));
+				await fetchAddTaikhoan(payload as TaikhoanDetailItemType)
+				window.$message?.success(t("common.addSuccess"))
 			}
-			refreshTable?.();
-			onCloseChange();
-			return true;
+			refreshTable?.()
+			onCloseChange()
+			return true
 		}
 		catch (error) {
-			console.error("Save error:", error);
-			window.$message?.error((error as any)?.message || t("common.saveFailed"));
-			return false;
+			console.error("Save error:", error)
+			window.$message?.error((error as any)?.message || t("common.saveFailed"))
+			return false
 		}
-	};
+	}
 
 	useEffect(() => {
 		if (open) {
-			form.setFieldsValue(detailData);
+			form.setFieldsValue(detailData)
 		}
-	}, [open]);
+	}, [open])
 	return (
 		<ModalForm<TaikhoanFormType>
 			title={title}
 			open={open}
 			onOpenChange={(visible) => {
 				if (!visible)
-					onCloseChange();
+					onCloseChange()
 			}}
 			labelCol={{ md: 6, xl: 4 }}
 			layout="horizontal"
@@ -150,5 +150,5 @@ export function Model({
 				placeholder="Nhập lại mật khẩu"
 			/>
 		</ModalForm>
-	);
+	)
 }

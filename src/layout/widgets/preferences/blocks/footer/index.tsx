@@ -1,12 +1,12 @@
-import { usePreferencesStore } from "#src/store/preferences";
+import { usePreferencesStore } from "#src/store/preferences"
 
-import { useTranslation } from "react-i18next";
+import { useTranslation } from "react-i18next"
 
-import { SwitchItem } from "../../switch-item";
-import { TextInput } from "../../text-input";
+import { SwitchItem } from "../../switch-item"
+import { TextInput } from "../../text-input"
 
 export function PreferencesFooter() {
-	const { t } = useTranslation();
+	const { t } = useTranslation()
 	const {
 		enableFooter,
 		fixedFooter,
@@ -16,7 +16,7 @@ export function PreferencesFooter() {
 		ICPNumber,
 		ICPLink,
 		setPreferences,
-	} = usePreferencesStore();
+	} = usePreferencesStore()
 
 	return (
 		<>
@@ -75,5 +75,5 @@ export function PreferencesFooter() {
 				{t("preferences.footer.ICPLink")}
 			</TextInput>
 		</>
-	);
+	)
 }

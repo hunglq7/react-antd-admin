@@ -3,27 +3,27 @@ import type {
 	SIDE_NAVIGATION,
 	TOP_NAVIGATION,
 	TWO_COLUMN_NAVIGATION,
-} from "#src/layout/widgets/preferences/blocks/layout/constants";
+} from "#src/layout/widgets/preferences/blocks/layout/constants"
 
-import type { LanguageType } from "#src/locales";
-import type { MenuProps } from "antd";
+import type { LanguageType } from "#src/locales"
+import type { MenuProps } from "antd"
 
 /**
  * @zh 登录页面布局
  * @en Login page layout
  */
-export type PageLayoutType = "layout-left" | "layout-center" | "layout-right";
+export type PageLayoutType = "layout-left" | "layout-center" | "layout-right"
 /**
  * @zh 标签栏风格
  * @en Tabbar style
  */
-export type TabsStyleType = "brisk" | "card" | "chrome" | "plain";
+export type TabsStyleType = "brisk" | "card" | "chrome" | "plain"
 
 /**
  * @zh 主题类型
  * @en Theme type
  */
-export type ThemeType = "dark" | "light" | "auto";
+export type ThemeType = "dark" | "light" | "auto"
 
 /**
  * @zh 动画类型
@@ -58,24 +58,24 @@ interface AnimationState {
 
 export type NavigationType
 	= | typeof SIDE_NAVIGATION
-	  | typeof TOP_NAVIGATION
-	  | typeof TWO_COLUMN_NAVIGATION
-	  | typeof MIXED_NAVIGATION;
+		| typeof TOP_NAVIGATION
+		| typeof TWO_COLUMN_NAVIGATION
+		| typeof MIXED_NAVIGATION
 export type BuiltinThemeType
 	= | "red"
-	  | "volcano"
-	  | "orange"
-	  | "gold"
-	  | "yellow"
-	  | "lime"
-	  | "green"
-	  | "cyan"
-	  | "blue"
-	  | "geekblue"
-	  | "purple"
-	  | "magenta"
-	  | "gray"
-	  | "custom";
+		| "volcano"
+		| "orange"
+		| "gold"
+		| "yellow"
+		| "lime"
+		| "green"
+		| "cyan"
+		| "blue"
+		| "geekblue"
+		| "purple"
+		| "magenta"
+		| "gray"
+		| "custom"
 
 interface LayoutState {
 	navigationStyle: NavigationType

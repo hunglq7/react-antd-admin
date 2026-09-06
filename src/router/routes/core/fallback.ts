@@ -1,8 +1,8 @@
-import type { RouteObject } from "react-router";
+import type { RouteObject } from "react-router"
 
-import { lazy } from "react";
+import { lazy } from "react"
 
-const NotFound = lazy(() => import("#src/pages/exception/404"));
+const NotFound = lazy(() => import("#src/pages/exception/404"))
 
 const routes: RouteObject[] = [
 	{
@@ -14,6 +14,6 @@ const routes: RouteObject[] = [
 			hideInMenu: true,
 		},
 	},
-];
+]
 
-export default routes;
+export default routes

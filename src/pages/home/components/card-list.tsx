@@ -1,14 +1,14 @@
-import type { ColProps } from "antd";
+import type { ColProps } from "antd"
 
 import {
 	MessageOutlined,
 	MoneyCollectOutlined,
 	ShoppingCartOutlined,
 	UserOutlined,
-} from "@ant-design/icons";
-import { Button, Card, Col, Row } from "antd";
-import CountUp from "react-countup";
-import { useTranslation } from "react-i18next";
+} from "@ant-design/icons"
+import { Button, Card, Col, Row } from "antd"
+import CountUp from "react-countup"
+import { useTranslation } from "react-i18next"
 
 const wrapperCol: ColProps = {
 	xs: 24,
@@ -17,10 +17,10 @@ const wrapperCol: ColProps = {
 	lg: 12,
 	xl: 12,
 	xxl: 6,
-};
+}
 
 export default function CardList() {
-	const { t } = useTranslation();
+	const { t } = useTranslation()
 
 	const CARD_LIST = [
 		{
@@ -44,7 +44,7 @@ export default function CardList() {
 			icon: <ShoppingCartOutlined />,
 		},
 
-	];
+	]
 
 	return (
 		<Row justify="space-between" gutter={[20, 20]}>
@@ -66,9 +66,9 @@ export default function CardList() {
 								</div>
 							</Card>
 						</Col>
-					);
+					)
 				})
 			}
 		</Row>
-	);
+	)
 }

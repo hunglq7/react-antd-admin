@@ -1,19 +1,19 @@
-import type { MenuProps } from "antd";
-import type { MenuItemType } from "./types";
+import type { MenuProps } from "antd"
+import type { MenuItemType } from "./types"
 
-import { useDeviceType } from "#src/hooks/use-device-type";
-import { usePreferences } from "#src/hooks/use-preferences";
-import { removeTrailingSlash } from "#src/router/utils/remove-trailing-slash";
+import { useDeviceType } from "#src/hooks/use-device-type"
+import { usePreferences } from "#src/hooks/use-preferences"
+import { removeTrailingSlash } from "#src/router/utils/remove-trailing-slash"
 
-import { useAccessStore } from "#src/store/access";
-import { cn } from "#src/utils/cn";
+import { useAccessStore } from "#src/store/access"
+import { cn } from "#src/utils/cn"
 
-import { Menu } from "antd";
-import { useEffect, useMemo, useState } from "react";
-import { useMatches } from "react-router";
+import { Menu } from "antd"
+import { useEffect, useMemo, useState } from "react"
+import { useMatches } from "react-router"
 
-import { useStyles } from "./style";
-import { getParentKeys } from "./utils";
+import { useStyles } from "./style"
+import { getParentKeys } from "./utils"
 
 interface LayoutMenuProps {
 	mode?: MenuProps["mode"]
@@ -29,63 +29,63 @@ interface LayoutMenuProps {
 	handleMenuSelect?: (key: string, mode: MenuProps["mode"]) => void
 }
 
-const emptyArray: MenuItemType[] = [];
+const emptyArray: MenuItemType[] = []
 export default function LayoutMenu({
 	mode = "inline",
 	autoExpandCurrentMenu,
 	handleMenuSelect,
 	menus = emptyArray,
 }: LayoutMenuProps) {
-	const classes = useStyles();
-	const matches = useMatches();
-	const wholeMenus = useAccessStore(state => state.wholeMenus);
-	const { sidebarCollapsed, sidebarTheme, isDark, accordion } = usePreferences();
-	const [openKeys, setOpenKeys] = useState<string[]>([]);
-	const { isMobile } = useDeviceType();
+	const classes = useStyles()
+	const matches = useMatches()
+	const wholeMenus = useAccessStore(state => state.wholeMenus)
+	const { sidebarCollapsed, sidebarTheme, isDark, accordion } = usePreferences()
+	const [openKeys, setOpenKeys] = useState<string[]>([])
+	const { isMobile } = useDeviceType()
 
 	const menuParentKeys = useMemo(() => {
-		return getParentKeys(wholeMenus);
-	}, [wholeMenus]);
+		return getParentKeys(wholeMenus)
+	}, [wholeMenus])
 
 	const getSelectedKeys = useMemo(
 		() => {
 			// First, try to find a route that specifies currentActiveMenu (highest priority)
 			const currentActiveMatch = matches.findLast(routeItem =>
 				routeItem.handle?.currentActiveMenu,
-			);
+			)
 
 			// If found, return the currentActiveMenu path with its parent keys
 			if (currentActiveMatch?.handle?.currentActiveMenu) {
-				const activeMenuPath = removeTrailingSlash(currentActiveMatch.handle.currentActiveMenu);
-				const parentKeys = menuParentKeys[activeMenuPath] || [];
-				return [...parentKeys, activeMenuPath];
+				const activeMenuPath = removeTrailingSlash(currentActiveMatch.handle.currentActiveMenu)
+				const parentKeys = menuParentKeys[activeMenuPath] || []
+				return [...parentKeys, activeMenuPath]
 			}
 
 			// Fallback: Find the last visible route (not hidden in menu)
 			const latestVisibleMatch = matches.findLast(routeItem =>
 				routeItem.handle?.hideInMenu !== true,
-			);
+			)
 
 			// If found, return the route ID path with its parent keys
 			if (latestVisibleMatch?.id) {
-				const routePath = removeTrailingSlash(latestVisibleMatch.id);
-				const parentKeys = menuParentKeys[routePath] || [];
-				return [...parentKeys, routePath];
+				const routePath = removeTrailingSlash(latestVisibleMatch.id)
+				const parentKeys = menuParentKeys[routePath] || []
+				return [...parentKeys, routePath]
 			}
 
 			// Default return empty array if no matches found
-			return [];
+			return []
 		},
 		[matches, menuParentKeys],
-	);
+	)
 
 	const menuInlineCollapsedProp = useMemo(() => {
 		/* inlineCollapsed 只在 inline 模式可用 */
 		if (mode === "inline") {
-			return { inlineCollapsed: isMobile ? false : sidebarCollapsed };
+			return { inlineCollapsed: isMobile ? false : sidebarCollapsed }
 		}
-		return {};
-	}, [mode, isMobile, sidebarCollapsed]);
+		return {}
+	}, [mode, isMobile, sidebarCollapsed])
 
 	const handleOpenChange: MenuProps["onOpenChange"] = (keys) => {
 		/**
@@ -98,25 +98,25 @@ export default function LayoutMenu({
 		 */
 		if (accordion || sidebarCollapsed) {
 			// eslint-disable-next-line unicorn/prefer-includes
-			const currentOpenKey = keys.find(key => openKeys.indexOf(key) === -1);
+			const currentOpenKey = keys.find(key => openKeys.indexOf(key) === -1)
 			// open
 			if (currentOpenKey !== undefined) {
-				const parentKeys = menuParentKeys[currentOpenKey] || [];
-				setOpenKeys([...parentKeys, currentOpenKey]);
+				const parentKeys = menuParentKeys[currentOpenKey] || []
+				setOpenKeys([...parentKeys, currentOpenKey])
 			}
 			else {
 				// eslint-disable-next-line unicorn/prefer-includes
-				const currentCloseKey = openKeys.find(key => keys.indexOf(key) === -1);
+				const currentCloseKey = openKeys.find(key => keys.indexOf(key) === -1)
 				// close
 				if (currentCloseKey) {
-					setOpenKeys(menuParentKeys[currentCloseKey]);
+					setOpenKeys(menuParentKeys[currentCloseKey])
 				}
 			}
 		}
 		else {
-			setOpenKeys(keys);
+			setOpenKeys(keys)
 		}
-	};
+	}
 
 	const menuOpenProps = useMemo(() => {
 		// 如果开启了手风琴模式，则需要自动展开菜单
@@ -124,10 +124,10 @@ export default function LayoutMenu({
 			return {
 				openKeys,
 				onOpenChange: handleOpenChange,
-			};
+			}
 		}
-		return {};
-	}, [autoExpandCurrentMenu, openKeys, handleOpenChange]);
+		return {}
+	}, [autoExpandCurrentMenu, openKeys, handleOpenChange])
 
 	/**
 	 * 侧边菜单展开时，自动展开激活的菜单
@@ -137,25 +137,25 @@ export default function LayoutMenu({
 	useEffect(() => {
 		// 折叠
 		if (sidebarCollapsed) {
-			setOpenKeys([]);
+			setOpenKeys([])
 		}
 		// 展开
 		else {
 			// 手风琴模式，只展开当前激活的菜单
 			if (accordion) {
-				setOpenKeys(getSelectedKeys);
+				setOpenKeys(getSelectedKeys)
 			}
 			// 非手风琴模式，展开所有激活的菜单
 			else {
 				setOpenKeys((prevOpenKeys) => {
 					if (prevOpenKeys.length === 0) {
-						return getSelectedKeys;
+						return getSelectedKeys
 					}
-					return prevOpenKeys;
-				});
+					return prevOpenKeys
+				})
 			}
 		}
-	}, [matches, sidebarCollapsed, getSelectedKeys]);
+	}, [matches, sidebarCollapsed, getSelectedKeys])
 
 	return (
 		<Menu
@@ -187,5 +187,5 @@ export default function LayoutMenu({
 			 */
 			onClick={({ key }) => handleMenuSelect?.(key, mode)}
 		/>
-	);
+	)
 }

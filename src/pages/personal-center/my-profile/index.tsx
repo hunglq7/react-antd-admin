@@ -1,30 +1,30 @@
-import { updateUserProfile } from "#src/api/user";
-import { BasicContent } from "#src/components/basic-content";
+import { updateUserProfile } from "#src/api/user"
+import { BasicContent } from "#src/components/basic-content"
 
-import { FormAvatarItem } from "#src/components/basic-form";
-import { useUserStore } from "#src/store/user";
+import { FormAvatarItem } from "#src/components/basic-form"
+import { useUserStore } from "#src/store/user"
 
 import {
 	ProForm,
 	ProFormDigit,
 	ProFormText,
 	ProFormTextArea,
-} from "@ant-design/pro-components";
-import { Form, Input } from "antd";
+} from "@ant-design/pro-components"
+import { Form, Input } from "antd"
 
 export default function Profile() {
-	const currentUser = useUserStore();
-	const updateUser = useUserStore(state => state.update);
+	const currentUser = useUserStore()
+	const updateUser = useUserStore(state => state.update)
 	const getAvatarURL = () => {
 		if (currentUser) {
 			if (currentUser.avatar) {
-				return currentUser.avatar;
+				return currentUser.avatar
 			}
-			const url = "https://avatar.vercel.sh/blur.svg?text=2";
-			return url;
+			const url = "https://avatar.vercel.sh/blur.svg?text=2"
+			return url
 		}
-		return "";
-	};
+		return ""
+	}
 
 	const handleFinish = async (values: { avatar: string, email: string, phoneNumber: string }) => {
 		const profile = {
@@ -32,16 +32,16 @@ export default function Profile() {
 			firstName: currentUser.firstName,
 			lastName: currentUser.lastName,
 			dob: currentUser.dob,
-		};
+		}
 		try {
-			await updateUserProfile(currentUser.id, profile);
-			updateUser(values);
-			window.$message?.success("Lưu thành công");
+			await updateUserProfile(currentUser.id, profile)
+			updateUser(values)
+			window.$message?.success("Lưu thành công")
 		}
 		catch {
-			window.$message?.error("Không thể lưu thông tin cá nhân");
+			window.$message?.error("Không thể lưu thông tin cá nhân")
 		}
-	};
+	}
 
 	return (
 		<BasicContent className="max-w-md ml-10">
@@ -107,5 +107,5 @@ export default function Profile() {
 				/>
 			</ProForm>
 		</BasicContent>
-	);
+	)
 };

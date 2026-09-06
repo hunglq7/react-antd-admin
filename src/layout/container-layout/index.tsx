@@ -1,28 +1,28 @@
-import { useDeviceType } from "#src/hooks/use-device-type";
-import { useLayoutFooterStyle, useLayoutHeaderStyle } from "#src/hooks/use-layout-style";
-import { usePreferencesStore } from "#src/store/preferences";
-import { useTabsStore } from "#src/store/tabs";
-import { cn } from "#src/utils/cn";
+import { useDeviceType } from "#src/hooks/use-device-type"
+import { useLayoutFooterStyle, useLayoutHeaderStyle } from "#src/hooks/use-layout-style"
+import { usePreferencesStore } from "#src/store/preferences"
+import { useTabsStore } from "#src/store/tabs"
+import { cn } from "#src/utils/cn"
 
-import { RocketOutlined } from "@ant-design/icons";
-import { FloatButton, Grid, Watermark } from "antd";
-import { useEffect, useMemo } from "react";
+import { RocketOutlined } from "@ant-design/icons"
+import { FloatButton, Grid, Watermark } from "antd"
+import { useEffect, useMemo } from "react"
 
-import { ELEMENT_ID_MAIN_CONTENT, footerHeight, headerHeight, tabbarHeight } from "../constants";
-import { useLayout } from "../hooks";
-import LayoutContent from "../layout-content";
-import LayoutFooter from "../layout-footer";
-import LayoutHeader from "../layout-header";
-import LayoutMenu from "../layout-menu";
-import { useMenu } from "../layout-menu/use-menu";
-import LayoutMixedSidebar from "../layout-mixed-sidebar";
-import LayoutMobileMenu from "../layout-mobile-menu";
-import LayoutSidebar from "../layout-sidebar";
-import LayoutTabbar from "../layout-tabbar";
-import { BreadcrumbViews } from "../widgets/breadcrumb-views";
-import { Logo } from "../widgets/logo";
+import { ELEMENT_ID_MAIN_CONTENT, footerHeight, headerHeight, tabbarHeight } from "../constants"
+import { useLayout } from "../hooks"
+import LayoutContent from "../layout-content"
+import LayoutFooter from "../layout-footer"
+import LayoutHeader from "../layout-header"
+import LayoutMenu from "../layout-menu"
+import { useMenu } from "../layout-menu/use-menu"
+import LayoutMixedSidebar from "../layout-mixed-sidebar"
+import LayoutMobileMenu from "../layout-mobile-menu"
+import LayoutSidebar from "../layout-sidebar"
+import LayoutTabbar from "../layout-tabbar"
+import { BreadcrumbViews } from "../widgets/breadcrumb-views"
+import { Logo } from "../widgets/logo"
 
-const { useBreakpoint } = Grid;
+const { useBreakpoint } = Grid
 
 /**
  * Please do not use this component through lazy, otherwise the switching routing page will flash.
@@ -35,45 +35,45 @@ const { useBreakpoint } = Grid;
  * import ContainerLayout from "#src/layout/container-layout";
  */
 export default function ContainerLayout() {
-	const screens = useBreakpoint();
-	const { isTopNav, isTwoColumnNav, isMixedNav, sidebarWidth, sideCollapsedWidth, firstColumnWidthInTwoColumnNavigation } = useLayout();
-	const isMaximize = useTabsStore(state => state.isMaximize);
-	const { watermark, watermarkContent, enableFooter, fixedFooter, enableBackTopButton, tabbarEnable, sidebarEnable, sidebarCollapsed, setPreferences } = usePreferencesStore();
-	const { isMobile } = useDeviceType();
-	const { sideNavItems, topNavItems, handleMenuSelect, sideNavMenuKeyInSplitMode } = useMenu();
+	const screens = useBreakpoint()
+	const { isTopNav, isTwoColumnNav, isMixedNav, sidebarWidth, sideCollapsedWidth, firstColumnWidthInTwoColumnNavigation } = useLayout()
+	const isMaximize = useTabsStore(state => state.isMaximize)
+	const { watermark, watermarkContent, enableFooter, fixedFooter, enableBackTopButton, tabbarEnable, sidebarEnable, sidebarCollapsed, setPreferences } = usePreferencesStore()
+	const { isMobile } = useDeviceType()
+	const { sideNavItems, topNavItems, handleMenuSelect, sideNavMenuKeyInSplitMode } = useMenu()
 
-	const { setLayoutHeaderHeight } = useLayoutHeaderStyle();
-	const { setLayoutFooterHeight } = useLayoutFooterStyle();
+	const { setLayoutHeaderHeight } = useLayoutHeaderStyle()
+	const { setLayoutFooterHeight } = useLayoutFooterStyle()
 
 	useEffect(() => {
 		/* iPad */
 		if (screens.lg && !screens.xl) {
-			setPreferences("sidebarCollapsed", true);
+			setPreferences("sidebarCollapsed", true)
 		}
 		/* PC */
 		else if (screens.xl) {
-			setPreferences("sidebarCollapsed", false);
+			setPreferences("sidebarCollapsed", false)
 		}
 		/* Mobile */
 		else if (screens.xs || (screens.sm && !screens.md)) {
-			setPreferences("sidebarCollapsed", false);
+			setPreferences("sidebarCollapsed", false)
 		}
-	}, [screens]);
+	}, [screens])
 
-	const sidebarEnableState = useMemo(() => !isTopNav && sidebarEnable, [isTopNav, sidebarEnable]);
+	const sidebarEnableState = useMemo(() => !isTopNav && sidebarEnable, [isTopNav, sidebarEnable])
 	const computedSidebarWidth = useMemo(() => {
 		if (isMaximize || isMobile) {
-			return 0;
+			return 0
 		}
-		const currentSidebarWidth = sidebarCollapsed ? sideCollapsedWidth : sidebarWidth;
+		const currentSidebarWidth = sidebarCollapsed ? sideCollapsedWidth : sidebarWidth
 		if (isTwoColumnNav) {
 			/* 双列导航，第一列默认宽度 */
-			return currentSidebarWidth + (firstColumnWidthInTwoColumnNavigation ?? 0);
+			return currentSidebarWidth + (firstColumnWidthInTwoColumnNavigation ?? 0)
 		}
 		if (sidebarEnableState) {
-			return currentSidebarWidth;
+			return currentSidebarWidth
 		}
-		return 0;
+		return 0
 	}, [
 		// Mobile
 		isMobile,
@@ -84,27 +84,27 @@ export default function ContainerLayout() {
 		sidebarCollapsed,
 		sideCollapsedWidth,
 		firstColumnWidthInTwoColumnNavigation,
-	]);
+	])
 
 	/**
 	 * @zh 计算 header 和 tabbar 的高度
 	 * @en Calculate the height of header and tabbar
 	 */
 	const headerWrapperHeight = useMemo(() => {
-		let height = headerHeight;
+		let height = headerHeight
 		if (tabbarEnable) {
-			height += tabbarHeight;
+			height += tabbarHeight
 		}
-		return height;
-	}, [tabbarEnable, tabbarHeight]);
+		return height
+	}, [tabbarEnable, tabbarHeight])
 
 	useEffect(() => {
-		setLayoutHeaderHeight(isMaximize ? tabbarHeight : headerWrapperHeight);
-	}, [headerWrapperHeight, isMaximize]);
+		setLayoutHeaderHeight(isMaximize ? tabbarHeight : headerWrapperHeight)
+	}, [headerWrapperHeight, isMaximize])
 
 	useEffect(() => {
-		setLayoutFooterHeight(footerHeight);
-	}, []);
+		setLayoutFooterHeight(footerHeight)
+	}, [])
 
 	return (
 		<Watermark content={watermark ? watermarkContent : ""}>
@@ -119,11 +119,11 @@ export default function ContainerLayout() {
 				<LayoutHeader>
 					{isTopNav || isMixedNav
 						? (
-							<>
-								{isTopNav ? <Logo sidebarCollapsed={false} className="mr-8" /> : null}
-								<LayoutMenu mode="horizontal" menus={topNavItems} handleMenuSelect={handleMenuSelect} />
-							</>
-						)
+								<>
+									{isTopNav ? <Logo sidebarCollapsed={false} className="mr-8" /> : null}
+									<LayoutMenu mode="horizontal" menus={topNavItems} handleMenuSelect={handleMenuSelect} />
+								</>
+							)
 						: <BreadcrumbViews />}
 				</LayoutHeader>
 				{tabbarEnable ? <LayoutTabbar /> : null}
@@ -135,29 +135,29 @@ export default function ContainerLayout() {
 				{
 					sidebarEnableState && !isTwoColumnNav
 						? (
-							<LayoutSidebar
-								computedSidebarWidth={computedSidebarWidth}
-							>
-								<LayoutMenu
-									autoExpandCurrentMenu
-									menus={sideNavItems}
-									handleMenuSelect={handleMenuSelect}
-								/>
-							</LayoutSidebar>
-						)
+								<LayoutSidebar
+									computedSidebarWidth={computedSidebarWidth}
+								>
+									<LayoutMenu
+										autoExpandCurrentMenu
+										menus={sideNavItems}
+										handleMenuSelect={handleMenuSelect}
+									/>
+								</LayoutSidebar>
+							)
 						: null
 				}
 				{
 					isTwoColumnNav
 						? (
-							<LayoutMixedSidebar
-								sideNavMenuKeyInSplitMode={sideNavMenuKeyInSplitMode}
-								computedSidebarWidth={computedSidebarWidth}
-								sideNavItems={sideNavItems}
-								topNavItems={topNavItems}
-								handleMenuSelect={handleMenuSelect}
-							/>
-						)
+								<LayoutMixedSidebar
+									sideNavMenuKeyInSplitMode={sideNavMenuKeyInSplitMode}
+									computedSidebarWidth={computedSidebarWidth}
+									sideNavItems={sideNavItems}
+									topNavItems={topNavItems}
+									handleMenuSelect={handleMenuSelect}
+								/>
+							)
 						: null
 				}
 
@@ -166,13 +166,13 @@ export default function ContainerLayout() {
 				{enableFooter && fixedFooter ? <LayoutFooter className="bg-colorBgContainer" /> : null}
 				{enableBackTopButton
 					? (
-						<FloatButton.BackTop
-							icon={<RocketOutlined />}
-							target={() => document.querySelector(`#${ELEMENT_ID_MAIN_CONTENT} .simplebar-content-wrapper`) as HTMLElement || document}
-						/>
-					)
+							<FloatButton.BackTop
+								icon={<RocketOutlined />}
+								target={() => document.querySelector(`#${ELEMENT_ID_MAIN_CONTENT} .simplebar-content-wrapper`) as HTMLElement || document}
+							/>
+						)
 					: null}
 			</section>
 		</Watermark>
-	);
+	)
 }

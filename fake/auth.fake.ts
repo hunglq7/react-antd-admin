@@ -1,7 +1,7 @@
-import { defineFakeRoute } from "vite-plugin-fake-server/client";
+import { defineFakeRoute } from "vite-plugin-fake-server/client"
 
-import { ADMIN_REFRESH_TOKEN, ADMIN_TOKEN, COMMON_REFRESH_TOKEN, COMMON_TOKEN, COUNTRIES_CODE } from "./constants";
-import { resultSuccess } from "./utils";
+import { ADMIN_REFRESH_TOKEN, ADMIN_TOKEN, COMMON_REFRESH_TOKEN, COMMON_TOKEN, COUNTRIES_CODE } from "./constants"
+import { resultSuccess } from "./utils"
 
 export default defineFakeRoute([
 	{
@@ -17,13 +17,13 @@ export default defineFakeRoute([
 				return resultSuccess({
 					token: ADMIN_TOKEN,
 					refreshToken: ADMIN_REFRESH_TOKEN,
-				});
+				})
 			}
 			else {
 				return resultSuccess({
 					token: COMMON_TOKEN,
 					refreshToken: COMMON_REFRESH_TOKEN,
-				});
+				})
 			}
 		},
 	},
@@ -39,9 +39,9 @@ export default defineFakeRoute([
 		method: "post",
 		response: ({ body }) => {
 			if (body.refreshToken === ADMIN_REFRESH_TOKEN) {
-				return resultSuccess({ token: ADMIN_TOKEN, refreshToken: ADMIN_REFRESH_TOKEN });
+				return resultSuccess({ token: ADMIN_TOKEN, refreshToken: ADMIN_REFRESH_TOKEN })
 			}
-			return resultSuccess({ token: COMMON_TOKEN, refreshToken: COMMON_REFRESH_TOKEN });
+			return resultSuccess({ token: COMMON_TOKEN, refreshToken: COMMON_REFRESH_TOKEN })
 		},
 	},
 	{
@@ -49,7 +49,7 @@ export default defineFakeRoute([
 		timeout: 1000,
 		method: "get",
 		response: () => {
-			return resultSuccess(COUNTRIES_CODE);
+			return resultSuccess(COUNTRIES_CODE)
 		},
 	},
-]);
+])

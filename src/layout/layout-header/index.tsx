@@ -1,20 +1,20 @@
-import type { ButtonProps } from "antd";
-import { useDeviceType } from "#src/hooks/use-device-type";
-import { usePreferences } from "#src/hooks/use-preferences";
-import { useLayout } from "#src/layout/hooks/use-layout";
-import { GlobalSearch } from "#src/layout/widgets/global-search";
-import { Preferences } from "#src/layout/widgets/preferences";
-import { useTabsStore } from "#src/store/tabs";
-import { cn } from "#src/utils/cn";
+import type { ButtonProps } from "antd"
+import { useDeviceType } from "#src/hooks/use-device-type"
+import { usePreferences } from "#src/hooks/use-preferences"
+import { useLayout } from "#src/layout/hooks/use-layout"
+import { GlobalSearch } from "#src/layout/widgets/global-search"
+import { Preferences } from "#src/layout/widgets/preferences"
+import { useTabsStore } from "#src/store/tabs"
+import { cn } from "#src/utils/cn"
 
-import { MenuFoldOutlined, MenuUnfoldOutlined } from "@ant-design/icons";
-import { theme as antdTheme, Button, ConfigProvider, theme } from "antd";
+import { MenuFoldOutlined, MenuUnfoldOutlined } from "@ant-design/icons"
+import { theme as antdTheme, Button, ConfigProvider, theme } from "antd"
 
-import { headerHeight } from "../constants";
-import { FullscreenButton } from "./components/fullscreen-button";
-import { LanguageButton } from "./components/language-button";
-import { ThemeButton } from "./components/theme-button";
-import { UserMenu } from "./components/user-menu";
+import { headerHeight } from "../constants"
+import { FullscreenButton } from "./components/fullscreen-button"
+import { LanguageButton } from "./components/language-button"
+import { ThemeButton } from "./components/theme-button"
+import { UserMenu } from "./components/user-menu"
 
 export interface LayoutHeaderProps {
 	className?: string
@@ -24,22 +24,22 @@ export interface LayoutHeaderProps {
 const buttonProps: ButtonProps = {
 	size: "large",
 	className: "px-[11px]",
-};
+}
 
 export default function LayoutHeader({ className, children }: LayoutHeaderProps) {
 	const {
 		token: { Menu },
-	} = theme.useToken();
+	} = theme.useToken()
 	const {
 		sidebarCollapsed,
 		setPreferences,
 		isDark,
 		sidebarTheme,
-	} = usePreferences();
-	const { isMobile } = useDeviceType();
-	const isMaximize = useTabsStore(state => state.isMaximize);
-	const { isTopNav, isMixedNav } = useLayout();
-	const isFixedDarkTheme = isDark || (sidebarTheme === "dark" && (isMixedNav || isTopNav));
+	} = usePreferences()
+	const { isMobile } = useDeviceType()
+	const isMaximize = useTabsStore(state => state.isMaximize)
+	const { isTopNav, isMixedNav } = useLayout()
+	const isFixedDarkTheme = isDark || (sidebarTheme === "dark" && (isMixedNav || isTopNav))
 
 	return (
 		<ConfigProvider
@@ -64,13 +64,13 @@ export default function LayoutHeader({ className, children }: LayoutHeaderProps)
 				{
 					isMobile
 						? (
-							<Button
-								type="text"
-								icon={sidebarCollapsed ? <MenuUnfoldOutlined /> : <MenuFoldOutlined />}
-								onClick={() => setPreferences("sidebarCollapsed", !sidebarCollapsed)}
-								className="h-full"
-							/>
-						)
+								<Button
+									type="text"
+									icon={sidebarCollapsed ? <MenuUnfoldOutlined /> : <MenuFoldOutlined />}
+									onClick={() => setPreferences("sidebarCollapsed", !sidebarCollapsed)}
+									className="h-full"
+								/>
+							)
 						: null
 				}
 
@@ -89,5 +89,5 @@ export default function LayoutHeader({ className, children }: LayoutHeaderProps)
 				</div>
 			</header>
 		</ConfigProvider>
-	);
+	)
 }

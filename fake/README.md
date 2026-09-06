@@ -18,9 +18,9 @@
 > 文件名：`auth.fake.ts`文件名的中间缀(`.fake.`)是必须的。
 
 ```ts
-import { defineFakeRoute } from "vite-plugin-fake-server/client";
+import { defineFakeRoute } from "vite-plugin-fake-server/client"
 
-import { resultSuccess } from "./utils";
+import { resultSuccess } from "./utils"
 
 export default defineFakeRoute([
 	{
@@ -29,7 +29,7 @@ export default defineFakeRoute([
 		method: "post",
 		response: () => resultSuccess({}),
 	},
-]);
+])
 ```
 
 ## 项目中使用 Fake 的建议

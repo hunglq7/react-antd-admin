@@ -1,4 +1,4 @@
-import { clsx } from "clsx";
+import { clsx } from "clsx"
 
 interface Props {
 	style?: React.CSSProperties
@@ -7,7 +7,7 @@ interface Props {
 }
 
 export function BasicContent(props: Props) {
-	const { children, className, style } = props;
+	const { children, className, style } = props
 
 	return (
 		<div
@@ -26,5 +26,5 @@ export function BasicContent(props: Props) {
 				children
 			}
 		</div>
-	);
+	)
 }

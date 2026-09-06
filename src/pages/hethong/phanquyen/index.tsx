@@ -1,70 +1,70 @@
-import type { PhanQuyenItemType } from "#src/api/hethong/phanquyen/types";
-import type { ActionType, ProColumns, ProCoreActionType } from "@ant-design/pro-components";
+import type { PhanQuyenItemType } from "#src/api/hethong/phanquyen/types"
+import type { ActionType, ProColumns, ProCoreActionType } from "@ant-design/pro-components"
 
-import { fetchDeletePhanQuyen, fetchDeletePhanQuyenItems, fetchPhanQuyenList } from "#src/api/hethong/phanquyen";
-import { BasicButton } from "#src/components/basic-button";
-import { BasicContent } from "#src/components/basic-content";
-import { BasicTable } from "#src/components/basic-table";
-import { accessControlCodes, useAccess } from "#src/hooks/use-access";
+import { fetchDeletePhanQuyen, fetchDeletePhanQuyenItems, fetchPhanQuyenList } from "#src/api/hethong/phanquyen"
+import { BasicButton } from "#src/components/basic-button"
+import { BasicContent } from "#src/components/basic-content"
+import { BasicTable } from "#src/components/basic-table"
+import { accessControlCodes, useAccess } from "#src/hooks/use-access"
 
-import { DownloadOutlined, PlusCircleOutlined } from "@ant-design/icons";
-import { Button, Popconfirm } from "antd";
-import { useRef, useState } from "react";
-import { useTranslation } from "react-i18next";
-import * as XLSX from "xlsx";
+import { DownloadOutlined, PlusCircleOutlined } from "@ant-design/icons"
+import { Button, Popconfirm } from "antd"
+import { useRef, useState } from "react"
+import { useTranslation } from "react-i18next"
+import * as XLSX from "xlsx"
 
-import { Detail } from "./components/detail";
-import { getConstantColumns } from "./constants";
+import { Detail } from "./components/detail"
+import { getConstantColumns } from "./constants"
 
 export default function PhanQuyen() {
-	const { t } = useTranslation();
-	const { hasAccessByCodes } = useAccess();
-	const [isOpen, setIsOpen] = useState(false);
-	const [title, setTitle] = useState("");
-	const [detailData, setDetailData] = useState<Partial<PhanQuyenItemType>>({});
-	const [selectedRowKeys, setSelectedRowKeys] = useState<React.Key[]>([]);
-	const actionRef = useRef<ActionType>(null);
+	const { t } = useTranslation()
+	const { hasAccessByCodes } = useAccess()
+	const [isOpen, setIsOpen] = useState(false)
+	const [title, setTitle] = useState("")
+	const [detailData, setDetailData] = useState<Partial<PhanQuyenItemType>>({})
+	const [selectedRowKeys, setSelectedRowKeys] = useState<React.Key[]>([])
+	const actionRef = useRef<ActionType>(null)
 
 	const handleDeleteRow = async (id: number, action?: ProCoreActionType<object>) => {
-		await fetchDeletePhanQuyen(id);
-		setSelectedRowKeys([]);
-		await action?.reload?.();
-		window.$message?.success(t("common.deleteSuccess"));
-	};
+		await fetchDeletePhanQuyen(id)
+		setSelectedRowKeys([])
+		await action?.reload?.()
+		window.$message?.success(t("common.deleteSuccess"))
+	}
 
 	const handleBulkDelete = async () => {
 		if (selectedRowKeys.length === 0) {
-			return;
+			return
 		}
-		await fetchDeletePhanQuyenItems(selectedRowKeys as number[]);
-		setSelectedRowKeys([]);
-		await actionRef.current?.reload();
-		window.$message?.success(t("common.deleteSuccess"));
-	};
+		await fetchDeletePhanQuyenItems(selectedRowKeys as number[])
+		setSelectedRowKeys([])
+		await actionRef.current?.reload()
+		window.$message?.success(t("common.deleteSuccess"))
+	}
 
 	const handleExportExcel = async () => {
 		try {
-			const data = await fetchPhanQuyenList();
+			const data = await fetchPhanQuyenList()
 			const exportData = data.map((item, index) => ({
 				"STT": index + 1,
 				"Tên quyền": item.name,
 				"Mô tả": item.description,
-			}));
+			}))
 			const worksheet = XLSX.utils.json_to_sheet(exportData, {
 				header: ["STT", "Tên quyền", "Mô tả"],
-			});
+			})
 			// Set độ rộng cột
-			worksheet["!cols"] = [{ wch: 5 }, { wch: 25 }, { wch: 35 }, { wch: 30 }];
-			const workbook = XLSX.utils.book_new();
-			XLSX.utils.book_append_sheet(workbook, worksheet, "PhanQuyen");
-			XLSX.writeFile(workbook, "phanquyen_danhmuc.xlsx");
-			window.$message?.success(t("common.exportSuccess"));
+			worksheet["!cols"] = [{ wch: 5 }, { wch: 25 }, { wch: 35 }, { wch: 30 }]
+			const workbook = XLSX.utils.book_new()
+			XLSX.utils.book_append_sheet(workbook, worksheet, "PhanQuyen")
+			XLSX.writeFile(workbook, "phanquyen_danhmuc.xlsx")
+			window.$message?.success(t("common.exportSuccess"))
 		}
 		catch (error) {
-			console.error("Export failed", error);
-			window.$message?.error(t("common.exportFailed"));
+			console.error("Export failed", error)
+			window.$message?.error(t("common.exportFailed"))
 		}
-	};
+	}
 
 	const columns: ProColumns<PhanQuyenItemType>[] = [
 		...getConstantColumns(t),
@@ -81,9 +81,9 @@ export default function PhanQuyen() {
 					size="small"
 					disabled={!hasAccessByCodes(accessControlCodes.update)}
 					onClick={() => {
-						setIsOpen(true);
-						setTitle(t("system.bienap.editBienap"));
-						setDetailData(record);
+						setIsOpen(true)
+						setTitle(t("system.bienap.editBienap"))
+						setDetailData(record)
 					}}
 				>
 					{t("common.edit")}
@@ -106,16 +106,16 @@ export default function PhanQuyen() {
 				</Popconfirm>,
 			],
 		},
-	];
+	]
 
 	const onCloseChange = () => {
-		setIsOpen(false);
-		setDetailData({});
-	};
+		setIsOpen(false)
+		setDetailData({})
+	}
 
 	const refreshTable = () => {
-		actionRef.current?.reload();
-	};
+		actionRef.current?.reload()
+	}
 
 	return (
 		<BasicContent className="h-full">
@@ -138,19 +138,19 @@ export default function PhanQuyen() {
 					</Button>
 				)}
 				request={async (params) => {
-					const data = await fetchPhanQuyenList();
+					const data = await fetchPhanQuyenList()
 					const filtered = data.filter((item) => {
-						const keyword = String(params?.name ?? "").trim().toLowerCase();
-						const mota = String(params?.description ?? "").trim().toLowerCase();
+						const keyword = String(params?.name ?? "").trim().toLowerCase()
+						const mota = String(params?.description ?? "").trim().toLowerCase()
 						return (
 							(item.name?.toLowerCase().includes(keyword) ?? false)
 							&& (mota ? (item.description?.toLowerCase().includes(mota) ?? false) : true)
-						);
-					});
+						)
+					})
 					return {
 						data: filtered,
 						total: filtered.length,
-					};
+					}
 				}}
 				search={{
 					labelWidth: "auto",
@@ -164,9 +164,9 @@ export default function PhanQuyen() {
 						type="primary"
 						disabled={!hasAccessByCodes(accessControlCodes.add)}
 						onClick={() => {
-							setIsOpen(true);
-							setTitle(t("system.hethong.phanquyen"));
-							setDetailData({});
+							setIsOpen(true)
+							setTitle(t("system.hethong.phanquyen"))
+							setDetailData({})
 						}}
 					>
 						{t("common.add")}
@@ -196,5 +196,5 @@ export default function PhanQuyen() {
 				refreshTable={refreshTable}
 			/>
 		</BasicContent>
-	);
+	)
 }

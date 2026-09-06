@@ -1,11 +1,11 @@
-import type { LanguageType } from "#src/locales";
-import type { PreferencesState, ThemeType } from "./types";
+import type { LanguageType } from "#src/locales"
+import type { PreferencesState, ThemeType } from "./types"
 
-import { SIDE_NAVIGATION } from "#src/layout/widgets/preferences/blocks/layout/constants";
-import { getAppNamespace } from "#src/utils/get-app-namespace";
+import { SIDE_NAVIGATION } from "#src/layout/widgets/preferences/blocks/layout/constants"
+import { getAppNamespace } from "#src/utils/get-app-namespace"
 
-import { create } from "zustand";
-import { persist } from "zustand/middleware";
+import { create } from "zustand"
+import { persist } from "zustand/middleware"
 
 /**
  * 默认偏好设置
@@ -68,7 +68,7 @@ export const DEFAULT_PREFERENCES = {
 	copyrightDate: "2026",
 	ICPNumber: "",
 	ICPLink: "",
-} satisfies PreferencesState;
+} satisfies PreferencesState
 
 /**
  * 偏好设置操作接口
@@ -100,16 +100,16 @@ export const usePreferencesStore = create<
 			 */
 			setPreferences: (...args: any[]) => {
 				if (args.length === 1) {
-					const preferences = args[0];
+					const preferences = args[0]
 					set(() => {
-						return { ...preferences };
-					});
+						return { ...preferences }
+					})
 				}
 				else if (args.length === 2) {
-					const [key, value] = args;
+					const [key, value] = args
 					set(() => {
-						return { [key]: value };
-					});
+						return { [key]: value }
+					})
 				}
 			},
 
@@ -118,8 +118,8 @@ export const usePreferencesStore = create<
 			 */
 			changeSiteTheme: (theme) => {
 				set(() => {
-					return { theme };
-				});
+					return { theme }
+				})
 			},
 
 			/**
@@ -127,8 +127,8 @@ export const usePreferencesStore = create<
 			 */
 			changeLanguage: (language) => {
 				set(() => {
-					return { language };
-				});
+					return { language }
+				})
 			},
 
 			/**
@@ -136,20 +136,20 @@ export const usePreferencesStore = create<
 			 */
 			reset: () => {
 				set(() => {
-					return { ...DEFAULT_PREFERENCES };
-				});
+					return { ...DEFAULT_PREFERENCES }
+				})
 			},
 		}),
 		{
 			name: getAppNamespace("preferences"),
 			merge: (persisted, current) => {
-				const persistedState = (persisted ?? {}) as Partial<PreferencesState>;
+				const persistedState = (persisted ?? {}) as Partial<PreferencesState>
 				return {
 					...current,
 					...persistedState,
 					enableCheckUpdates: false,
-				};
+				}
 			},
 		},
 	),
-);
+)

@@ -1,4 +1,4 @@
-import type { AppRouteRecordRaw } from "#src/router/types";
+import type { AppRouteRecordRaw } from "#src/router/types"
 
 export interface AuthType {
 	token: string

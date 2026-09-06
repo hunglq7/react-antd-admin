@@ -1,7 +1,7 @@
-import type { SwitchProps } from "antd";
-import { QuestionCircleOutlined } from "@ant-design/icons";
+import type { SwitchProps } from "antd"
+import { QuestionCircleOutlined } from "@ant-design/icons"
 
-import { Switch, Tooltip } from "antd";
+import { Switch, Tooltip } from "antd"
 
 export interface SwitchItemProps extends Omit<SwitchProps, "onChange"> {
 	children: React.ReactNode
@@ -17,10 +17,10 @@ export function SwitchItem({ tooltip, children, disabled, checked, name, onChang
 				<span className="flex items-center text-sm">{children}</span>
 				{tooltip
 					? (
-						<Tooltip title={tooltip}>
-							<QuestionCircleOutlined />
-						</Tooltip>
-					)
+							<Tooltip title={tooltip}>
+								<QuestionCircleOutlined />
+							</Tooltip>
+						)
 					: null}
 			</div>
 			<Switch
@@ -31,5 +31,5 @@ export function SwitchItem({ tooltip, children, disabled, checked, name, onChang
 				{...restProps}
 			/>
 		</div>
-	);
+	)
 }

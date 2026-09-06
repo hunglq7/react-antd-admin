@@ -1,22 +1,22 @@
-import type { NavigationType } from "#src/store/preferences/types";
-import { MixedNavigationIcon, SideNavigationIcon, TopNavigationIcon, TwoColumnNavigationIcon } from "#src/icons";
+import type { NavigationType } from "#src/store/preferences/types"
+import { MixedNavigationIcon, SideNavigationIcon, TopNavigationIcon, TwoColumnNavigationIcon } from "#src/icons"
 import {
 	MIXED_NAVIGATION,
 	SIDE_NAVIGATION,
 	TOP_NAVIGATION,
 	TWO_COLUMN_NAVIGATION,
-} from "#src/layout/widgets/preferences/blocks/layout/constants";
-import { usePreferencesStore } from "#src/store/preferences";
-import { cn } from "#src/utils/cn";
+} from "#src/layout/widgets/preferences/blocks/layout/constants"
+import { usePreferencesStore } from "#src/store/preferences"
+import { cn } from "#src/utils/cn"
 
-import { QuestionCircleOutlined } from "@ant-design/icons";
-import { Tooltip } from "antd";
-import { useTranslation } from "react-i18next";
+import { QuestionCircleOutlined } from "@ant-design/icons"
+import { Tooltip } from "antd"
+import { useTranslation } from "react-i18next"
 
 export function PreferencesLayout() {
-	const navigationStyle = usePreferencesStore(state => state.navigationStyle);
-	const setPreferences = usePreferencesStore(state => state.setPreferences);
-	const { t } = useTranslation();
+	const navigationStyle = usePreferencesStore(state => state.navigationStyle)
+	const setPreferences = usePreferencesStore(state => state.setPreferences)
+	const { t } = useTranslation()
 
 	const navigationPreset = [
 		{
@@ -43,10 +43,10 @@ export function PreferencesLayout() {
 			icon: <MixedNavigationIcon className="h-[0.63em] text-[4rem] en-US:text-[9rem]" />,
 			type: MIXED_NAVIGATION,
 		},
-	] as const;
+	] as const
 
 	function handleClick(value: NavigationType) {
-		setPreferences("navigationStyle", value);
+		setPreferences("navigationStyle", value)
 	}
 
 	return (
@@ -85,5 +85,5 @@ export function PreferencesLayout() {
 				}
 			</ul>
 		</>
-	);
+	)
 }

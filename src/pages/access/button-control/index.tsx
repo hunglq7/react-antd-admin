@@ -1,14 +1,14 @@
-import type { LoginInfo } from "#src/api/user";
+import type { LoginInfo } from "#src/api/user"
 
-import { AccessControl } from "#src/components/access-control";
-import { BasicContent } from "#src/components/basic-content";
-import { accessControlCodes, AccessControlRoles, useAccess } from "#src/hooks/use-access";
-import { useAuthStore } from "#src/store/auth";
-import { useUserStore } from "#src/store/user";
+import { AccessControl } from "#src/components/access-control"
+import { BasicContent } from "#src/components/basic-content"
+import { accessControlCodes, AccessControlRoles, useAccess } from "#src/hooks/use-access"
+import { useAuthStore } from "#src/store/auth"
+import { useUserStore } from "#src/store/user"
 
-import { Alert, Button, Card, Typography } from "antd";
-import { useTranslation } from "react-i18next";
-import { useNavigate } from "react-router";
+import { Alert, Button, Card, Typography } from "antd"
+import { useTranslation } from "react-i18next"
+import { useNavigate } from "react-router"
 
 const accounts: Record<string, LoginInfo> = {
 	[AccessControlRoles.admin]: {
@@ -19,31 +19,31 @@ const accounts: Record<string, LoginInfo> = {
 		password: "123456789admin",
 		email: "admin@example.com",
 	},
-};
+}
 
 export default function ButtonControl() {
-	const { t } = useTranslation();
-	const navigate = useNavigate();
-	const { hasAccessByCodes, hasAccessByRoles } = useAccess();
-	const { roles: userRoles } = useUserStore();
-	const resetAllStores = useAuthStore(state => state.reset);
-	const authLogin = useAuthStore(state => state.login);
+	const { t } = useTranslation()
+	const navigate = useNavigate()
+	const { hasAccessByCodes, hasAccessByRoles } = useAccess()
+	const { roles: userRoles } = useUserStore()
+	const resetAllStores = useAuthStore(state => state.reset)
+	const authLogin = useAuthStore(state => state.login)
 
 	function roleButtonType(role: string) {
-		return userRoles.includes(role) ? "primary" : "default";
+		return userRoles.includes(role) ? "primary" : "default"
 	}
 
 	function changeAccount(role: string) {
 		if (userRoles.includes(role)) {
-			return;
+			return
 		}
 
-		const account = accounts[role];
-		resetAllStores();
+		const account = accounts[role]
+		resetAllStores()
 		if (account) {
 			authLogin(account).then(() => {
-				navigate(0);
-			});
+				navigate(0)
+			})
 		}
 	}
 
@@ -182,5 +182,5 @@ export default function ButtonControl() {
 				</div>
 			</Card>
 		</BasicContent>
-	);
+	)
 }

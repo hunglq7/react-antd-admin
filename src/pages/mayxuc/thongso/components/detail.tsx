@@ -1,10 +1,10 @@
-import type { ThongsokythuatmayxucItemType } from "#src/api/mayxuc/thongso";
-import { fetchMayxucList } from "#src/api/mayxuc/danhmuc";
-import { fetchAddThongsokythuatmayxucItem, fetchUpdateThongsokythuatmayxucItem } from "#src/api/mayxuc/thongso";
-import { ModalForm, ProFormSelect, ProFormText, ProFormTextArea } from "@ant-design/pro-components";
-import { Form } from "antd";
-import { useEffect, useState } from "react";
-import { useTranslation } from "react-i18next";
+import type { ThongsokythuatmayxucItemType } from "#src/api/mayxuc/thongso"
+import { fetchMayxucList } from "#src/api/mayxuc/danhmuc"
+import { fetchAddThongsokythuatmayxucItem, fetchUpdateThongsokythuatmayxucItem } from "#src/api/mayxuc/thongso"
+import { ModalForm, ProFormSelect, ProFormText, ProFormTextArea } from "@ant-design/pro-components"
+import { Form } from "antd"
+import { useEffect, useState } from "react"
+import { useTranslation } from "react-i18next"
 
 interface DetailProps {
 	title: React.ReactNode
@@ -15,33 +15,33 @@ interface DetailProps {
 }
 
 export function Detail({ title, open, onCloseChange, detailData, refreshTable }: DetailProps) {
-	const { t } = useTranslation();
-	const [form] = Form.useForm<ThongsokythuatmayxucItemType>();
-	const [mayxucOptions, setMayxucOptions] = useState<{ label: string, value: number }[]>([]);
+	const { t } = useTranslation()
+	const [form] = Form.useForm<ThongsokythuatmayxucItemType>()
+	const [mayxucOptions, setMayxucOptions] = useState<{ label: string, value: number }[]>([])
 	const onFinish = async (values: ThongsokythuatmayxucItemType) => {
-		const payload = detailData.id ? { ...detailData, ...values } : values;
+		const payload = detailData.id ? { ...detailData, ...values } : values
 		if (detailData.id) {
-			await fetchUpdateThongsokythuatmayxucItem(payload);
-			window.$message?.success(t("common.updateSuccess"));
+			await fetchUpdateThongsokythuatmayxucItem(payload)
+			window.$message?.success(t("common.updateSuccess"))
 		}
 		else {
-			await fetchAddThongsokythuatmayxucItem(payload);
-			window.$message?.success(t("common.addSuccess"));
+			await fetchAddThongsokythuatmayxucItem(payload)
+			window.$message?.success(t("common.addSuccess"))
 		}
-		refreshTable?.();
-		return true;
-	};
+		refreshTable?.()
+		return true
+	}
 
 	useEffect(() => {
 		const loadOptions = async () => {
-			const mayxucData = await fetchMayxucList();
-			setMayxucOptions(mayxucData.map(item => ({ label: item.tenThietBi ?? "", value: item.id ?? 0 })));
-		};
-		loadOptions();
-		if (open) {
-			form.setFieldsValue(detailData);
+			const mayxucData = await fetchMayxucList()
+			setMayxucOptions(mayxucData.map(item => ({ label: item.tenThietBi ?? "", value: item.id ?? 0 })))
 		}
-	}, [open, detailData, form]);
+		loadOptions()
+		if (open) {
+			form.setFieldsValue(detailData)
+		}
+	}, [open, detailData, form])
 
 	return (
 		<ModalForm<ThongsokythuatmayxucItemType>
@@ -49,7 +49,7 @@ export function Detail({ title, open, onCloseChange, detailData, refreshTable }:
 			open={open}
 			onOpenChange={(visible) => {
 				if (!visible)
-					onCloseChange();
+					onCloseChange()
 			}}
 			labelCol={{ md: 6, xl: 5 }}
 			layout="horizontal"
@@ -74,5 +74,5 @@ export function Detail({ title, open, onCloseChange, detailData, refreshTable }:
 			<ProFormText name="donViTinh" label="Đơn vị tính" placeholder="Nhập đơn vị tính" />
 			<ProFormTextArea name="thongSo" label="Thông số" placeholder="Nhập thông số" />
 		</ModalForm>
-	);
+	)
 }

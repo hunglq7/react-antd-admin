@@ -30,4 +30,4 @@ interface ApiTableRequest extends Record<string, any> {
 	current?: number
 }
 
-type Recordable<T = any> = Record<string, T>;
+type Recordable<T = any> = Record<string, T>

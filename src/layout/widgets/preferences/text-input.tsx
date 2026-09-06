@@ -1,4 +1,4 @@
-import { Input } from "antd";
+import { Input } from "antd"
 
 export interface TextInputProps {
 	children: React.ReactNode
@@ -17,9 +17,9 @@ export function TextInput({
 }: TextInputProps) {
 	const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
 		if (event) {
-			onChange?.(name, event.target.value);
+			onChange?.(name, event.target.value)
 		}
-	};
+	}
 
 	return (
 		<div className="hover:bg-gray-100 dark:hover:bg-gray-700 my-1 flex w-full items-center justify-between rounded-md px-2 py-2.5">
@@ -32,5 +32,5 @@ export function TextInput({
 				onChange={handleChange}
 			/>
 		</div>
-	);
+	)
 }

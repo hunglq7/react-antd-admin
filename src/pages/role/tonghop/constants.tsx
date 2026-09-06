@@ -1,8 +1,8 @@
-import type { TonghopRoleItemType } from "#src/api/role/tonghop/types.js";
-import type { ProColumns } from "@ant-design/pro-components";
-import type { TFunction } from "i18next";
-import { Tag } from "antd";
-import dayjs from "dayjs";
+import type { TonghopRoleItemType } from "#src/api/role/tonghop/types.js"
+import type { ProColumns } from "@ant-design/pro-components"
+import type { TFunction } from "i18next"
+import { Tag } from "antd"
+import dayjs from "dayjs"
 
 export function getConstantColumns(t: TFunction<"translation", undefined>): ProColumns<TonghopRoleItemType>[] {
 	return [
@@ -58,5 +58,5 @@ export function getConstantColumns(t: TFunction<"translation", undefined>): ProC
 			width: 300,
 			ellipsis: true,
 		},
-	];
+	]
 }

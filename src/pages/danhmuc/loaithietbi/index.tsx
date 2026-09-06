@@ -1,65 +1,65 @@
-import type { ActionType, ProColumns, ProCoreActionType } from "@ant-design/pro-components";
-import type { LoaithietbiItemType } from "#src/api/danhmuc/loaithietbi/types";
-import { DownloadOutlined, PlusCircleOutlined } from "@ant-design/icons";
-import { Button, Popconfirm, Tag } from "antd";
-import { useRef, useState } from "react";
-import { useTranslation } from "react-i18next";
-import * as XLSX from "xlsx";
-import { fetchDeleteLoaithietbiItem, fetchDeleteLoaithietbiItems, fetchLoaithietbiList } from "#src/api/danhmuc/loaithietbi";
-import { BasicButton } from "#src/components/basic-button";
-import { BasicContent } from "#src/components/basic-content";
-import { BasicTable } from "#src/components/basic-table";
-import { accessControlCodes, useAccess } from "#src/hooks/use-access";
-import { Detail } from "./components/detail";
+import type { LoaithietbiItemType } from "#src/api/danhmuc/loaithietbi/types"
+import type { ActionType, ProColumns, ProCoreActionType } from "@ant-design/pro-components"
+import { fetchDeleteLoaithietbiItem, fetchDeleteLoaithietbiItems, fetchLoaithietbiList } from "#src/api/danhmuc/loaithietbi"
+import { BasicButton } from "#src/components/basic-button"
+import { BasicContent } from "#src/components/basic-content"
+import { BasicTable } from "#src/components/basic-table"
+import { accessControlCodes, useAccess } from "#src/hooks/use-access"
+import { DownloadOutlined, PlusCircleOutlined } from "@ant-design/icons"
+import { Button, Popconfirm, Tag } from "antd"
+import { useRef, useState } from "react"
+import { useTranslation } from "react-i18next"
+import * as XLSX from "xlsx"
+import { Detail } from "./components/detail"
 
 export default function LoaiThietBi() {
-	const { t } = useTranslation();
-	const { hasAccessByCodes } = useAccess();
-	const [isOpen, setIsOpen] = useState(false);
-	const [title, setTitle] = useState("");
-	const [detailData, setDetailData] = useState<Partial<LoaithietbiItemType>>({});
-	const [selectedRowKeys, setSelectedRowKeys] = useState<React.Key[]>([]);
-	const actionRef = useRef<ActionType>(null);
+	const { t } = useTranslation()
+	const { hasAccessByCodes } = useAccess()
+	const [isOpen, setIsOpen] = useState(false)
+	const [title, setTitle] = useState("")
+	const [detailData, setDetailData] = useState<Partial<LoaithietbiItemType>>({})
+	const [selectedRowKeys, setSelectedRowKeys] = useState<React.Key[]>([])
+	const actionRef = useRef<ActionType>(null)
 
 	const handleDeleteRow = async (id: number, action?: ProCoreActionType<object>) => {
-		await fetchDeleteLoaithietbiItem(id);
-		setSelectedRowKeys([]);
-		await action?.reload?.();
-		window.$message?.success(t("common.deleteSuccess"));
-	};
+		await fetchDeleteLoaithietbiItem(id)
+		setSelectedRowKeys([])
+		await action?.reload?.()
+		window.$message?.success(t("common.deleteSuccess"))
+	}
 
 	const handleBulkDelete = async () => {
 		if (selectedRowKeys.length === 0)
-			return;
-		await fetchDeleteLoaithietbiItems(selectedRowKeys as number[]);
-		setSelectedRowKeys([]);
-		await actionRef.current?.reload();
-		window.$message?.success(t("common.deleteSuccess"));
-	};
+			return
+		await fetchDeleteLoaithietbiItems(selectedRowKeys as number[])
+		setSelectedRowKeys([])
+		await actionRef.current?.reload()
+		window.$message?.success(t("common.deleteSuccess"))
+	}
 
 	const handleExportExcel = async () => {
 		try {
-			const data = await fetchLoaithietbiList();
+			const data = await fetchLoaithietbiList()
 			const exportData = data.map((item, index) => ({
 				"STT": index + 1,
 				"Loại thiết bị": item.tenLoai,
 				"Trạng thái": item.trangThai ? "Hoạt động" : "Không hoạt động",
 
-			}));
+			}))
 			const worksheet = XLSX.utils.json_to_sheet(exportData, {
 				header: ["STT", "Loại thiết bị", "Trạng thái"],
-			});
-			worksheet["!cols"] = [{ wch: 5 }, { wch: 18 }, { wch: 30 }];
-			const workbook = XLSX.utils.book_new();
-			XLSX.utils.book_append_sheet(workbook, worksheet, "LoaiThietBi");
-			XLSX.writeFile(workbook, "loaithietbi_danhmuc.xlsx");
-			window.$message?.success(t("common.exportSuccess"));
+			})
+			worksheet["!cols"] = [{ wch: 5 }, { wch: 18 }, { wch: 30 }]
+			const workbook = XLSX.utils.book_new()
+			XLSX.utils.book_append_sheet(workbook, worksheet, "LoaiThietBi")
+			XLSX.writeFile(workbook, "loaithietbi_danhmuc.xlsx")
+			window.$message?.success(t("common.exportSuccess"))
 		}
 		catch (error) {
-			console.error(error);
-			window.$message?.error(t("common.exportFailed"));
+			console.error(error)
+			window.$message?.error(t("common.exportFailed"))
 		}
-	};
+	}
 
 	const columns: ProColumns<LoaithietbiItemType>[] = [
 		{
@@ -92,9 +92,9 @@ export default function LoaiThietBi() {
 					size="small"
 					disabled={!hasAccessByCodes(accessControlCodes.update)}
 					onClick={() => {
-						setIsOpen(true);
-						setTitle("Sửa loại thiết bị");
-						setDetailData(record);
+						setIsOpen(true)
+						setTitle("Sửa loại thiết bị")
+						setDetailData(record)
 					}}
 				>
 					{t("common.edit")}
@@ -112,12 +112,12 @@ export default function LoaiThietBi() {
 				</Popconfirm>,
 			],
 		},
-	];
+	]
 
 	const onCloseChange = () => {
-		setIsOpen(false);
-		setDetailData({});
-	};
+		setIsOpen(false)
+		setDetailData({})
+	}
 
 	return (
 		<BasicContent className="h-full">
@@ -136,19 +136,19 @@ export default function LoaiThietBi() {
 					</Button>
 				)}
 				request={async (params) => {
-					const data = await fetchLoaithietbiList();
+					const data = await fetchLoaithietbiList()
 					const filtered = data.filter((item) => {
-						const keyword = String(params?.tenLoai ?? "").trim().toLowerCase();
+						const keyword = String(params?.tenLoai ?? "").trim().toLowerCase()
 
 						return (
 							(item.tenLoai?.toLowerCase().includes(keyword) ?? false)
 
-						);
-					});
+						)
+					})
 					return {
 						data: filtered,
 						total: filtered.length,
-					};
+					}
 				}}
 				search={{ labelWidth: "auto", defaultCollapsed: false }}
 				headerTitle="Loại thiết bị"
@@ -159,9 +159,9 @@ export default function LoaiThietBi() {
 						type="primary"
 						disabled={!hasAccessByCodes(accessControlCodes.add)}
 						onClick={() => {
-							setIsOpen(true);
-							setTitle("Thêm loại thiết bị");
-							setDetailData({});
+							setIsOpen(true)
+							setTitle("Thêm loại thiết bị")
+							setDetailData({})
 						}}
 					>
 						{t("common.add")}
@@ -186,5 +186,5 @@ export default function LoaiThietBi() {
 			/>
 			<Detail title={title} open={isOpen} detailData={detailData} onCloseChange={onCloseChange} refreshTable={() => actionRef.current?.reload()} />
 		</BasicContent>
-	);
+	)
 }

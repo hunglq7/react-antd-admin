@@ -1,12 +1,12 @@
-import type { TaikhoanItemType } from "./types";
-import { request } from "#src/utils/request";
+import type { TaikhoanItemType } from "./types"
+import { request } from "#src/utils/request"
 
-export * from "./types";
+export * from "./types"
 
 export function fetchTaikhoanList() {
 	return request
 		.get<TaikhoanItemType[]>("api/Users/getall", { ignoreLoading: true })
-		.json();
+		.json()
 }
 
 export function fetchAddTaikhoan(data: TaikhoanItemType) {
@@ -14,7 +14,7 @@ export function fetchAddTaikhoan(data: TaikhoanItemType) {
 		.post("api/Users", {
 			json: data,
 			ignoreLoading: true,
-		});
+		})
 }
 
 export function fetchUpdateTaikhoan(id: number, data: TaikhoanItemType) {
@@ -30,7 +30,7 @@ export function fetchDeleteTaikhoan(id: number) {
 		.delete(`api/Users/${id}`, {
 			json: id,
 			ignoreLoading: true,
-		});
+		})
 }
 
 export function fetchDeleteMutipleTaikhoan(ids: string[]) {
@@ -38,5 +38,5 @@ export function fetchDeleteMutipleTaikhoan(ids: string[]) {
 		.post("api/Users/DeleteMultipale", {
 			json: ids.map(id => ({ id })),
 			ignoreLoading: true,
-		});
+		})
 }

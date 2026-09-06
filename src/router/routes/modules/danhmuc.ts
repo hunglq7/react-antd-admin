@@ -1,11 +1,11 @@
-import type { AppRouteRecordRaw } from "#src/router/types";
-import ContainerLayout from "#src/layout/container-layout";
-import { danhmuc } from "#src/router/extra-info/order";
-import { lazy } from "react";
+import type { AppRouteRecordRaw } from "#src/router/types"
+import ContainerLayout from "#src/layout/container-layout"
+import { danhmuc } from "#src/router/extra-info/order"
+import { lazy } from "react"
 
-const DonviPage = lazy(() => import("#src/pages/danhmuc/donvi"));
-const Chucvu = lazy(() => import("#src/pages/danhmuc/chucvu"));
-const LoaiThietBi = lazy(() => import("#src/pages/danhmuc/loaithietbi"));
+const DonviPage = lazy(() => import("#src/pages/danhmuc/donvi"))
+const Chucvu = lazy(() => import("#src/pages/danhmuc/chucvu"))
+const LoaiThietBi = lazy(() => import("#src/pages/danhmuc/loaithietbi"))
 const routes: AppRouteRecordRaw[] = [
 	{
 		path: "/danhmuc",
@@ -61,6 +61,6 @@ const routes: AppRouteRecordRaw[] = [
 			},
 		],
 	},
-];
+]
 
-export default routes;
+export default routes

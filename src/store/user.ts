@@ -1,7 +1,7 @@
-import type { UserInfoType } from "#src/api/user/types";
+import type { UserInfoType } from "#src/api/user/types"
 
-import { fetchUserInfo } from "#src/api/user";
-import { create } from "zustand";
+import { fetchUserInfo } from "#src/api/user"
+import { create } from "zustand"
 
 const initialState = {
 	id: "",
@@ -15,9 +15,9 @@ const initialState = {
 	description: "",
 	roles: [],
 	// menus: [],
-};
+}
 
-type UserState = UserInfoType;
+type UserState = UserInfoType
 
 interface UserAction {
 	getUserInfo: () => Promise<UserInfoType>
@@ -31,11 +31,11 @@ export const useUserStore = create<UserState & UserAction>()(
 		...initialState,
 
 		getUserInfo: async () => {
-			const response = await fetchUserInfo();
+			const response = await fetchUserInfo()
 			set({
 				...response,
-			});
-			return response;
+			})
+			return response
 		},
 
 		update: user => set(user),
@@ -43,9 +43,9 @@ export const useUserStore = create<UserState & UserAction>()(
 		reset: () => {
 			return set({
 				...initialState,
-			});
+			})
 		},
 
 	}),
 
-);
+)

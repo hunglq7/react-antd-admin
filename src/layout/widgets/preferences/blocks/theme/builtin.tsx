@@ -1,21 +1,21 @@
-import type { BuiltinThemeType } from "#src/store/preferences/types";
-import type { ColorPickerProps } from "antd";
+import type { BuiltinThemeType } from "#src/store/preferences/types"
+import type { ColorPickerProps } from "antd"
 
-import { usePreferencesStore } from "#src/store/preferences";
-import { cn } from "#src/utils/cn";
+import { usePreferencesStore } from "#src/store/preferences"
+import { cn } from "#src/utils/cn"
 
-import { ColorPicker } from "antd";
-import { useState } from "react";
-import { useTranslation } from "react-i18next";
+import { ColorPicker } from "antd"
+import { useState } from "react"
+import { useTranslation } from "react-i18next"
 
 export function BuiltinTheme() {
 	const {
 		builtinTheme,
 		themeColorPrimary,
 		setPreferences,
-	} = usePreferencesStore();
-	const [color, setColor] = useState(builtinTheme === "custom" ? themeColorPrimary : "#1677ff");
-	const { t } = useTranslation();
+	} = usePreferencesStore()
+	const [color, setColor] = useState(builtinTheme === "custom" ? themeColorPrimary : "#1677ff")
+	const { t } = useTranslation()
 
 	const builtinThemePresets = [
 		{
@@ -98,22 +98,22 @@ export function BuiltinTheme() {
 			value: "custom",
 			color: "#1677ff",
 		},
-	] as const;
+	] as const
 
 	const handleColorChange: ColorPickerProps["onChangeComplete"] = (aggregationColor) => {
-		const newColor = `#${aggregationColor.toHex()}`;
-		setColor(newColor);
+		const newColor = `#${aggregationColor.toHex()}`
+		setColor(newColor)
 		setPreferences({
 			builtinTheme: "custom",
 			themeColorPrimary: newColor,
-		});
-	};
+		})
+	}
 
 	function handleClick(value: BuiltinThemeType) {
 		setPreferences({
 			builtinTheme: value,
 			themeColorPrimary: builtinThemePresets.find(item => item.value === value)?.color,
-		});
+		})
 	}
 
 	return (
@@ -151,18 +151,18 @@ export function BuiltinTheme() {
 									</dt>
 								</dl>
 							</li>
-						);
+						)
 						if (item.value === "custom") {
 							return (
 								<ColorPicker key={item.value} value={color} onChangeComplete={handleColorChange}>
 									{innerBlock}
 								</ColorPicker>
-							);
+							)
 						}
-						return innerBlock;
+						return innerBlock
 					})
 				}
 			</ul>
 		</>
-	);
+	)
 }

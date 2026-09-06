@@ -1,11 +1,11 @@
-import type { AppRouteRecordRaw } from "#src/router/types";
-import ContainerLayout from "#src/layout/container-layout";
-import { mayxuc } from "#src/router/extra-info/order";
-import { lazy } from "react";
+import type { AppRouteRecordRaw } from "#src/router/types"
+import ContainerLayout from "#src/layout/container-layout"
+import { mayxuc } from "#src/router/extra-info/order"
+import { lazy } from "react"
 
-const MayxucDanhmuc = lazy(() => import("#src/pages/mayxuc/danhmuc/index"));
-const MayxucThongso = lazy(() => import("#src/pages/mayxuc/thongso/index"));
-const MayxucTonghop = lazy(() => import("#src/pages/mayxuc/tonghop/index"));
+const MayxucDanhmuc = lazy(() => import("#src/pages/mayxuc/danhmuc/index"))
+const MayxucThongso = lazy(() => import("#src/pages/mayxuc/thongso/index"))
+const MayxucTonghop = lazy(() => import("#src/pages/mayxuc/tonghop/index"))
 const routes: AppRouteRecordRaw[] = [
 	{
 		path: "/mayxuc",
@@ -61,6 +61,6 @@ const routes: AppRouteRecordRaw[] = [
 			},
 		],
 	},
-];
+]
 
-export default routes;
+export default routes

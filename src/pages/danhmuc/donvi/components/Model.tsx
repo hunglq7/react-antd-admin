@@ -1,23 +1,23 @@
-import type { DonviItemType } from "#src/api/danhmuc/donvi/types";
+import type { DonviItemType } from "#src/api/danhmuc/donvi/types"
 import {
 	fetchAddDonviItem,
 	fetchUpdateDonviItem,
-} from "#src/api/danhmuc/donvi/index";
+} from "#src/api/danhmuc/donvi/index"
 import {
 	ModalForm,
 	ProFormSwitch,
 	ProFormText,
-} from "@ant-design/pro-components";
-import { Form } from "antd";
-import { useEffect } from "react";
-import { useTranslation } from "react-i18next";
+} from "@ant-design/pro-components"
+import { Form } from "antd"
+import { useEffect } from "react"
+import { useTranslation } from "react-i18next"
 
 interface DetailProps {
-	title: React.ReactNode;
-	open: boolean;
-	detailData: Partial<DonviItemType>;
-	onCloseChange: () => void;
-	refreshTable?: () => void;
+	title: React.ReactNode
+	open: boolean
+	detailData: Partial<DonviItemType>
+	onCloseChange: () => void
+	refreshTable?: () => void
 }
 
 export function Model({
@@ -27,42 +27,42 @@ export function Model({
 	onCloseChange,
 	refreshTable,
 }: DetailProps) {
-	const { t } = useTranslation();
-	const [form] = Form.useForm<DonviItemType>();
+	const { t } = useTranslation()
+	const [form] = Form.useForm<DonviItemType>()
 	const onFinish = async (values: DonviItemType) => {
 		try {
-			const payload = detailData.id ? { ...detailData, ...values } : values;
+			const payload = detailData.id ? { ...detailData, ...values } : values
 			if (detailData.id) {
-				await fetchUpdateDonviItem(payload);
-				window.$message?.success(t("common.updateSuccess"));
+				await fetchUpdateDonviItem(payload)
+				window.$message?.success(t("common.updateSuccess"))
 			}
 			else {
-				await fetchAddDonviItem(payload);
-				window.$message?.success(t("common.addSuccess"));
+				await fetchAddDonviItem(payload)
+				window.$message?.success(t("common.addSuccess"))
 			}
-			refreshTable?.();
-			onCloseChange();
-			return true;
+			refreshTable?.()
+			onCloseChange()
+			return true
 		}
 		catch (error) {
-			console.error("Save error:", error);
-			window.$message?.error((error as any)?.message || t("common.saveFailed"));
-			return false;
+			console.error("Save error:", error)
+			window.$message?.error((error as any)?.message || t("common.saveFailed"))
+			return false
 		}
-	};
+	}
 
 	useEffect(() => {
 		if (open) {
-			form.setFieldsValue(detailData);
+			form.setFieldsValue(detailData)
 		}
-	}, [open]);
+	}, [open])
 	return (
 		<ModalForm<DonviItemType>
 			title={title}
 			open={open}
 			onOpenChange={(visible) => {
 				if (!visible)
-					onCloseChange();
+					onCloseChange()
 			}}
 			labelCol={{ md: 6, xl: 4 }}
 			layout="horizontal"
@@ -80,5 +80,5 @@ export function Model({
 			/>
 			<ProFormSwitch name="trangThai" label="Trạng thái" initialValue={true} />
 		</ModalForm>
-	);
+	)
 }

@@ -1,17 +1,17 @@
-import type { ButtonProps } from "antd";
+import type { ButtonProps } from "antd"
 
-import { BasicButton } from "#src/components/basic-button";
-import { useDeviceType } from "#src/hooks/use-device-type";
-import { usePreferences } from "#src/hooks/use-preferences";
-import { loginPath } from "#src/router/extra-info";
-import { useAuthStore } from "#src/store/auth";
-import { usePreferencesStore } from "#src/store/preferences";
+import { BasicButton } from "#src/components/basic-button"
+import { useDeviceType } from "#src/hooks/use-device-type"
+import { usePreferences } from "#src/hooks/use-preferences"
+import { loginPath } from "#src/router/extra-info"
+import { useAuthStore } from "#src/store/auth"
+import { usePreferencesStore } from "#src/store/preferences"
 
-import { CopyOutlined, RedoOutlined, RocketOutlined, SettingOutlined } from "@ant-design/icons";
-import { theme as antdTheme, Badge, ConfigProvider, Divider, Drawer, FloatButton } from "antd";
-import { useState } from "react";
-import { useTranslation } from "react-i18next";
-import { useNavigate } from "react-router";
+import { CopyOutlined, RedoOutlined, RocketOutlined, SettingOutlined } from "@ant-design/icons"
+import { theme as antdTheme, Badge, ConfigProvider, Divider, Drawer, FloatButton } from "antd"
+import { useState } from "react"
+import { useTranslation } from "react-i18next"
+import { useNavigate } from "react-router"
 
 import {
 	Animation,
@@ -22,32 +22,32 @@ import {
 	Sidebar,
 	SiteTheme,
 	Tabbar,
-} from "./blocks";
+} from "./blocks"
 
-const preferencesContentId = "__react-antd-admin__preferences_drawer__";
+const preferencesContentId = "__react-antd-admin__preferences_drawer__"
 export function Preferences({ ...restProps }: ButtonProps) {
-	const { t } = useTranslation();
-	const navigate = useNavigate();
-	const [isOpen, setIsOpen] = useState(false);
-	const { isMobile } = useDeviceType();
-	const { reset, isDefault, isDark } = usePreferences();
-	const preferences = usePreferencesStore();
-	const logout = useAuthStore(state => state.logout);
+	const { t } = useTranslation()
+	const navigate = useNavigate()
+	const [isOpen, setIsOpen] = useState(false)
+	const { isMobile } = useDeviceType()
+	const { reset, isDefault, isDark } = usePreferences()
+	const preferences = usePreferencesStore()
+	const logout = useAuthStore(state => state.logout)
 
 	const clearAndLogout = async () => {
-		await logout();
-		usePreferencesStore.persist.clearStorage();
-		navigate(loginPath);
-	};
+		await logout()
+		usePreferencesStore.persist.clearStorage()
+		navigate(loginPath)
+	}
 
 	const handleCopyPreferences = async () => {
-		const data = JSON.stringify(preferences, null, 2);
-		await navigator.clipboard.writeText(data);
+		const data = JSON.stringify(preferences, null, 2)
+		await navigator.clipboard.writeText(data)
 		window.$modal?.success?.({
 			title: t("preferences.copyPreferencesSuccessTitle"),
 			content: t("preferences.copyPreferencesSuccess"),
-		});
-	};
+		})
+	}
 
 	return (
 		<>
@@ -55,8 +55,8 @@ export function Preferences({ ...restProps }: ButtonProps) {
 				type="text"
 				{...restProps}
 				onClick={(e) => {
-					restProps?.onClick?.(e);
-					setIsOpen(true);
+					restProps?.onClick?.(e)
+					setIsOpen(true)
 				}}
 			>
 				<SettingOutlined />
@@ -76,7 +76,7 @@ export function Preferences({ ...restProps }: ButtonProps) {
 					title={t("preferences.title")}
 					placement="right"
 					onClose={() => {
-						setIsOpen(false);
+						setIsOpen(false)
 					}}
 					extra={(
 						<Badge
@@ -110,8 +110,8 @@ export function Preferences({ ...restProps }: ButtonProps) {
 					)}
 					{...(isMobile
 						? {
-							width: "100vw",
-						}
+								width: "100vw",
+							}
 						: {})}
 					open={isOpen}
 					id={preferencesContentId}
@@ -147,5 +147,5 @@ export function Preferences({ ...restProps }: ButtonProps) {
 				</Drawer>
 			</ConfigProvider>
 		</>
-	);
+	)
 }

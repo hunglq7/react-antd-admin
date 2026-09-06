@@ -1,23 +1,23 @@
 /// <reference types="vitest/config" />
 
-import process from "node:process";
+import process from "node:process"
 import {
 	cleanupSVG,
 	isEmptyColor,
 	parseColors,
 	runSVGO,
 	SVG,
-} from "@iconify/tools";
-import tailwindcss from "@tailwindcss/vite";
-import react from "@vitejs/plugin-react";
-import { codeInspectorPlugin } from "code-inspector-plugin";
-import dayjs from "dayjs";
-import { FileSystemIconLoader } from "unplugin-icons/loaders";
-import Icons from "unplugin-icons/vite";
-import { defineConfig } from "vite";
-import { checker } from "vite-plugin-checker";
-import { vitePluginFakeServer } from "vite-plugin-fake-server";
-import svgrPlugin from "vite-plugin-svgr";
+} from "@iconify/tools"
+import tailwindcss from "@tailwindcss/vite"
+import react from "@vitejs/plugin-react"
+import { codeInspectorPlugin } from "code-inspector-plugin"
+import dayjs from "dayjs"
+import { FileSystemIconLoader } from "unplugin-icons/loaders"
+import Icons from "unplugin-icons/vite"
+import { defineConfig } from "vite"
+import { checker } from "vite-plugin-checker"
+import { vitePluginFakeServer } from "vite-plugin-fake-server"
+import svgrPlugin from "vite-plugin-svgr"
 
 import {
 	author,
@@ -26,14 +26,14 @@ import {
 	license,
 	name,
 	version,
-} from "./package.json";
+} from "./package.json"
 
 const __APP_INFO__ = {
 	pkg: { dependencies, devDependencies, name, version, license, author },
 	lastBuildTime: dayjs(new Date()).format("YYYY-MM-DD HH:mm:ss"),
-};
+}
 
-const isDev = process.env.NODE_ENV === "development";
+const isDev = process.env.NODE_ENV === "development"
 
 // https://vitejs.dev/config/
 export default defineConfig({
@@ -88,9 +88,9 @@ export default defineConfig({
 			 */
 			transform: (svg, collection) => {
 				if (collection === "svg") {
-					const svgObject = new SVG(svg);
-					cleanupSVG(svgObject);
-					runSVGO(svgObject);
+					const svgObject = new SVG(svg)
+					cleanupSVG(svgObject)
+					runSVGO(svgObject)
 					parseColors(svgObject, {
 						defaultColor: "currentColor",
 						callback: (attr, colorStr, color) => {
@@ -98,21 +98,21 @@ export default defineConfig({
 								// Color cannot be parsed!
 								throw new Error(
 									`Invalid color: "${colorStr}" in attribute ${attr}`,
-								);
+								)
 							}
 
 							if (isEmptyColor(color)) {
 								// Color is empty: 'none' or 'transparent'. Return as is
-								return color;
+								return color
 							}
 
 							// If color is not empty, return it
-							return color;
+							return color
 						},
-					});
-					return svgObject.toString({ height: "1em", width: "1em" });
+					})
+					return svgObject.toString({ height: "1em", width: "1em" })
 				}
-				return svg;
+				return svg
 			},
 			compiler: "jsx",
 			jsx: "react",
@@ -120,7 +120,11 @@ export default defineConfig({
 		}),
 
 		tailwindcss(),
-		react(),
+		react({
+			babel: {
+				plugins: ["babel-plugin-react-compiler"],
+			},
+		}),
 	],
 	test: {
 		globals: true,
@@ -156,4 +160,4 @@ export default defineConfig({
 			},
 		},
 	},
-});
+})

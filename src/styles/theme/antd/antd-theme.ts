@@ -1,4 +1,4 @@
-import type { ThemeConfig } from "antd";
+import type { ThemeConfig } from "antd"
 
 /**
  * 自定义的Ant Design浅色主题配置
@@ -12,7 +12,7 @@ import type { ThemeConfig } from "antd";
  */
 export const customAntdLightTheme: ThemeConfig = {
 
-};
+}
 
 /**
  * 自定义的Ant Design深色主题配置
@@ -26,4 +26,4 @@ export const customAntdLightTheme: ThemeConfig = {
  */
 export const customAntdDarkTheme: ThemeConfig = {
 
-};
+}

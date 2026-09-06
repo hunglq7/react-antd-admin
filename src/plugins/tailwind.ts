@@ -1,13 +1,13 @@
-import { getColorPalettes } from "#src/styles/theme/antd/css-variables";
+import { getColorPalettes } from "#src/styles/theme/antd/css-variables"
 
-import plugin from "tailwindcss/plugin";
+import plugin from "tailwindcss/plugin"
 
 /**
  * How to use custom plugin in tailwindcss
  * @see https://github.com/tailwindlabs/tailwindcss/discussions/13292#discussioncomment-14256365
  */
 export default plugin.withOptions(() => {
-	return () => { };
+	return () => { }
 }, () => {
 	return {
 		theme: {
@@ -25,5 +25,5 @@ export default plugin.withOptions(() => {
 				...getColorPalettes,
 			},
 		},
-	};
-});
+	}
+})

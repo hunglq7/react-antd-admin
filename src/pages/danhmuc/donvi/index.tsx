@@ -1,55 +1,55 @@
+import type { DonviItemType } from "#src/api/danhmuc/donvi/types"
 import type {
 	ActionType,
 	ProColumns,
 	ProCoreActionType,
-} from "@ant-design/pro-components";
-import type { DonviItemType } from "#src/api/danhmuc/donvi/types";
-import { DeleteOutlined, EditOutlined, PlusCircleOutlined } from "@ant-design/icons";
-import { Button, Popconfirm } from "antd";
-import { useRef, useState } from "react";
-import { useTranslation } from "react-i18next";
+} from "@ant-design/pro-components"
 import {
 	fetchDeleteDonviItem,
 	fetchDeleteDonviItems,
 	fetchDonviList,
-} from "#src/api/danhmuc/donvi/index";
-import { BasicButton } from "#src/components/basic-button";
-import { BasicContent } from "#src/components/basic-content";
-import { BasicTable } from "#src/components/basic-table";
-import { accessControlCodes, useAccess } from "#src/hooks/use-access";
-import { getConstantColumns } from "./components/constansColumns";
-import ExportExcel from "./components/ExportExcel";
-import { Model } from "./components/Model";
+} from "#src/api/danhmuc/donvi/index"
+import { BasicButton } from "#src/components/basic-button"
+import { BasicContent } from "#src/components/basic-content"
+import { BasicTable } from "#src/components/basic-table"
+import { accessControlCodes, useAccess } from "#src/hooks/use-access"
+import { DeleteOutlined, EditOutlined, PlusCircleOutlined } from "@ant-design/icons"
+import { Button, Popconfirm } from "antd"
+import { useRef, useState } from "react"
+import { useTranslation } from "react-i18next"
+import { getConstantColumns } from "./components/constansColumns"
+import ExportExcel from "./components/ExportExcel"
+import { Model } from "./components/Model"
 
 export default function DonviPage() {
-	const { t } = useTranslation();
-	const { hasAccessByCodes } = useAccess();
-	const [isOpen, setIsOpen] = useState(false);
-	const [title, setTitle] = useState("");
-	const [detailData, setDetailData] = useState<Partial<DonviItemType>>({});
-	const [filteredData, setFilteredData] = useState<DonviItemType[]>([]);
-	const [selectedRowKeys, setSelectedRowKeys] = useState<React.Key[]>([]);
-	const actionRef = useRef<ActionType>(null);
+	const { t } = useTranslation()
+	const { hasAccessByCodes } = useAccess()
+	const [isOpen, setIsOpen] = useState(false)
+	const [title, setTitle] = useState("")
+	const [detailData, setDetailData] = useState<Partial<DonviItemType>>({})
+	const [filteredData, setFilteredData] = useState<DonviItemType[]>([])
+	const [selectedRowKeys, setSelectedRowKeys] = useState<React.Key[]>([])
+	const actionRef = useRef<ActionType>(null)
 
 	const handleDeleteRow = async (
 		id: number,
 		action?: ProCoreActionType<object>,
 	) => {
-		await fetchDeleteDonviItem(id);
-		setSelectedRowKeys([]);
-		await action?.reload?.();
-		window.$message?.success(t("common.deleteSuccess"));
-	};
+		await fetchDeleteDonviItem(id)
+		setSelectedRowKeys([])
+		await action?.reload?.()
+		window.$message?.success(t("common.deleteSuccess"))
+	}
 
 	const handleBulkDelete = async () => {
 		if (selectedRowKeys.length === 0) {
-			return;
+			return
 		}
-		await fetchDeleteDonviItems(selectedRowKeys as number[]);
-		setSelectedRowKeys([]);
-		await actionRef.current?.reload();
-		window.$message?.success(t("common.deleteSuccess"));
-	};
+		await fetchDeleteDonviItems(selectedRowKeys as number[])
+		setSelectedRowKeys([])
+		await actionRef.current?.reload()
+		window.$message?.success(t("common.deleteSuccess"))
+	}
 
 	// Tạo bảng dữ liệu
 	const columns: ProColumns<DonviItemType>[] = [
@@ -69,9 +69,9 @@ export default function DonviPage() {
 					className="group inline-flex items-center gap-1 transition-all duration-200 hover:-translate-y-0.5 hover:scale-105 active:translate-y-0 hover:text-blue-800"
 					disabled={!hasAccessByCodes(accessControlCodes.update)}
 					onClick={() => {
-						setIsOpen(true);
-						setTitle(t("system.taikhoan.editTaikhoan"));
-						setDetailData(record);
+						setIsOpen(true)
+						setTitle(t("system.taikhoan.editTaikhoan"))
+						setDetailData(record)
 					}}
 				>
 					<EditOutlined className="opacity-0 group-hover:opacity-100 transition-opacity duration-200" />
@@ -97,16 +97,16 @@ export default function DonviPage() {
 				</Popconfirm>,
 			],
 		},
-	];
+	]
 
 	const onCloseChange = () => {
-		setIsOpen(false);
-		setDetailData({});
-	};
+		setIsOpen(false)
+		setDetailData({})
+	}
 
 	const refreshTable = () => {
-		actionRef.current?.reload();
-	};
+		actionRef.current?.reload()
+	}
 
 	return (
 		<BasicContent className="h-full">
@@ -129,19 +129,19 @@ export default function DonviPage() {
 					</Button>
 				)}
 				request={async (params) => {
-					const data = await fetchDonviList();
+					const data = await fetchDonviList()
 					const filtered = data.filter((item) => {
 						const keyword = String(params?.tenPhong ?? "")
 							.trim()
-							.toLowerCase();
+							.toLowerCase()
 
-						return item.tenPhong?.toLowerCase().includes(keyword) ?? false;
-					});
-					setFilteredData(filtered);
+						return item.tenPhong?.toLowerCase().includes(keyword) ?? false
+					})
+					setFilteredData(filtered)
 					return {
 						data: filtered,
 						total: filtered.length,
-					};
+					}
 				}}
 				search={{
 					labelWidth: "auto",
@@ -156,9 +156,9 @@ export default function DonviPage() {
 						type="primary"
 						disabled={!hasAccessByCodes(accessControlCodes.add)}
 						onClick={() => {
-							setIsOpen(true);
-							setTitle(t("system.donvi.addDonvi"));
-							setDetailData({});
+							setIsOpen(true)
+							setTitle(t("system.donvi.addDonvi"))
+							setDetailData({})
 						}}
 					>
 						{t("common.add")}
@@ -193,5 +193,5 @@ export default function DonviPage() {
 				refreshTable={refreshTable}
 			/>
 		</BasicContent>
-	);
+	)
 }

@@ -1,6 +1,6 @@
-import type { ReactNode } from "react";
+import type { ReactNode } from "react"
 
-import { useAccess } from "#src/hooks/use-access";
+import { useAccess } from "#src/hooks/use-access"
 
 interface AccessControlProps {
 	// 权限类型，默认为 code
@@ -19,18 +19,18 @@ interface AccessControlProps {
  * @returns 若子组件存在，并且传入的权限值有效，则返回子组件；否则返回 null
  */
 export function AccessControl({ type = "code", codes, children, fallback }: AccessControlProps) {
-	const { hasAccessByCodes, hasAccessByRoles } = useAccess();
+	const { hasAccessByCodes, hasAccessByRoles } = useAccess()
 
 	if (!children)
-		return null;
+		return null
 
 	if (!type || type === "code") {
-		return hasAccessByCodes(codes) ? children : fallback;
+		return hasAccessByCodes(codes) ? children : fallback
 	}
 
 	if (type === "role") {
-		return hasAccessByRoles(codes) ? children : fallback;
+		return hasAccessByRoles(codes) ? children : fallback
 	}
 
-	return fallback;
+	return fallback
 }

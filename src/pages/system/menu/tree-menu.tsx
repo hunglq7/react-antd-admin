@@ -1,12 +1,12 @@
-import type { TreeDataNode } from "antd";
+import type { TreeDataNode } from "antd"
 
-import { BasicButton } from "#src/components/basic-button";
-import { BasicContent } from "#src/components/basic-content";
-import { getAllExpandedKeys } from "#src/utils/get-all-expanded-keys";
+import { BasicButton } from "#src/components/basic-button"
+import { BasicContent } from "#src/components/basic-content"
+import { getAllExpandedKeys } from "#src/utils/get-all-expanded-keys"
 
-import { MinusCircleOutlined, PlusCircleOutlined, SearchOutlined } from "@ant-design/icons";
-import { Card, Input, Radio, Tag, Tree } from "antd";
-import { useState } from "react";
+import { MinusCircleOutlined, PlusCircleOutlined, SearchOutlined } from "@ant-design/icons"
+import { Card, Input, Radio, Tag, Tree } from "antd"
+import { useState } from "react"
 
 const treeData: TreeDataNode[] = [
 	{
@@ -36,10 +36,10 @@ const treeData: TreeDataNode[] = [
 			},
 		],
 	},
-];
+]
 export default function Menu() {
-	const [selectedKeys, setSelectedKeys] = useState<React.Key[]>([]);
-	const [expandedKeys, setExpandedKeys] = useState<React.Key[]>([]);
+	const [selectedKeys, setSelectedKeys] = useState<React.Key[]>([])
+	const [expandedKeys, setExpandedKeys] = useState<React.Key[]>([])
 	return (
 		<BasicContent className="h-full">
 			<Card
@@ -56,12 +56,12 @@ export default function Menu() {
 						/>
 						<Radio.Group
 							onChange={(e) => {
-								const value = e.target.value;
+								const value = e.target.value
 								if (value === "expand") {
-									setExpandedKeys(getAllExpandedKeys(treeData, "key"));
+									setExpandedKeys(getAllExpandedKeys(treeData, "key"))
 								}
 								else {
-									setExpandedKeys([]);
+									setExpandedKeys([])
 								}
 							}}
 						>
@@ -75,12 +75,12 @@ export default function Menu() {
 							blockNode
 							expandedKeys={expandedKeys}
 							onExpand={(keys) => {
-								setExpandedKeys(keys);
+								setExpandedKeys(keys)
 							}}
 							selectedKeys={selectedKeys}
 							onSelect={(keys) => {
 								// console.log("onSelect", keys);
-								setSelectedKeys(keys);
+								setSelectedKeys(keys)
 							}}
 							titleRender={(node: any) => (
 								<div className="group flex justify-between items-center">
@@ -102,5 +102,5 @@ export default function Menu() {
 				</div>
 			</Card>
 		</BasicContent>
-	);
+	)
 }

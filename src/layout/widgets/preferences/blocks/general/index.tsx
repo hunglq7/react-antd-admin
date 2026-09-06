@@ -1,14 +1,14 @@
-import { usePreferencesStore } from "#src/store/preferences";
+import { usePreferencesStore } from "#src/store/preferences"
 
-import { useTranslation } from "react-i18next";
+import { useTranslation } from "react-i18next"
 
-import { SelectItem } from "../../select-item";
-import { SwitchItem } from "../../switch-item";
-import { TextInput } from "../../text-input";
-import { getLanguageItems } from "./utils";
+import { SelectItem } from "../../select-item"
+import { SwitchItem } from "../../switch-item"
+import { TextInput } from "../../text-input"
+import { getLanguageItems } from "./utils"
 
 export function General() {
-	const { t } = useTranslation();
+	const { t } = useTranslation()
 	const {
 		language,
 		enableDynamicTitle,
@@ -17,7 +17,7 @@ export function General() {
 		enableCheckUpdates,
 		enableBackTopButton,
 		setPreferences,
-	} = usePreferencesStore();
+	} = usePreferencesStore()
 
 	return (
 		<>
@@ -70,5 +70,5 @@ export function General() {
 				{t("preferences.general.watermarkContent")}
 			</TextInput>
 		</>
-	);
+	)
 }

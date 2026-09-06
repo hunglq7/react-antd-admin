@@ -23,24 +23,24 @@ export function getElementVisibleRect(
 			right: 0,
 			top: 0,
 			width: 0,
-		};
+		}
 	}
-	const rect = element.getBoundingClientRect();
+	const rect = element.getBoundingClientRect()
 	const viewHeight = Math.max(
 		document.documentElement.clientHeight,
 		window.innerHeight,
-	);
+	)
 
-	const top = Math.max(rect.top, 0);
-	const bottom = Math.min(rect.bottom, viewHeight);
+	const top = Math.max(rect.top, 0)
+	const bottom = Math.min(rect.bottom, viewHeight)
 
 	const viewWidth = Math.max(
 		document.documentElement.clientWidth,
 		window.innerWidth,
-	);
+	)
 
-	const left = Math.max(rect.left, 0);
-	const right = Math.min(rect.right, viewWidth);
+	const left = Math.max(rect.left, 0)
+	const right = Math.min(rect.right, viewWidth)
 
 	return {
 		bottom,
@@ -49,5 +49,5 @@ export function getElementVisibleRect(
 		right,
 		top,
 		width: Math.max(0, right - left),
-	};
+	}
 }

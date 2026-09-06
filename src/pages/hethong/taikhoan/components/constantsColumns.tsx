@@ -1,7 +1,7 @@
-import type { TaikhoanItemType } from "#src/api/hethong/taikhoan";
-import type { ProColumns } from "@ant-design/pro-components";
-import type { TFunction } from "i18next";
-import { Avatar } from "antd";
+import type { TaikhoanItemType } from "#src/api/hethong/taikhoan"
+import type { ProColumns } from "@ant-design/pro-components"
+import type { TFunction } from "i18next"
+import { Avatar } from "antd"
 
 export function getConstantColumns(
 	t: TFunction<"translation", undefined>,
@@ -101,5 +101,5 @@ export function getConstantColumns(
 			ellipsis: true,
 			search: false,
 		},
-	];
+	]
 }

@@ -1,9 +1,9 @@
-import type { DanhmucRoleItemType } from "#src/api/role/danhmuc/types.js";
-import { fetchAddDanhmucRoleItem, fetchUpdateDanhmucRoleItem } from "#src/api/role/danhmuc/index.js";
-import { ModalForm, ProFormText, ProFormTextArea } from "@ant-design/pro-components";
-import { Form } from "antd";
-import { useEffect } from "react";
-import { useTranslation } from "react-i18next";
+import type { DanhmucRoleItemType } from "#src/api/role/danhmuc/types.js"
+import { fetchAddDanhmucRoleItem, fetchUpdateDanhmucRoleItem } from "#src/api/role/danhmuc/index.js"
+import { ModalForm, ProFormText, ProFormTextArea } from "@ant-design/pro-components"
+import { Form } from "antd"
+import { useEffect } from "react"
+import { useTranslation } from "react-i18next"
 
 interface DetailProps {
 	title: React.ReactNode
@@ -20,35 +20,35 @@ export function Detail({
 	detailData,
 	refreshTable,
 }: DetailProps) {
-	const { t } = useTranslation();
-	const [form] = Form.useForm<DanhmucRoleItemType>();
+	const { t } = useTranslation()
+	const [form] = Form.useForm<DanhmucRoleItemType>()
 
 	const onFinish = async (values: DanhmucRoleItemType) => {
-		const payload = detailData.id ? { ...detailData, ...values } : values;
+		const payload = detailData.id ? { ...detailData, ...values } : values
 		if (detailData.id) {
-			await fetchUpdateDanhmucRoleItem(payload);
-			window.$message?.success(t("common.updateSuccess"));
+			await fetchUpdateDanhmucRoleItem(payload)
+			window.$message?.success(t("common.updateSuccess"))
 		}
 		else {
-			await fetchAddDanhmucRoleItem(payload);
-			window.$message?.success(t("common.addSuccess"));
+			await fetchAddDanhmucRoleItem(payload)
+			window.$message?.success(t("common.addSuccess"))
 		}
-		refreshTable?.();
-		return true;
-	};
+		refreshTable?.()
+		return true
+	}
 
 	useEffect(() => {
 		if (open) {
-			form.setFieldsValue(detailData);
+			form.setFieldsValue(detailData)
 		}
-	}, [open]);
+	}, [open])
 	return (
 		<ModalForm<DanhmucRoleItemType>
 			title={title}
 			open={open}
 			onOpenChange={(visible) => {
 				if (!visible)
-					onCloseChange();
+					onCloseChange()
 			}}
 			labelCol={{ md: 6, xl: 4 }}
 			layout="horizontal"

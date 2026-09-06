@@ -1,14 +1,14 @@
-import { ArrowDownOutlined, ArrowUpOutlined, EnterOutlined } from "@ant-design/icons";
-import { Divider } from "antd";
+import { ArrowDownOutlined, ArrowUpOutlined, EnterOutlined } from "@ant-design/icons"
+import { Divider } from "antd"
 
-import { useTranslation } from "react-i18next";
+import { useTranslation } from "react-i18next"
 
 interface SearchFooterProps {
 	searchItems: number
 }
 
 export function SearchFooter({ searchItems }: SearchFooterProps) {
-	const { t } = useTranslation();
+	const { t } = useTranslation()
 	return (
 		<>
 			<Divider className="mt-2 my-0" />
@@ -45,5 +45,5 @@ export function SearchFooter({ searchItems }: SearchFooterProps) {
 				</span>
 			</div>
 		</>
-	);
+	)
 }

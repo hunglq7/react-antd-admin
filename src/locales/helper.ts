@@ -8,39 +8,39 @@ interface LanguageModule<T> {
 /**
  * 语言文件的参数类型，用于描述导入的语言文件集合
  */
-type LanguageFileMap = Record<string, LanguageModule<LanguageFileMap>>;
+type LanguageFileMap = Record<string, LanguageModule<LanguageFileMap>>
 
 export function getZhCnLang() {
 	const langFiles = import.meta.glob<LanguageFileMap>("./zh-CN/**/*.json", {
 		import: "default",
 		eager: true,
-	});
-	const result = organizeLanguageFiles(langFiles);
-	return result;
+	})
+	const result = organizeLanguageFiles(langFiles)
+	return result
 }
 
 export function getEnUsLang() {
 	const langFiles = import.meta.glob<LanguageFileMap>("./en-US/**/*.json", {
 		import: "default",
 		eager: true,
-	});
-	const result = organizeLanguageFiles(langFiles);
-	return result;
+	})
+	const result = organizeLanguageFiles(langFiles)
+	return result
 }
 
 export function organizeLanguageFiles(files: LanguageFileMap) {
-	const result: LanguageModule<LanguageFileMap> = {};
+	const result: LanguageModule<LanguageFileMap> = {}
 
 	for (const key in files) {
-		const data = files[key];
-		const fileArr = key?.split("/");
-		const fileName = fileArr[fileArr?.length - 1];
+		const data = files[key]
+		const fileArr = key?.split("/")
+		const fileName = fileArr[fileArr?.length - 1]
 		if (!fileName)
-			continue;
-		const name = fileName.split(".json")[0];
+			continue
+		const name = fileName.split(".json")[0]
 		if (name)
-			result[name] = data;
+			result[name] = data
 	}
 
-	return result;
+	return result
 }

@@ -1,9 +1,9 @@
-import { SmileOutlined } from "@ant-design/icons";
-import { Result } from "antd";
-import { useTranslation } from "react-i18next";
+import { SmileOutlined } from "@ant-design/icons"
+import { Result } from "antd"
+import { useTranslation } from "react-i18next"
 
 export default function AdminVisible() {
-	const { t } = useTranslation();
+	const { t } = useTranslation()
 
 	return (
 		<Result
@@ -12,5 +12,5 @@ export default function AdminVisible() {
 			title={t("access.adminVisible.title")}
 			subTitle={t("access.adminVisible.description")}
 		/>
-	);
+	)
 }

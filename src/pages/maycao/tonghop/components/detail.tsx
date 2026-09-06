@@ -1,11 +1,11 @@
-import type { MaycaoThongsoItemType } from "#src/api/maycao/thongso/types";
-import { fetchMaycaoDanhmucList } from "#src/api/maycao/danhmuc";
-import { fetchAddThongsokythuatmaycaoItem, fetchUpdateThongsokythuatmaycaoItem } from "#src/api/maycao/thongso";
-import { fetchPhongbanList } from "#src/api/system/phongban";
-import { ModalForm, ProFormSelect, ProFormSwitch, ProFormText, ProFormTextArea } from "@ant-design/pro-components";
-import { Form } from "antd";
-import { useEffect, useState } from "react";
-import { useTranslation } from "react-i18next";
+import type { MaycaoThongsoItemType } from "#src/api/maycao/thongso/types"
+import { fetchMaycaoDanhmucList } from "#src/api/maycao/danhmuc"
+import { fetchAddThongsokythuatmaycaoItem, fetchUpdateThongsokythuatmaycaoItem } from "#src/api/maycao/thongso"
+import { fetchPhongbanList } from "#src/api/system/phongban"
+import { ModalForm, ProFormSelect, ProFormSwitch, ProFormText, ProFormTextArea } from "@ant-design/pro-components"
+import { Form } from "antd"
+import { useEffect, useState } from "react"
+import { useTranslation } from "react-i18next"
 
 interface DetailProps {
 	title: React.ReactNode
@@ -16,36 +16,36 @@ interface DetailProps {
 }
 
 export function Detail({ title, open, onCloseChange, detailData, refreshTable }: DetailProps) {
-	const { t } = useTranslation();
-	const [form] = Form.useForm<MaycaoThongsoItemType>();
-	const [maycaoOptions, setMaycaoOptions] = useState<{ label: string, value: number }[]>([]);
-	const [phongbanOptions, setPhongbanOptions] = useState<{ label: string, value: number }[]>([]);
+	const { t } = useTranslation()
+	const [form] = Form.useForm<MaycaoThongsoItemType>()
+	const [maycaoOptions, setMaycaoOptions] = useState<{ label: string, value: number }[]>([])
+	const [phongbanOptions, setPhongbanOptions] = useState<{ label: string, value: number }[]>([])
 	const onFinish = async (values: MaycaoThongsoItemType) => {
-		const payload = detailData.id ? { ...detailData, ...values } : values;
+		const payload = detailData.id ? { ...detailData, ...values } : values
 		if (detailData.id) {
-			await fetchUpdateThongsokythuatmaycaoItem(payload);
-			window.$message?.success(t("common.updateSuccess"));
+			await fetchUpdateThongsokythuatmaycaoItem(payload)
+			window.$message?.success(t("common.updateSuccess"))
 		}
 		else {
-			await fetchAddThongsokythuatmaycaoItem(payload);
-			window.$message?.success(t("common.addSuccess"));
+			await fetchAddThongsokythuatmaycaoItem(payload)
+			window.$message?.success(t("common.addSuccess"))
 		}
-		refreshTable?.();
-		return true;
-	};
+		refreshTable?.()
+		return true
+	}
 
 	useEffect(() => {
 		const loadOptions = async () => {
-			const maycaoData = await fetchMaycaoDanhmucList();
-			const phongbanData = await fetchPhongbanList();
-			setMaycaoOptions(maycaoData.map(item => ({ label: item.tenThietBi, value: item.id ?? 0 })));
-			setPhongbanOptions(phongbanData.map(item => ({ label: item.tenPhong, value: item.id ?? 0 })));
-		};
-		loadOptions();
-		if (open) {
-			form.setFieldsValue(detailData);
+			const maycaoData = await fetchMaycaoDanhmucList()
+			const phongbanData = await fetchPhongbanList()
+			setMaycaoOptions(maycaoData.map(item => ({ label: item.tenThietBi, value: item.id ?? 0 })))
+			setPhongbanOptions(phongbanData.map(item => ({ label: item.tenPhong, value: item.id ?? 0 })))
 		}
-	}, [open, detailData, form]);
+		loadOptions()
+		if (open) {
+			form.setFieldsValue(detailData)
+		}
+	}, [open, detailData, form])
 
 	return (
 		<ModalForm<MaycaoThongsoItemType>
@@ -53,7 +53,7 @@ export function Detail({ title, open, onCloseChange, detailData, refreshTable }:
 			open={open}
 			onOpenChange={(visible) => {
 				if (!visible)
-					onCloseChange();
+					onCloseChange()
 			}}
 			labelCol={{ md: 6, xl: 5 }}
 			layout="horizontal"
@@ -97,5 +97,5 @@ export function Detail({ title, open, onCloseChange, detailData, refreshTable }:
 			<ProFormTextArea name="ghiChu" label="Ghi chú" placeholder="Nhập ghi chú" />
 
 		</ModalForm>
-	);
+	)
 }

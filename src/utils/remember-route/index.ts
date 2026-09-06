@@ -1,9 +1,9 @@
-import { loginPath } from "#src/router/extra-info";
+import { loginPath } from "#src/router/extra-info"
 
 export function rememberRoute() {
-	const { pathname, search } = window.location;
+	const { pathname, search } = window.location
 	if (pathname.length > 1 && pathname !== loginPath) {
-		return `?redirect=${pathname}${search}`;
+		return `?redirect=${pathname}${search}`
 	}
-	return "";
+	return ""
 }

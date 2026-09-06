@@ -1,13 +1,13 @@
-import type { MenuProps } from "antd";
+import type { MenuProps } from "antd"
 
-import { BasicButton } from "#src/components/basic-button";
-import { cn } from "#src/utils/cn";
+import { BasicButton } from "#src/components/basic-button"
+import { cn } from "#src/utils/cn"
 
-import { DownOutlined } from "@ant-design/icons";
-import { Dropdown } from "antd";
-import { useState } from "react";
+import { DownOutlined } from "@ant-design/icons"
+import { Dropdown } from "antd"
+import { useState } from "react"
 
-import { useDropdownMenu } from "../hooks/use-dropdown-menu";
+import { useDropdownMenu } from "../hooks/use-dropdown-menu"
 
 /**
  * TabOptions组件的属性接口
@@ -26,16 +26,16 @@ interface TabOptionsProps {
  * @returns {JSX.Element} TabOptions组件
  */
 export function TabOptions({ activeKey, className }: TabOptionsProps) {
-	const [isOpen, setIsOpen] = useState(false);
-	const [items, onClickMenu] = useDropdownMenu();
+	const [isOpen, setIsOpen] = useState(false)
+	const [items, onClickMenu] = useDropdownMenu()
 
 	/**
 	 * 处理下拉菜单的显示状态变化
 	 * @param {boolean} open - 菜单是否打开
 	 */
 	const onOpenChange = (open: boolean) => {
-		setIsOpen(open);
-	};
+		setIsOpen(open)
+	}
 
 	/**
 	 * 处理菜单项点击事件
@@ -43,9 +43,9 @@ export function TabOptions({ activeKey, className }: TabOptionsProps) {
 	 * @param {string} param.key - 被点击的菜单项的key
 	 */
 	const onClick: MenuProps["onClick"] = ({ key }) => {
-		onClickMenu(key, activeKey);
-		setIsOpen(false);
-	};
+		onClickMenu(key, activeKey)
+		setIsOpen(false)
+	}
 
 	return (
 		<Dropdown
@@ -61,5 +61,5 @@ export function TabOptions({ activeKey, className }: TabOptionsProps) {
 				icon={<DownOutlined />}
 			/>
 		</Dropdown>
-	);
+	)
 }

@@ -1,14 +1,14 @@
-import type { AppRouteRecordRaw } from "#src/router/types";
-import ContainerLayout from "#src/layout/container-layout";
-import { system } from "#src/router/extra-info";
+import type { AppRouteRecordRaw } from "#src/router/types"
+import ContainerLayout from "#src/layout/container-layout"
+import { system } from "#src/router/extra-info"
 
-import { lazy } from "react";
+import { lazy } from "react"
 
-const User = lazy(() => import("#src/pages/system/user"));
-const Dept = lazy(() => import("#src/pages/system/dept"));
-const Role = lazy(() => import("#src/pages/system/role"));
-const Menu = lazy(() => import("#src/pages/system/menu"));
-const Phongban = lazy(() => import("#src/pages/system/phongban"));
+const User = lazy(() => import("#src/pages/system/user"))
+const Dept = lazy(() => import("#src/pages/system/dept"))
+const Role = lazy(() => import("#src/pages/system/role"))
+const Menu = lazy(() => import("#src/pages/system/menu"))
+const Phongban = lazy(() => import("#src/pages/system/phongban"))
 
 const routes: AppRouteRecordRaw[] = [
 	{
@@ -95,6 +95,6 @@ const routes: AppRouteRecordRaw[] = [
 			},
 		],
 	},
-];
+]
 
-export default routes;
+export default routes

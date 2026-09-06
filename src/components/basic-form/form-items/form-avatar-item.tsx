@@ -1,19 +1,19 @@
-import { UploadOutlined } from "@ant-design/icons";
+import { UploadOutlined } from "@ant-design/icons"
 
-import { Avatar, Button, Upload } from "antd";
-import ImgCrop from "antd-img-crop";
+import { Avatar, Button, Upload } from "antd"
+import ImgCrop from "antd-img-crop"
 
 interface FormAvatarItemProps {
 	value?: string
 	onChange?: (value: any) => void
 }
 
-const leadingSlashPattern = /^\//;
+const leadingSlashPattern = /^\//
 
 function getAvatarUrl(value?: string) {
 	if (!value || value.startsWith("http"))
-		return value;
-	return new URL(value.replace(leadingSlashPattern, ""), import.meta.env.VITE_API_BASE_URL).toString();
+		return value
+	return new URL(value.replace(leadingSlashPattern, ""), import.meta.env.VITE_API_BASE_URL).toString()
 }
 
 export function FormAvatarItem({ value, onChange }: FormAvatarItemProps) {
@@ -47,11 +47,11 @@ export function FormAvatarItem({ value, onChange }: FormAvatarItemProps) {
 							// 	console.log(info.file, info.fileList);
 							// }
 							if (info.file.status === "done") {
-								window.$message?.success(`${info.file.name} file uploaded successfully`);
-								onChange?.(info.file.response?.dbPath);
+								window.$message?.success(`${info.file.name} file uploaded successfully`)
+								onChange?.(info.file.response?.dbPath)
 							}
 							else if (info.file.status === "error") {
-								window.$message?.error(`${info.file.name} file upload failed.`);
+								window.$message?.error(`${info.file.name} file upload failed.`)
 							}
 						}}
 					>
@@ -62,5 +62,5 @@ export function FormAvatarItem({ value, onChange }: FormAvatarItemProps) {
 				</ImgCrop>
 			</div>
 		</>
-	);
+	)
 }

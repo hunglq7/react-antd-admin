@@ -1,10 +1,10 @@
-import type { ButtonProps } from "antd";
-import type { NotificationItem } from "./types";
+import type { ButtonProps } from "antd"
+import type { NotificationItem } from "./types"
 
 // import { fetchNotifications } from "#src/api/notifications";
 
-import { useEffect, useState } from "react";
-import { NotificationPopup } from "./index";
+import { useEffect, useState } from "react"
+import { NotificationPopup } from "./index"
 
 // Mock notifications data
 const mockNotifications: NotificationItem[] = [
@@ -30,20 +30,20 @@ const mockNotifications: NotificationItem[] = [
 		title: "Mock Notification 3",
 	},
 	// Add more mock notifications as needed
-];
+]
 
 export function NotificationContainer({ ...restProps }: ButtonProps) {
-	const [notifications, setNotifications] = useState<NotificationItem[]>([]);
+	const [notifications, setNotifications] = useState<NotificationItem[]>([])
 
 	useEffect(() => {
 		// Mock fetching notifications
-		setNotifications(mockNotifications);
-	}, []);
+		setNotifications(mockNotifications)
+	}, [])
 
 	return (
 		<NotificationPopup
 			notifications={notifications}
 			{...restProps}
 		/>
-	);
+	)
 }

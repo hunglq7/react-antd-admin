@@ -1,4 +1,4 @@
-import { create } from "zustand";
+import { create } from "zustand"
 
 /**
  * @zh 应用的初始状态
@@ -10,9 +10,9 @@ const initialState = {
 	 * @en Whether the global spinning animation is shown
 	 */
 	globalSpin: false,
-};
+}
 
-type GlobalState = typeof initialState;
+type GlobalState = typeof initialState
 
 interface GlobalAction {
 	openGlobalSpin: () => void
@@ -25,13 +25,13 @@ export const useGlobalStore = create<GlobalState & GlobalAction>(set => ({
 	openGlobalSpin: () => {
 		return set({
 			globalSpin: true,
-		});
+		})
 	},
 
 	closeGlobalSpin: () => {
 		return set({
 			globalSpin: false,
-		});
+		})
 	},
 
-}));
+}))

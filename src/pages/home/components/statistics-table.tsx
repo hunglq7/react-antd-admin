@@ -1,11 +1,11 @@
-import type { ColumnsType } from "antd/es/table";
+import type { ColumnsType } from "antd/es/table"
 
-import { fetchBienapList } from "#src/api/bienap/danhmuc";
-import { fetchMayxucList } from "#src/api/mayxuc/danhmuc";
-import { fetchThongsokythuatmayxucList } from "#src/api/mayxuc/thongso";
-import { fetchTonghopmayxucList } from "#src/api/mayxuc/tonghop";
-import { Card, Spin, Table } from "antd";
-import { useEffect, useState } from "react";
+import { fetchBienapList } from "#src/api/bienap/danhmuc"
+import { fetchMayxucList } from "#src/api/mayxuc/danhmuc"
+import { fetchThongsokythuatmayxucList } from "#src/api/mayxuc/thongso"
+import { fetchTonghopmayxucList } from "#src/api/mayxuc/tonghop"
+import { Card, Spin, Table } from "antd"
+import { useEffect, useState } from "react"
 
 interface StatisticItem {
 	key: string
@@ -31,22 +31,22 @@ const columns: ColumnsType<StatisticItem> = [
 		dataIndex: "description",
 		key: "description",
 	},
-];
+]
 
 export default function StatisticsTable() {
-	const [loading, setLoading] = useState(true);
-	const [statistics, setStatistics] = useState<StatisticItem[]>([]);
+	const [loading, setLoading] = useState(true)
+	const [statistics, setStatistics] = useState<StatisticItem[]>([])
 
 	useEffect(() => {
 		async function loadStatistics() {
-			setLoading(true);
+			setLoading(true)
 			try {
 				const [bienap, mayxuc, tonghop, thongso] = await Promise.all([
 					fetchBienapList(),
 					fetchMayxucList(),
 					fetchTonghopmayxucList(),
 					fetchThongsokythuatmayxucList(),
-				]);
+				])
 
 				setStatistics([
 					{
@@ -73,18 +73,18 @@ export default function StatisticsTable() {
 						count: thongso.length,
 						description: "Tổng số chỉ số kỹ thuật máy xúc",
 					},
-				]);
+				])
 			}
 			catch (error) {
-				console.error("Load statistics failed", error);
+				console.error("Load statistics failed", error)
 			}
 			finally {
-				setLoading(false);
+				setLoading(false)
 			}
 		}
 
-		loadStatistics();
-	}, []);
+		loadStatistics()
+	}, [])
 
 	return (
 		<Card title="Bảng thống kê" className="h-full">
@@ -98,5 +98,5 @@ export default function StatisticsTable() {
 				/>
 			</Spin>
 		</Card>
-	);
+	)
 }

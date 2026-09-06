@@ -1,6 +1,6 @@
-import type { PhanQuyenItemType } from "#src/api/hethong/phanquyen/types";
-import type { ProColumns } from "@ant-design/pro-components";
-import type { TFunction } from "i18next";
+import type { PhanQuyenItemType } from "#src/api/hethong/phanquyen/types"
+import type { ProColumns } from "@ant-design/pro-components"
+import type { TFunction } from "i18next"
 
 export function getConstantColumns(t: TFunction<"translation", undefined>): ProColumns<PhanQuyenItemType>[] {
 	return [
@@ -31,5 +31,5 @@ export function getConstantColumns(t: TFunction<"translation", undefined>): ProC
 			ellipsis: true,
 		},
 
-	];
+	]
 }

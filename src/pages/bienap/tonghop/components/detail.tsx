@@ -1,17 +1,17 @@
-import type { TonghopbienapItemType } from "#src/api/bienap/tonghop";
-import type { Dayjs } from "dayjs";
-import { fetchBienapList } from "#src/api/bienap/danhmuc";
-import { fetchAddTonghopbienapItem, fetchUpdateTonghopbienapItem } from "#src/api/bienap/tonghop";
-import { fetchPhongbanList } from "#src/api/system/phongban";
-import { ModalForm, ProFormDatePicker, ProFormSelect, ProFormSwitch, ProFormText, ProFormTextArea } from "@ant-design/pro-components";
-import { Form } from "antd";
-import dayjs from "dayjs";
-import { useEffect, useState } from "react";
-import { useTranslation } from "react-i18next";
+import type { TonghopbienapItemType } from "#src/api/bienap/tonghop"
+import type { Dayjs } from "dayjs"
+import { fetchBienapList } from "#src/api/bienap/danhmuc"
+import { fetchAddTonghopbienapItem, fetchUpdateTonghopbienapItem } from "#src/api/bienap/tonghop"
+import { fetchPhongbanList } from "#src/api/system/phongban"
+import { ModalForm, ProFormDatePicker, ProFormSelect, ProFormSwitch, ProFormText, ProFormTextArea } from "@ant-design/pro-components"
+import { Form } from "antd"
+import dayjs from "dayjs"
+import { useEffect, useState } from "react"
+import { useTranslation } from "react-i18next"
 
 type TonghopbienapFormType = Omit<TonghopbienapItemType, "ngayLap"> & {
 	ngayLap?: Dayjs
-};
+}
 
 interface DetailProps {
 	title: React.ReactNode
@@ -28,63 +28,63 @@ export function Detail({
 	detailData,
 	refreshTable,
 }: DetailProps) {
-	const { t } = useTranslation();
-	const [form] = Form.useForm<TonghopbienapFormType>();
-	const [bienapOptions, setBienapOptions] = useState<{ label: string, value: number }[]>([]);
-	const [phongbanOptions, setPhongbanOptions] = useState<{ label: string, value: number }[]>([]);
+	const { t } = useTranslation()
+	const [form] = Form.useForm<TonghopbienapFormType>()
+	const [bienapOptions, setBienapOptions] = useState<{ label: string, value: number }[]>([])
+	const [phongbanOptions, setPhongbanOptions] = useState<{ label: string, value: number }[]>([])
 
 	const onFinish = async (values: TonghopbienapFormType) => {
 		try {
 			if (!values.ngayLap) {
-				window.$message?.error(t("form.required"));
-				return false;
+				window.$message?.error(t("form.required"))
+				return false
 			}
 
-			let ngayLapStr: string;
+			let ngayLapStr: string
 			if (typeof values.ngayLap === "string") {
-				ngayLapStr = values.ngayLap;
+				ngayLapStr = values.ngayLap
 			}
 			else if (values.ngayLap && typeof values.ngayLap.format === "function") {
-				ngayLapStr = values.ngayLap.format("YYYY-MM-DD");
+				ngayLapStr = values.ngayLap.format("YYYY-MM-DD")
 			}
 			else {
-				window.$message?.error("Ngày lắp không hợp lệ");
-				return false;
+				window.$message?.error("Ngày lắp không hợp lệ")
+				return false
 			}
 
 			const normalizedValues: TonghopbienapItemType = {
 				...values,
 				ngayLap: ngayLapStr,
-			};
-			const payload: TonghopbienapItemType = detailData.id ? { ...detailData, ...normalizedValues } : normalizedValues;
+			}
+			const payload: TonghopbienapItemType = detailData.id ? { ...detailData, ...normalizedValues } : normalizedValues
 			if (detailData.id) {
-				await fetchUpdateTonghopbienapItem(payload);
-				window.$message?.success(t("common.updateSuccess"));
+				await fetchUpdateTonghopbienapItem(payload)
+				window.$message?.success(t("common.updateSuccess"))
 			}
 			else {
-				await fetchAddTonghopbienapItem(payload);
-				window.$message?.success(t("common.addSuccess"));
+				await fetchAddTonghopbienapItem(payload)
+				window.$message?.success(t("common.addSuccess"))
 			}
-			refreshTable?.();
-			onCloseChange();
-			return true;
+			refreshTable?.()
+			onCloseChange()
+			return true
 		}
 		catch (error) {
-			console.error("Save error:", error);
-			window.$message?.error((error as any)?.message || t("common.saveFailed"));
-			return false;
+			console.error("Save error:", error)
+			window.$message?.error((error as any)?.message || t("common.saveFailed"))
+			return false
 		}
-	};
+	}
 
 	useEffect(() => {
 		const loadOptions = async () => {
-			const bienapData = await fetchBienapList();
-			const phongbanData = await fetchPhongbanList();
-			setBienapOptions(bienapData.map(item => ({ label: item.tenThietBi, value: item.id ?? 0 })));
-			setPhongbanOptions(phongbanData.map(item => ({ label: item.tenPhong, value: item.id ?? 0 })));
-		};
+			const bienapData = await fetchBienapList()
+			const phongbanData = await fetchPhongbanList()
+			setBienapOptions(bienapData.map(item => ({ label: item.tenThietBi, value: item.id ?? 0 })))
+			setPhongbanOptions(phongbanData.map(item => ({ label: item.tenPhong, value: item.id ?? 0 })))
+		}
 
-		loadOptions();
+		loadOptions()
 
 		if (open) {
 			form.setFieldsValue({
@@ -94,12 +94,12 @@ export function Detail({
 				ngayLap: detailData.ngayLap ? dayjs(detailData.ngayLap) : undefined,
 				duPhong: detailData.duPhong ?? false,
 				ghiChu: detailData.ghiChu,
-			});
+			})
 		}
 		else {
-			form.resetFields();
+			form.resetFields()
 		}
-	}, [open, detailData]);
+	}, [open, detailData])
 
 	return (
 		<ModalForm<TonghopbienapFormType>
@@ -107,7 +107,7 @@ export function Detail({
 			open={open}
 			onOpenChange={(visible) => {
 				if (!visible)
-					onCloseChange();
+					onCloseChange()
 			}}
 			labelCol={{ md: 6, xl: 4 }}
 			layout="horizontal"
@@ -160,5 +160,5 @@ export function Detail({
 				placeholder="Nhập ghi chú"
 			/>
 		</ModalForm>
-	);
+	)
 }

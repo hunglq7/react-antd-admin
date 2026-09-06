@@ -1,10 +1,10 @@
-import type { PhongbanItemType } from "#src/api/system/phongban";
-import { fetchAddPhongban, fetchUpdatePhongban } from "#src/api/system/phongban";
+import type { PhongbanItemType } from "#src/api/system/phongban"
+import { fetchAddPhongban, fetchUpdatePhongban } from "#src/api/system/phongban"
 
-import { ModalForm, ProFormRadio, ProFormText } from "@ant-design/pro-components";
-import { Form } from "antd";
-import { useEffect } from "react";
-import { useTranslation } from "react-i18next";
+import { ModalForm, ProFormRadio, ProFormText } from "@ant-design/pro-components"
+import { Form } from "antd"
+import { useEffect } from "react"
+import { useTranslation } from "react-i18next"
 
 interface DetailProps {
 	title: React.ReactNode
@@ -21,28 +21,28 @@ export function Detail({
 	onCloseChange,
 	refreshTable,
 }: DetailProps) {
-	const { t } = useTranslation();
-	const [form] = Form.useForm<PhongbanItemType>();
+	const { t } = useTranslation()
+	const [form] = Form.useForm<PhongbanItemType>()
 
 	const onFinish = async (values: PhongbanItemType) => {
 		if (detailData.id) {
-			await fetchUpdatePhongban(values);
-			window.$message?.success(t("common.updateSuccess"));
+			await fetchUpdatePhongban(values)
+			window.$message?.success(t("common.updateSuccess"))
 		}
 		else {
-			await fetchAddPhongban(values);
-			window.$message?.success(t("common.addSuccess"));
+			await fetchAddPhongban(values)
+			window.$message?.success(t("common.addSuccess"))
 		}
 
-		refreshTable?.();
-		return true;
-	};
+		refreshTable?.()
+		return true
+	}
 
 	useEffect(() => {
 		if (open) {
-			form.setFieldsValue(detailData);
+			form.setFieldsValue(detailData)
 		}
-	}, [open]);
+	}, [open])
 
 	return (
 		<ModalForm<PhongbanItemType>
@@ -50,7 +50,7 @@ export function Detail({
 			open={open}
 			onOpenChange={(visible) => {
 				if (visible === false) {
-					onCloseChange();
+					onCloseChange()
 				}
 			}}
 			labelCol={{ md: 5, xl: 3 }}
@@ -102,5 +102,5 @@ export function Detail({
 				]}
 			/>
 		</ModalForm>
-	);
+	)
 }

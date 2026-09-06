@@ -1,14 +1,14 @@
-import type { ColProps } from "antd";
+import type { ColProps } from "antd"
 
-import { BasicContent } from "#src/components/basic-content";
-import { Col, Row } from "antd";
+import { BasicContent } from "#src/components/basic-content"
+import { Col, Row } from "antd"
 
-import BarChart from "./components/bar-chart";
-import CardList from "./components/card-list";
-import LineChart from "./components/line-chart";
+import BarChart from "./components/bar-chart"
+import CardList from "./components/card-list"
+import LineChart from "./components/line-chart"
 
-import PieChart from "./components/pie-chart";
-import StatisticsTable from "./components/statistics-table";
+import PieChart from "./components/pie-chart"
+import StatisticsTable from "./components/statistics-table"
 
 const wrapperCol: ColProps = {
 	xs: 24,
@@ -17,7 +17,7 @@ const wrapperCol: ColProps = {
 	lg: 12,
 	xl: 12,
 	xxl: 12,
-};
+}
 export default function Home() {
 	return (
 		<BasicContent>
@@ -43,5 +43,5 @@ export default function Home() {
 				</Col>
 			</Row>
 		</BasicContent>
-	);
+	)
 }

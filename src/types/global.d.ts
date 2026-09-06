@@ -1,7 +1,7 @@
-import type { dependencies, devDependencies } from "#package.json";
+import type { dependencies, devDependencies } from "#package.json"
 
-import type { ThemeType } from "#src/store";
-import type { GlobalToken } from "antd";
+import type { ThemeType } from "#src/store"
+import type { GlobalToken } from "antd"
 
 declare global {
 	const __APP_INFO__: {
@@ -14,7 +14,7 @@ declare global {
 			devDependencies: typeof devDependencies
 		}
 		lastBuildTime: string
-	};
+	}
 
 	/* Inspired by https://github.com/soybeanjs/soybean-admin/blob/v1.3.8/src/typings/global.d.ts */
 	interface Window {

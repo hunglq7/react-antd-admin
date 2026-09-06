@@ -1,11 +1,11 @@
-import type { AppRouteRecordRaw } from "#src/router/types";
+import type { AppRouteRecordRaw } from "#src/router/types"
 
-import { $t } from "#src/locales";
-import { loginPath } from "#src/router/extra-info";
+import { $t } from "#src/locales"
+import { loginPath } from "#src/router/extra-info"
 
-import { lazy } from "react";
+import { lazy } from "react"
 
-const Login = lazy(() => import("#src/pages/login"));
+const Login = lazy(() => import("#src/pages/login"))
 
 const routes: AppRouteRecordRaw[] = [
 	{
@@ -16,6 +16,6 @@ const routes: AppRouteRecordRaw[] = [
 			title: $t("authority.login"),
 		},
 	},
-];
+]
 
-export default routes;
+export default routes

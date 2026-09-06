@@ -1,35 +1,35 @@
-import type { FallbackProps } from "react-error-boundary";
+import type { FallbackProps } from "react-error-boundary"
 
 // https://undraw.co/search
-import BugFixing from "#src/assets/svg/undraw-bug-fixing.svg?react";
-import { usePreferencesStore } from "#src/store/preferences";
+import BugFixing from "#src/assets/svg/undraw-bug-fixing.svg?react"
+import { usePreferencesStore } from "#src/store/preferences"
 
-import { ArrowLeftOutlined, ReloadOutlined } from "@ant-design/icons";
-import { Button, Result, Space, Typography } from "antd";
-import { useEffect } from "react";
-import { useTranslation } from "react-i18next";
-import { useNavigate } from "react-router";
+import { ArrowLeftOutlined, ReloadOutlined } from "@ant-design/icons"
+import { Button, Result, Space, Typography } from "antd"
+import { useEffect } from "react"
+import { useTranslation } from "react-i18next"
+import { useNavigate } from "react-router"
 
-const { VITE_BASE_HOME_PATH } = import.meta.env;
+const { VITE_BASE_HOME_PATH } = import.meta.env
 
 export function PageError({ error, resetErrorBoundary }: FallbackProps) {
-	const navigate = useNavigate();
-	const { t } = useTranslation();
-	const enableDynamicTitle = usePreferencesStore(state => state.enableDynamicTitle);
+	const navigate = useNavigate()
+	const { t } = useTranslation()
+	const enableDynamicTitle = usePreferencesStore(state => state.enableDynamicTitle)
 
 	const goHome = () => {
-		resetErrorBoundary();
-		navigate(VITE_BASE_HOME_PATH);
-	};
+		resetErrorBoundary()
+		navigate(VITE_BASE_HOME_PATH)
+	}
 	const refresh = () => {
-		location.reload();
-	};
+		location.reload()
+	}
 
 	useEffect(() => {
 		if (enableDynamicTitle) {
-			document.title = t("exception.pageErrorTitle");
+			document.title = t("exception.pageErrorTitle")
 		}
-	}, [enableDynamicTitle]);
+	}, [enableDynamicTitle])
 
 	return (
 		<Result
@@ -64,5 +64,5 @@ export function PageError({ error, resetErrorBoundary }: FallbackProps) {
 			</Typography.Paragraph>
 
 		</Result>
-	);
+	)
 }
