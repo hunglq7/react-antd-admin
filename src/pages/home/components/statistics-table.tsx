@@ -16,7 +16,7 @@ interface StatisticItem {
 
 const columns: ColumnsType<StatisticItem> = [
 	{
-		title: "Thống kê",
+		title: "Thiết bị",
 		dataIndex: "title",
 		key: "title",
 	},
@@ -52,33 +52,31 @@ export default function StatisticsTable() {
 					{
 						key: "bienap",
 						title: "Số lượng biến áp",
-						count: bienap.length,
+						count: bienap.length - 1,
 						description: "Tổng số bản ghi biến áp trong hệ thống",
 					},
 					{
 						key: "mayxuc",
 						title: "Số lượng máy xúc",
-						count: mayxuc.length,
+						count: mayxuc.length - 1,
 						description: "Tổng số loại máy xúc đã khai báo",
 					},
 					{
 						key: "tonghop",
 						title: "Số lượng tổng hợp máy xúc",
-						count: tonghop.length,
+						count: tonghop.length - 1,
 						description: "Tổng số bản ghi tổng hợp máy xúc",
 					},
 					{
 						key: "thongso",
 						title: "Số lượng thông số kỹ thuật",
-						count: thongso.length,
+						count: thongso.length - 1,
 						description: "Tổng số chỉ số kỹ thuật máy xúc",
 					},
 				])
-			}
-			catch (error) {
+			} catch (error) {
 				console.error("Load statistics failed", error)
-			}
-			finally {
+			} finally {
 				setLoading(false)
 			}
 		}
@@ -89,13 +87,7 @@ export default function StatisticsTable() {
 	return (
 		<Card title="Bảng thống kê" className="h-full">
 			<Spin spinning={loading}>
-				<Table<StatisticItem>
-					rowKey="key"
-					columns={columns}
-					dataSource={statistics}
-					pagination={false}
-					bordered
-				/>
+				<Table<StatisticItem> rowKey="key" columns={columns} dataSource={statistics} pagination={false} bordered />
 			</Spin>
 		</Card>
 	)
