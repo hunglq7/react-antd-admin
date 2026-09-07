@@ -37,6 +37,7 @@ export default antfu(
 			"react-hooks/set-state-in-effect": "off",
 			"style/brace-style": "off",
 			"style/semi": "off",
+			"style/quote-props": "off",
 			"@typescript-eslint/semi": "off",
 			"style/member-delimiter-style": "off",
 			"@typescript-eslint/member-delimiter-style": "off",

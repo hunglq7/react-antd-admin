@@ -3,9 +3,23 @@ import { request } from "#src/utils/request"
 
 export * from "./types"
 
+export interface TonghopmayxucPagedResponse {
+	items?: TonghopmayxucItemType[]
+	totalRecords?: number
+	pageIndex?: number
+	pageSize?: number
+}
+
 export function fetchTonghopmayxucList() {
+	return request.get<TonghopmayxucItemType[]>("api/Tonghopmayxuc", { ignoreLoading: true }).json()
+}
+
+export function fetchTonghopmayxucListWithPagination(params: { keyword?: string; pageIndex: number; pageSize: number }) {
 	return request
-		.get<TonghopmayxucItemType[]>("api/Tonghopmayxuc", { ignoreLoading: true })
+		.get<TonghopmayxucPagedResponse>("api/Tonghopmayxuc/queryParametetsPage", {
+			searchParams: params,
+			ignoreLoading: true,
+		})
 		.json()
 }
 

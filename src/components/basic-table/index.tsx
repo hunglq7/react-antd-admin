@@ -21,17 +21,15 @@ export interface BasicTableProps<D, U, V> extends ProTableProps<D, U, V> {
 	 * @description 自适应内容区高度，如果设置了 scroll.y，则不进行自适应
 	 * @default false
 	 */
-	adaptive?: boolean | {
-		/** 表格距离页面底部的偏移量，默认值为 `16` */
-		offsetBottom?: number
-	}
+	adaptive?:
+		| boolean
+		| {
+			/** 表格距离页面底部的偏移量，默认值为 `16` */
+			offsetBottom?: number
+		}
 }
 
-export function BasicTable<
-	DataType extends Record<string, any>,
-	Params extends ParamsType = ParamsType,
-	ValueType = "text",
->(
+export function BasicTable<DataType extends Record<string, any>, Params extends ParamsType = ParamsType, ValueType = "text">(
 	props: BasicTableProps<DataType, Params, ValueType>,
 ) {
 	const classes = useStyles()
@@ -39,10 +37,7 @@ export function BasicTable<
 	const { adaptive } = props
 	const tableWrapperRef = useRef<HTMLDivElement>(null)
 	const size = useSize(tableWrapperRef)
-	const {
-		enableFooter,
-		fixedFooter,
-	} = usePreferencesStore()
+	const { enableFooter, fixedFooter } = usePreferencesStore()
 	/**
 	 * @description 动态表格中为什么设置 scrollY 为 initial
 	 * @see https://gist.github.com/condorheroblog/557c18c61084a1296b716bcb1203315e
@@ -68,9 +63,10 @@ export function BasicTable<
 		return {
 			placement: ["bottomStart"],
 			defaultPageSize: 10,
+			pageSizeOptions: [10, 20, 50, 100],
 			showQuickJumper: true,
 			showSizeChanger: true,
-			showTotal: total => t("common.pagination", { total }),
+			showTotal: (total) => t("common.pagination", { total }),
 			...props.pagination,
 		} satisfies TablePaginationConfig
 	}
@@ -87,13 +83,11 @@ export function BasicTable<
 		const isPaginationDisabled = paginationProps === false
 		if (isPaginationDisabled) {
 			return 0
-		}
-		else {
+		} else {
 			if (!paginationProps.size) {
 				// 默认分页器高度为 32px
 				return 32 + 16 + 16
-			}
-			else {
+			} else {
 				// 小分页器高度为 24px
 				return 24 + 16 + 16
 			}
@@ -114,8 +108,7 @@ export function BasicTable<
 		if (adaptive && tableWrapperRef.current && size?.height) {
 			const basicTable = tableWrapperRef.current.getElementsByClassName(BASIC_TABLE_ROOT_CLASS_NAME)[0]
 
-			if (!basicTable)
-				return
+			if (!basicTable) return
 
 			const tableWrapperRect = tableWrapperRef.current.getBoundingClientRect()
 
@@ -126,8 +119,7 @@ export function BasicTable<
 
 			const tableBody = basicTable.querySelector("div.ant-table-body")
 
-			if (!tableBody)
-				return
+			if (!tableBody) return
 
 			// 获取元素的边界框
 			const tableBodyRect = tableBody.getBoundingClientRect()
