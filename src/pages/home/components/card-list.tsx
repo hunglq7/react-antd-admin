@@ -4,7 +4,7 @@ import { MessageOutlined, MoneyCollectOutlined, ShoppingCartOutlined, UserOutlin
 import { Button, Card, Col, Row } from "antd"
 import CountUp from "react-countup"
 import { useTranslation } from "react-i18next"
-import { useNavigate } from "react-router-dom"
+import { useNavigate } from "react-router"
 
 const wrapperCol: ColProps = {
 	xs: 24,
