@@ -1,0 +1,194 @@
+import type { ActionType, ProColumns, ProCoreActionType } from "@ant-design/pro-components"
+import type { NhatkymaycaoItemType } from "#src/api/maycao/nhatky/types"
+import { PlusCircleOutlined } from "@ant-design/icons"
+import { Button, Popconfirm } from "antd"
+import { useRef, useState } from "react"
+import { useTranslation } from "react-i18next"
+import { fetchDeleteNhatkymaycaoItem, fetchDeleteNhatkymaycaoItems, fetchNhatkymaycaoListByTonghopId } from "#src/api/maycao/nhatky/index"
+import { BasicButton } from "#src/components/basic-button"
+import { BasicContent } from "#src/components/basic-content"
+import { BasicTable } from "#src/components/basic-table"
+import { accessControlCodes, useAccess } from "#src/hooks/use-access"
+import { NhatkyFormModal } from "./nhatky-modal"
+
+interface NhatkyTabProps {
+	tonghopmaycaoId?: number
+}
+
+export function NhatkyTab({ tonghopmaycaoId }: NhatkyTabProps) {
+	const { t } = useTranslation()
+	const { hasAccessByCodes } = useAccess()
+	const [formOpen, setFormOpen] = useState(false)
+	const [formTitle, setFormTitle] = useState("")
+	const [detailData, setDetailData] = useState<Partial<NhatkymaycaoItemType>>({})
+	const [selectedRowKeys, setSelectedRowKeys] = useState<React.Key[]>([])
+	const actionRef = useRef<ActionType>(null)
+
+	const handleDeleteRow = async (id: number, action?: ProCoreActionType<object>) => {
+		await fetchDeleteNhatkymaycaoItem(id)
+		setSelectedRowKeys([])
+		await action?.reload?.()
+		window.$message?.success(t("common.deleteSuccess"))
+	}
+
+	const handleBulkDelete = async () => {
+		if (selectedRowKeys.length === 0) return
+		await fetchDeleteNhatkymaycaoItems(selectedRowKeys as number[])
+		setSelectedRowKeys([])
+		await actionRef.current?.reload()
+		window.$message?.success(t("common.deleteSuccess"))
+	}
+
+	const columns: ProColumns<NhatkymaycaoItemType>[] = [
+		{
+			title: "Ngày tháng",
+			dataIndex: "ngaythang",
+			valueType: "date",
+			fieldProps: { format: "DD-MM-YYYY" },
+			ellipsis: true,
+			search: false,
+		},
+		{ title: "Đơn vị", dataIndex: "donVi", ellipsis: true },
+		{ title: "Vị trí", dataIndex: "viTri", ellipsis: true, search: true },
+		{
+			title: "Trạng thái",
+			dataIndex: "trangThai",
+			ellipsis: true,
+			search: false,
+		},
+		{
+			title: "Ghi chú",
+			dataIndex: "ghiChu",
+			ellipsis: true,
+			search: false,
+		},
+		{
+			title: t("common.action"),
+			valueType: "option",
+			key: "option",
+			width: 120,
+			render: (_, record, __, action) => [
+				<BasicButton
+					key="edit"
+					type="link"
+					size="small"
+					disabled={!hasAccessByCodes(accessControlCodes.update)}
+					onClick={() => {
+						setFormOpen(true)
+						setFormTitle("Sửa nhật ký máy xúc")
+						setDetailData(record)
+					}}
+				>
+					{t("common.edit")}
+				</BasicButton>,
+				<Popconfirm
+					key="delete"
+					title={t("common.confirmDelete")}
+					onConfirm={() => handleDeleteRow(record.id!, action)}
+					okText={t("common.confirm")}
+					cancelText={t("common.cancel")}
+				>
+					<BasicButton type="link" size="small" danger disabled={!hasAccessByCodes(accessControlCodes.delete)}>
+						{t("common.delete")}
+					</BasicButton>
+				</Popconfirm>,
+			],
+		},
+	]
+
+	return (
+		<div style={{ marginTop: "16px" }}>
+			{!tonghopmaycaoId ? (
+				<div
+					style={{
+						padding: "16px",
+						textAlign: "center",
+						color: "#999",
+					}}
+				>
+					Vui lòng lưu thông tin chính trước khi thêm nhật ký
+				</div>
+			) : (
+				<>
+					<div style={{ marginBottom: "16px" }}>
+						<Button
+							key="add"
+							icon={<PlusCircleOutlined />}
+							type="primary"
+							disabled={!hasAccessByCodes(accessControlCodes.add) || !tonghopmaycaoId}
+							onClick={() => {
+								setFormOpen(true)
+								setFormTitle("Thêm nhật ký máy xúc")
+								setDetailData({})
+							}}
+						>
+							{t("common.add")}
+						</Button>
+						<Button
+							style={{ marginLeft: "8px" }}
+							danger
+							disabled={!hasAccessByCodes(accessControlCodes.delete) || selectedRowKeys.length === 0}
+							onClick={handleBulkDelete}
+						>
+							{t("common.batchDelete")}
+						</Button>
+					</div>
+					<BasicContent className="h-full">
+						<BasicTable<NhatkymaycaoItemType>
+							columns={columns}
+							actionRef={actionRef}
+							rowSelection={{
+								selectedRowKeys,
+								onChange: (keys) => setSelectedRowKeys(keys),
+							}}
+							request={async (params) => {
+								if (!tonghopmaycaoId) {
+									return { data: [], total: 0, success: true }
+								}
+								const res: any = await fetchNhatkymaycaoListByTonghopId(tonghopmaycaoId)
+								const dataList = Array.isArray(res?.data) ? res.data : res ? [res.data] : []
+								const filtered = dataList.filter((item: any) => {
+									const keyword = String(params?.ngaythang ?? "")
+										.trim()
+										.toLowerCase()
+									const code = String(params?.donVi ?? "")
+										.trim()
+										.toLowerCase()
+									const type = String(params?.viTri ?? "")
+										.trim()
+										.toLowerCase()
+									return (
+										(item.ngaythang?.toLowerCase().includes(keyword) ?? false) &&
+										(item.donVi?.toLowerCase().includes(code) ?? false) &&
+										(item.viTri?.toLowerCase().includes(type) ?? false)
+									)
+								})
+								return {
+									data: filtered,
+									total: filtered.length,
+									success: true,
+								}
+							}}
+							search={false}
+							pagination={{ pageSize: 10 }}
+						/>
+					</BasicContent>
+
+					{formOpen && (
+						<NhatkyFormModal
+							title={formTitle}
+							open={formOpen}
+							detailData={detailData}
+							tonghopmaycaoId={tonghopmaycaoId}
+							onCloseChange={() => {
+								setFormOpen(false)
+								setDetailData({})
+							}}
+							refreshTable={() => actionRef.current?.reload()}
+						/>
+					)}
+				</>
+			)}
+		</div>
+	)
+}
