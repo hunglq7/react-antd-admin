@@ -1,9 +1,9 @@
-import type { RefreshTokenResult } from "#src/api/user"
 import type { KyResponse, Options } from "ky"
-import { fetchRefreshToken } from "#src/api/user"
-
-import { useAuthStore } from "#src/store/auth"
+import type { RefreshTokenResult } from "#src/api/user"
 import ky from "ky"
+
+import { fetchRefreshToken } from "#src/api/user"
+import { useAuthStore } from "#src/store/auth"
 import { AUTH_HEADER } from "./constants"
 import { goLogin } from "./go-login"
 
@@ -31,12 +31,12 @@ export async function refreshTokenAndRetry(
 				refreshToken,
 			})) as RefreshTokenResult
 			// 从响应中提取新的 token
-			const newToken = freshResponse.result.token
+			const newToken = freshResponse.resultObj.accessToken
 			// 从响应中提取新的 refreshToken
-			const newRefreshToken = freshResponse.result.refreshToken
+			const newRefreshToken = freshResponse.resultObj.refreshToken
 			// 将新的 token 和 refreshToken 保存到 userStore 中
 			useAuthStore.setState({ token: newToken, refreshToken: newRefreshToken })
-			// 调用 onRefreshed 函数，传入新的 token
+			// 通知等待中的请求使用新 token，并同步更新最新 refreshToken
 			onRefreshed(newToken)
 
 			// 设置请求的 Authorization 头部为新的 token
