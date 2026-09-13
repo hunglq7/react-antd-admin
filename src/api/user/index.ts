@@ -8,11 +8,13 @@ export * from "./types"
 export function fetchLogin(data: LoginInfo) {
 	return request
 		.post("api/Users/authenticate", { json: data })
-		.json<{ isSuccessed: boolean, message: string, resultObj: string }>()
+		.json<{ isSuccessed: boolean, message: string, resultObj: { accessToken: string, refreshToken: string, userId: string } }>()
 }
 
-export function fetchLogout() {
-	return request.post("api/Users/logout").json()
+export function fetchLogout(refreshToken?: string) {
+	return request.post("api/Users/logout", {
+		json: { refreshToken },
+	}).json()
 }
 
 export function fetchAsyncRoutes() {
@@ -91,12 +93,15 @@ export function updateUserProfile(id: string, data: {
 }
 
 export interface RefreshTokenResult {
-	result: {
-		token: string
+	isSuccessed: boolean
+	message: string
+	resultObj: {
+		accessToken: string
 		refreshToken: string
+		userId: string
 	}
 }
 
 export function fetchRefreshToken(data: { readonly refreshToken: string }) {
-	return request.post("refresh-token", { json: data }).json()
+	return request.post("api/Users/refresh-token", { json: data }).json<RefreshTokenResult>()
 }

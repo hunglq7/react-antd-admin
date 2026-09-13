@@ -3,9 +3,25 @@ import { request } from "#src/utils/request"
 
 export * from "./types"
 
+export interface TonghopmaycaoPagedResponse {
+	items?: MaycaoTonghopItemType[]
+	totalRecords?: number
+	pageIndex?: number
+	pageSize?: number
+}
+
 export function fetchTonghopmaycaoList() {
 	return request
 		.get<MaycaoTonghopItemType[]>("api/Tonghopmaycao", { ignoreLoading: true })
+		.json()
+}
+
+export function fetchTonghopmaycaoListWithPagination(params: { keyword?: string; pageIndex: number; pageSize: number }) {
+	return request
+		.get<TonghopmaycaoPagedResponse>("api/Tonghopmaycao/searchParametersPagination", {
+			searchParams: params,
+			ignoreLoading: true,
+		})
 		.json()
 }
 
