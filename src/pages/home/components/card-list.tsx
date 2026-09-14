@@ -1,7 +1,8 @@
 import type { ColProps } from "antd"
-
+import { useTonghopbienapStore } from "#src/store/tonghopbienapStore"
 import { MessageOutlined, MoneyCollectOutlined, ShoppingCartOutlined, UserOutlined } from "@ant-design/icons"
 import { Button, Card, Col, Row } from "antd"
+import { useEffect } from "react"
 import CountUp from "react-countup"
 import { useTranslation } from "react-i18next"
 import { useNavigate } from "react-router"
@@ -18,12 +19,13 @@ const wrapperCol: ColProps = {
 export default function CardList() {
 	const { t } = useTranslation()
 	const navigate = useNavigate()
-
+	const total = useTonghopbienapStore((state) => state.total)
+	const { fetchTonghopbienap } = useTonghopbienapStore()
 	const CARD_LIST = [
 		{
 			key: "bienap",
 			title: t("home.bienap"),
-			data: 9982,
+			data: total || 0,
 			icon: <UserOutlined />,
 			path: "/bienap/tonghop",
 		},
@@ -55,6 +57,10 @@ export default function CardList() {
 			navigate(path) // Điều hướng URL -> React Router sẽ gỡ (unmount) Component Home hiện tại
 		}
 	}
+
+	useEffect(() => {
+		fetchTonghopbienap()
+	}, [fetchTonghopbienap])
 
 	return (
 		<div>

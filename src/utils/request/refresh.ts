@@ -1,9 +1,9 @@
-import type { KyResponse, Options } from "ky"
 import type { RefreshTokenResult } from "#src/api/user"
-import ky from "ky"
-
+import type { KyResponse, Options } from "ky"
 import { fetchRefreshToken } from "#src/api/user"
+
 import { useAuthStore } from "#src/store/auth"
+import ky from "ky"
 import { AUTH_HEADER } from "./constants"
 import { goLogin } from "./go-login"
 
@@ -18,11 +18,7 @@ let isRefreshing = false
  * @returns 响应对象
  * @throws 刷新 token 失败时抛出异常
  */
-export async function refreshTokenAndRetry(
-	request: Request,
-	options: Options,
-	refreshToken: string,
-) {
+export async function refreshTokenAndRetry(request: Request, options: Options, refreshToken: string) {
 	if (!isRefreshing) {
 		isRefreshing = true
 		try {
@@ -43,9 +39,8 @@ export async function refreshTokenAndRetry(
 			// 重试当前请求
 			request.headers.set(AUTH_HEADER, `Bearer ${newToken}`)
 			// 使用新的 token 重新发起请求
-			return ky(request, options)
-		}
-		catch (error) {
+			return ky(request.clone(), options)
+		} catch (error) {
 			// 调用 onRefreshFailed 函数，传入错误对象
 			// refreshToken 认证未通过，拒绝所有等待的请求
 			onRefreshFailed(error)
@@ -53,21 +48,20 @@ export async function refreshTokenAndRetry(
 			goLogin()
 			// 抛出错误
 			throw error
-		}
-		finally {
+		} finally {
 			// 无论是否发生错误，都将 isRefreshing 设置为 false
 			isRefreshing = false
 		}
-	}
-	else {
+	} else {
 		// 等待 token 刷新完成
 		return new Promise<KyResponse>((resolve, reject) => {
 			// 添加刷新订阅者
 			addRefreshSubscriber({
 				// 当 token 刷新成功后，将新的 token 设置到请求的 Authorization 头部，并重新发起请求
 				resolve: async (newToken) => {
+					const clonedRequest = request.clone()
 					request.headers.set(AUTH_HEADER, `Bearer ${newToken}`)
-					resolve(ky(request, options))
+					resolve(ky(clonedRequest, options))
 				},
 				// 当 token 刷新失败时，拒绝当前 Promise
 				reject,
@@ -91,7 +85,7 @@ let refreshSubscribers: Array<{
  * @param token 刷新后的令牌字符串
  */
 function onRefreshed(token: string) {
-	refreshSubscribers.forEach(subscriber => subscriber.resolve(token))
+	refreshSubscribers.forEach((subscriber) => subscriber.resolve(token))
 	refreshSubscribers = [] // 清空订阅者列表
 }
 
@@ -103,7 +97,7 @@ function onRefreshed(token: string) {
  * @param error 刷新失败时产生的错误信息
  */
 function onRefreshFailed(error: any) {
-	refreshSubscribers.forEach(subscriber => subscriber.reject(error))
+	refreshSubscribers.forEach((subscriber) => subscriber.reject(error))
 	refreshSubscribers = [] // 清空订阅者列表
 }
 
