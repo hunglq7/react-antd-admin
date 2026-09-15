@@ -5,7 +5,7 @@ export * from "./types"
 export interface ApiResult<T> {
 	isSuccessed: boolean
 	message?: string
-	resultObj: T
+	data: T
 }
 /* 获取 tổng hợp biến áp 列表 */
 export async function fetchTonghopbienapList(): Promise<TonghopbienapItemType[]> {
