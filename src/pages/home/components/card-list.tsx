@@ -1,11 +1,13 @@
 import type { ColProps } from "antd"
+import { useTonghopbienapStore } from "#src/store/tonghopbienapStore"
+import { useTonghopmaycaoStore } from "#src/store/tonghopmaycaoStore"
+import { useTonghopmayxucStore } from "#src/store/tonghopmayxucStore"
 import { MessageOutlined, MoneyCollectOutlined, ShoppingCartOutlined, UserOutlined } from "@ant-design/icons"
 import { Button, Card, Col, Row } from "antd"
-import { useEffect } from "react"
+import { useEffect, useMemo } from "react"
 import CountUp from "react-countup"
 import { useTranslation } from "react-i18next"
 import { useNavigate } from "react-router"
-import { useTonghopbienapStore } from "#src/store/tonghopbienapStore"
 
 const wrapperCol: ColProps = {
 	xs: 24,
@@ -19,38 +21,46 @@ const wrapperCol: ColProps = {
 export default function CardList() {
 	const { t } = useTranslation()
 	const navigate = useNavigate()
-	const total = useTonghopbienapStore((state) => state.total)
-	const { fetchTonghopbienap } = useTonghopbienapStore()
-	const CARD_LIST = [
-		{
-			key: "bienap",
-			title: t("home.bienap"),
-			data: total || 0,
-			icon: <UserOutlined />,
-			path: "/bienap/tonghop",
-		},
-		{
-			key: "mayxuc",
-			title: t("home.mayxuc"),
-			data: 81212,
-			icon: <MessageOutlined />,
-			path: "/mayxuc/tonghop",
-		},
-		{
-			key: "role",
-			title: t("home.role"),
-			data: 9280,
-			icon: <MoneyCollectOutlined />,
-			path: "/role/tonghop",
-		},
-		{
-			key: "maycao",
-			title: t("home.maycao"),
-			data: 13600,
-			icon: <ShoppingCartOutlined />,
-			path: "/maycao/tonghop",
-		},
-	]
+	const bienapCount = useTonghopbienapStore((state) => state.total)
+	const mayxucCount = useTonghopmayxucStore((state) => state.total)
+	const maycaoCount = useTonghopmaycaoStore((state) => state.total)
+	const fetchTonghopbienap = useTonghopbienapStore((state) => state.fetchTonghopbienap)
+	const fetchTonghopmayxucCount = useTonghopmayxucStore((state) => state.fetchTonghopmayxucCount)
+	const fetchTonghopmaycaoCount = useTonghopmaycaoStore((state) => state.fetchTonghopmaycaoCount)
+
+	const CARD_LIST = useMemo(
+		() => [
+			{
+				key: "bienap",
+				title: t("home.bienap"),
+				data: bienapCount || 0,
+				icon: <UserOutlined />,
+				path: "/bienap/tonghop",
+			},
+			{
+				key: "mayxuc",
+				title: t("home.mayxuc"),
+				data: mayxucCount || 0,
+				icon: <MessageOutlined />,
+				path: "/mayxuc/tonghop",
+			},
+			{
+				key: "maycao",
+				title: t("home.maycao"),
+				data: maycaoCount || 0,
+				icon: <ShoppingCartOutlined />,
+				path: "/maycao/tonghop",
+			},
+			{
+				key: "role",
+				title: t("home.role"),
+				data: 9280,
+				icon: <MoneyCollectOutlined />,
+				path: "/role/tonghop",
+			},
+		],
+		[t, bienapCount, mayxucCount, maycaoCount],
+	)
 
 	const handleCardClick = (path: string) => {
 		if (path) {
@@ -59,8 +69,8 @@ export default function CardList() {
 	}
 
 	useEffect(() => {
-		fetchTonghopbienap()
-	}, [fetchTonghopbienap])
+		Promise.all([fetchTonghopbienap(), fetchTonghopmayxucCount(), fetchTonghopmaycaoCount()]).catch(console.error)
+	}, [fetchTonghopbienap, fetchTonghopmayxucCount, fetchTonghopmaycaoCount])
 
 	return (
 		<div>

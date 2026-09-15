@@ -1,5 +1,5 @@
-import { create } from "zustand"
 import { fetchTotalTonghopbienap } from "#src/api/bienap/tonghop"
+import { create } from "zustand"
 import { message } from "../utils/static-antd"
 
 interface TonghopbienapState {
@@ -13,7 +13,7 @@ interface TonghopbienapAction {
 const initialState: TonghopbienapState = {
 	loading: false,
 	total: 0,
-};
+}
 
 export const useTonghopbienapStore = create<TonghopbienapState & TonghopbienapAction>((set) => ({
 	...initialState,

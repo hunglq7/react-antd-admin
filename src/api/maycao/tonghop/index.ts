@@ -11,9 +11,7 @@ export interface TonghopmaycaoPagedResponse {
 }
 
 export function fetchTonghopmaycaoList() {
-	return request
-		.get<MaycaoTonghopItemType[]>("api/Tonghopmaycao", { ignoreLoading: true })
-		.json()
+	return request.get<MaycaoTonghopItemType[]>("api/Tonghopmaycao", { ignoreLoading: true }).json()
 }
 
 export function fetchTonghopmaycaoListWithPagination(params: { keyword?: string; pageIndex: number; pageSize: number }) {
@@ -56,4 +54,8 @@ export function fetchDeleteTonghopmaycaoItems(ids: number[]) {
 		json: ids,
 		ignoreLoading: true,
 	})
+}
+
+export function fetchTonghopmaycaoCount() {
+	return request.get("api/Tonghopmaycao/count", { ignoreLoading: true }).json()
 }

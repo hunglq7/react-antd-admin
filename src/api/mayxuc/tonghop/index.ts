@@ -55,3 +55,7 @@ export function fetchDeleteTonghopmayxucItems(ids: number[]) {
 		ignoreLoading: true,
 	})
 }
+
+export function fetchTonghopmayxucCount() {
+	return request.get("api/Tonghopmayxuc/count", { ignoreLoading: true }).json()
+}
