@@ -1,11 +1,8 @@
+import type { UserRoleItemType } from "#src/api/hethong/UserRole/type"
 import type { ProColumns } from "@ant-design/pro-components"
 import type { TFunction } from "i18next"
-import type { UserRoleItemType } from "#src/api/UserRole/type"
-import { Tag } from "antd"
 
-export function getConstantColumns(
-	t: TFunction<"translation", undefined>,
-): ProColumns<UserRoleItemType>[] {
+export function getConstantColumns(t: TFunction<"translation", undefined>): ProColumns<UserRoleItemType>[] {
 	return [
 		{
 			dataIndex: "index",
@@ -14,8 +11,8 @@ export function getConstantColumns(
 			width: 80,
 		},
 		{
-			title: "Đơn vị",
-			dataIndex: "tenPhong",
+			title: "Người dùng",
+			dataIndex: "userName",
 			width: 250,
 			ellipsis: true,
 			search: true,
@@ -28,15 +25,20 @@ export function getConstantColumns(
 				],
 			},
 		},
-
 		{
-			title: "Trạng thái",
-			dataIndex: "trangThai",
-			valueType: "switch",
-			search: false,
-			render: value => (
-				<Tag color={value ? "success" : "default"}>{value ? "Hoạt động" : "Không hoạt động"}</Tag>
-			),
+			title: "Quyền",
+			dataIndex: "roleName",
+			width: 250,
+			ellipsis: true,
+			search: true,
+			formItemProps: {
+				rules: [
+					{
+						required: true,
+						message: t("form.required"),
+					},
+				],
+			},
 		},
 	]
 }

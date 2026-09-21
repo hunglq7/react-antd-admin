@@ -3,9 +3,9 @@ import ContainerLayout from "#src/layout/container-layout"
 import { hethong } from "#src/router/extra-info/order"
 import { lazy } from "react"
 
-const PhanQuyen = lazy(() => import("#src/pages/hethong/phanquyen/index"))
+const Quyenhan = lazy(() => import("#src/pages/hethong/phanquyen/index"))
 const TaiKhoan = lazy(() => import("#src/pages/hethong/taikhoan/index"))
-
+const PhanQuyen = lazy(() => import("#src/pages/hethong/UserRole/index"))
 const routes: AppRouteRecordRaw[] = [
 	{
 		path: "/hethong",
@@ -18,17 +18,13 @@ const routes: AppRouteRecordRaw[] = [
 		},
 		children: [
 			{
-				path: "/hethong/phanquyen",
-				Component: PhanQuyen,
+				path: "/hethong/quyenhan",
+				Component: Quyenhan,
 				handle: {
 					icon: "UserOutlined",
-					title: "system.hethong.phanquyen",
+					title: "system.hethong.quyenhan",
 					roles: ["admin"],
-					permissions: [
-						"permission:button:add",
-						"permission:button:update",
-						"permission:button:delete",
-					],
+					permissions: ["permission:button:add", "permission:button:update", "permission:button:delete"],
 				},
 			},
 			{
@@ -38,11 +34,17 @@ const routes: AppRouteRecordRaw[] = [
 					icon: "UserOutlined",
 					title: "system.hethong.taikhoan",
 					roles: ["admin"],
-					permissions: [
-						"permission:button:add",
-						"permission:button:update",
-						"permission:button:delete",
-					],
+					permissions: ["permission:button:add", "permission:button:update", "permission:button:delete"],
+				},
+			},
+			{
+				path: "/hethong/phanquyen",
+				Component: PhanQuyen,
+				handle: {
+					icon: "UserOutlined",
+					title: "system.hethong.phanquyen",
+					roles: ["admin"],
+					permissions: ["permission:button:add", "permission:button:update", "permission:button:delete"],
 				},
 			},
 		],

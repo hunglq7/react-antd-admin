@@ -8,13 +8,15 @@ export * from "./types"
 export function fetchLogin(data: LoginInfo) {
 	return request
 		.post("api/Users/authenticate", { json: data })
-		.json<{ isSuccessed: boolean, message: string, resultObj: { accessToken: string, refreshToken: string, userId: string } }>()
+		.json<{ isSuccessed: boolean; message: string; resultObj: { accessToken: string; refreshToken: string; userId: string } }>()
 }
 
 export function fetchLogout(refreshToken?: string) {
-	return request.post("api/Users/logout", {
-		json: { refreshToken },
-	}).json()
+	return request
+		.post("api/Users/logout", {
+			json: { refreshToken },
+		})
+		.json()
 }
 
 export function fetchAsyncRoutes() {
@@ -23,20 +25,18 @@ export function fetchAsyncRoutes() {
 
 export async function fetchUserInfo(): Promise<UserInfoType> {
 	const token = useAuthStore.getState().token
-	if (!token)
-		throw new Error("No token")
+	if (!token) throw new Error("No token")
 
 	try {
 		const payload = token.split(".")[1]
-		if (!payload)
-			throw new Error("Invalid JWT token")
+		if (!payload) throw new Error("Invalid JWT token")
 
 		const base64 = String(payload).replaceAll("-", "+").replaceAll("_", "/")
 		const normalizedBase64 = base64.padEnd(Math.ceil(base64.length / 4) * 4, "=")
 		const jsonPayload = decodeURIComponent(
 			atob(normalizedBase64)
 				.split("")
-				.map(c => `%${(`00${c.charCodeAt(0).toString(16)}`).slice(-2)}`)
+				.map((c) => `%${`00${c.charCodeAt(0).toString(16)}`.slice(-2)}`)
 				.join(""),
 		)
 		const decoded = JSON.parse(jsonPayload) as Record<string, unknown>
@@ -47,7 +47,7 @@ export async function fetchUserInfo(): Promise<UserInfoType> {
 
 		const response = await request
 			.get(`api/Users/${id}`, { ignoreLoading: true })
-			.json<{ resultObj?: { avatar?: string, phoneNumber?: string, firstName?: string, lastName?: string, dob?: string } }>()
+			.json<{ resultObj?: { avatar?: string; phoneNumber?: string; firstName?: string; lastName?: string; dob?: string } }>()
 		const profile = response.resultObj
 
 		return {
@@ -61,24 +61,29 @@ export async function fetchUserInfo(): Promise<UserInfoType> {
 			description: "",
 			avatar: profile?.avatar ?? "",
 			roles: roleText
-				? roleText.split(",").map(role => role.trim().toLowerCase()).filter(Boolean)
+				? roleText
+						.split(",")
+						.map((role) => role.trim().toLowerCase())
+						.filter(Boolean)
 				: [],
 		}
-	}
-	catch (error) {
+	} catch (error) {
 		console.error("Failed to decode token", error)
 		throw error
 	}
 }
 
-export function updateUserProfile(id: string, data: {
-	avatar: string
-	firstName?: string
-	lastName?: string
-	dob?: string
-	email: string
-	phoneNumber: string
-}) {
+export function updateUserProfile(
+	id: string,
+	data: {
+		avatar: string
+		firstName?: string
+		lastName?: string
+		dob?: string
+		email: string
+		phoneNumber: string
+	},
+) {
 	return request.put(`api/Users/${id}`, {
 		json: {
 			id,
@@ -104,4 +109,12 @@ export interface RefreshTokenResult {
 
 export function fetchRefreshToken(data: { readonly refreshToken: string }) {
 	return request.post("api/Users/refresh-token", { json: data }).json<RefreshTokenResult>()
+}
+
+export function changeUserPassword(data: { userId: string; currentPassword: string; newPassword: string }) {
+	return request
+		.post("api/Users/change-password", {
+			json: data,
+		})
+		.json<{ isSuccessed: boolean; message: string }>()
 }

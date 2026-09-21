@@ -11,7 +11,7 @@ const routes: AppRouteRecordRaw[] = [
 		path: "/danhmuc",
 		Component: ContainerLayout,
 		handle: {
-			icon: "ThunderboltOutlined",
+			icon: "EmbeddedIcon",
 			title: "common.menu.danhmuc",
 			order: danhmuc,
 			ignoreAccess: true,
@@ -24,11 +24,7 @@ const routes: AppRouteRecordRaw[] = [
 					icon: "TableOutlined",
 					title: "system.danhmuc.donvi",
 					ignoreAccess: true,
-					permissions: [
-						"permission:button:add",
-						"permission:button:update",
-						"permission:button:delete",
-					],
+					permissions: ["permission:button:add", "permission:button:update", "permission:button:delete"],
 				},
 			},
 			{
@@ -38,11 +34,7 @@ const routes: AppRouteRecordRaw[] = [
 					icon: "TableOutlined",
 					title: "system.danhmuc.chucvu",
 					ignoreAccess: true,
-					permissions: [
-						"permission:button:add",
-						"permission:button:update",
-						"permission:button:delete",
-					],
+					permissions: ["permission:button:add", "permission:button:update", "permission:button:delete"],
 				},
 			},
 			{
@@ -52,11 +44,7 @@ const routes: AppRouteRecordRaw[] = [
 					icon: "TableOutlined",
 					title: "system.danhmuc.loaithietbi",
 					ignoreAccess: true,
-					permissions: [
-						"permission:button:add",
-						"permission:button:update",
-						"permission:button:delete",
-					],
+					permissions: ["permission:button:add", "permission:button:update", "permission:button:delete"],
 				},
 			},
 		],

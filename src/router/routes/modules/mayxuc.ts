@@ -11,7 +11,7 @@ const routes: AppRouteRecordRaw[] = [
 		path: "/mayxuc",
 		Component: ContainerLayout,
 		handle: {
-			icon: "ThunderboltOutlined",
+			icon: "mayxucIcon",
 			title: "common.menu.mayxuc",
 			order: mayxuc,
 			ignoreAccess: true,
@@ -24,11 +24,7 @@ const routes: AppRouteRecordRaw[] = [
 					icon: "TableOutlined",
 					title: "system.mayxuc.mayxucDanhmuc",
 					ignoreAccess: true,
-					permissions: [
-						"permission:button:add",
-						"permission:button:update",
-						"permission:button:delete",
-					],
+					permissions: ["permission:button:add", "permission:button:update", "permission:button:delete"],
 				},
 			},
 			{
@@ -38,11 +34,7 @@ const routes: AppRouteRecordRaw[] = [
 					icon: "TableOutlined",
 					title: "system.thongsomayxuc.thongsomayxuc",
 					ignoreAccess: true,
-					permissions: [
-						"permission:button:add",
-						"permission:button:update",
-						"permission:button:delete",
-					],
+					permissions: ["permission:button:add", "permission:button:update", "permission:button:delete"],
 				},
 			},
 			{
@@ -52,11 +44,7 @@ const routes: AppRouteRecordRaw[] = [
 					icon: "TableOutlined",
 					title: "system.tonghopmayxuc.tonghopmayxuc",
 					ignoreAccess: true,
-					permissions: [
-						"permission:button:add",
-						"permission:button:update",
-						"permission:button:delete",
-					],
+					permissions: ["permission:button:add", "permission:button:update", "permission:button:delete"],
 				},
 			},
 		],

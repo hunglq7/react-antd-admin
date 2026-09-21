@@ -3,9 +3,7 @@ import type { ProColumns } from "@ant-design/pro-components"
 import type { TFunction } from "i18next"
 import { Avatar } from "antd"
 
-export function getConstantColumns(
-	t: TFunction<"translation", undefined>,
-): ProColumns<TaikhoanItemType>[] {
+export function getConstantColumns(t: TFunction<"translation", undefined>): ProColumns<TaikhoanItemType>[] {
 	return [
 		{
 			dataIndex: "index",
@@ -19,14 +17,7 @@ export function getConstantColumns(
 			width: 80,
 			search: false,
 			render: (_, recode) => (
-				<Avatar
-					src={
-						recode.avatar
-							? `${import.meta.env.VITE_API_BASE_URL}${recode.avatar}`
-							: undefined
-					}
-					size={40}
-				/>
+				<Avatar src={recode.avatar ? `${import.meta.env.VITE_API_BASE_URL}${recode.avatar}` : undefined} size={40} />
 			),
 		},
 		{
@@ -58,7 +49,7 @@ export function getConstantColumns(
 			},
 		},
 		{
-			title: "Họ",
+			title: "Tên",
 			dataIndex: "firstName",
 			width: 250,
 			ellipsis: true,
@@ -73,7 +64,7 @@ export function getConstantColumns(
 			},
 		},
 		{
-			title: "Tên",
+			title: "Họ",
 			dataIndex: "lastName",
 			width: 250,
 			ellipsis: true,

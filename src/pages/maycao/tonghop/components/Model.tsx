@@ -1,11 +1,11 @@
 import type { MaycaoTonghopItemType } from "#src/api/maycao/tonghop/types"
+import { fetchMaycaoDanhmucList } from "#src/api/maycao/danhmuc"
+import { fetchAddTonghopmaycaoItem, fetchUpdateTonghopmaycaoItem } from "#src/api/maycao/tonghop"
+import { fetchPhongbanList } from "#src/api/system/phongban"
 import { ModalForm, ProFormSelect, ProFormSwitch, ProFormText, ProFormTextArea } from "@ant-design/pro-components"
 import { Form } from "antd"
 import { useEffect, useState } from "react"
 import { useTranslation } from "react-i18next"
-import { fetchMaycaoDanhmucList } from "#src/api/maycao/danhmuc"
-import { fetchAddTonghopmaycaoItem, fetchUpdateTonghopmaycaoItem } from "#src/api/maycao/tonghop"
-import { fetchPhongbanList } from "#src/api/system/phongban"
 
 interface DetailProps {
 	title: React.ReactNode
@@ -18,16 +18,15 @@ interface DetailProps {
 export function MaycaoModel({ title, open, onCloseChange, detailData, refreshTable }: DetailProps) {
 	const { t } = useTranslation()
 	const [form] = Form.useForm<MaycaoTonghopItemType>()
-	const [maycaoOptions, setMaycaoOptions] = useState<{ label: string, value: number }[]>([])
-	const [phongbanOptions, setPhongbanOptions] = useState<{ label: string, value: number }[]>([])
+	const [maycaoOptions, setMaycaoOptions] = useState<{ label: string; value: number }[]>([])
+	const [phongbanOptions, setPhongbanOptions] = useState<{ label: string; value: number }[]>([])
 
 	const onFinish = async (values: MaycaoTonghopItemType) => {
 		const payload = detailData.id ? { ...detailData, ...values } : values
 		if (detailData.id) {
 			await fetchUpdateTonghopmaycaoItem(payload)
 			window.$message?.success(t("common.updateSuccess"))
-		}
-		else {
+		} else {
 			await fetchAddTonghopmaycaoItem(payload)
 			window.$message?.success(t("common.addSuccess"))
 		}
@@ -40,8 +39,8 @@ export function MaycaoModel({ title, open, onCloseChange, detailData, refreshTab
 			const maycaoData = await fetchMaycaoDanhmucList()
 			const phongbanData = await fetchPhongbanList()
 			await Promise.all([maycaoData, phongbanData])
-			setMaycaoOptions(maycaoData.map(item => ({ label: item.tenThietBi, value: item.id ?? 0 })))
-			setPhongbanOptions(phongbanData.map(item => ({ label: item.tenPhong, value: item.id ?? 0 })))
+			setMaycaoOptions(maycaoData.map((item) => ({ label: item.tenThietBi, value: item.id ?? 0 })))
+			setPhongbanOptions(phongbanData.map((item) => ({ label: item.tenPhong, value: item.id ?? 0 })))
 		}
 		loadOptions()
 		if (open) {
@@ -54,8 +53,7 @@ export function MaycaoModel({ title, open, onCloseChange, detailData, refreshTab
 			title={title}
 			open={open}
 			onOpenChange={(visible) => {
-				if (!visible)
-					onCloseChange()
+				if (!visible) onCloseChange()
 			}}
 			labelCol={{ md: 6, xl: 5 }}
 			layout="horizontal"
@@ -97,7 +95,6 @@ export function MaycaoModel({ title, open, onCloseChange, detailData, refreshTab
 			<ProFormTextArea name="tinhTrangThietBi" label="Tình trạng thiết bị" placeholder="Nhập tình trạng thiết bị" />
 			<ProFormSwitch name="duPhong" label="Dự phòng" />
 			<ProFormTextArea name="ghiChu" label="Ghi chú" placeholder="Nhập ghi chú" />
-
 		</ModalForm>
 	)
 }

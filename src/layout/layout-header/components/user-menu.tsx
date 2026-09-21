@@ -20,10 +20,10 @@ const leadingSlashPattern = /^\//
 export function UserMenu({ ...restProps }: ButtonProps) {
 	const navigate = useNavigate()
 	const { t } = useTranslation()
-	const avatar = useUserStore(state => state.avatar)
-	const username = useUserStore(state => state.username)
-	const email = useUserStore(state => state.email)
-	const logout = useAuthStore(state => state.logout)
+	const avatar = useUserStore((state) => state.avatar)
+	const username = useUserStore((state) => state.username)
+	const email = useUserStore((state) => state.email)
+	const logout = useAuthStore((state) => state.logout)
 
 	const onClick: MenuProps["onClick"] = async ({ key }) => {
 		if (key === "logout") {
@@ -33,20 +33,28 @@ export function UserMenu({ ...restProps }: ButtonProps) {
 		if (key === "personal-center") {
 			navigate("/personal-center/my-profile")
 		}
+		if (key === "change-password") {
+			navigate("/personal-center/settings")
+		}
 	}
 
 	const avatarSrc = avatar
-		? (avatar.startsWith("http")
-				? avatar
-				: new URL(avatar.replace(leadingSlashPattern, ""), import.meta.env.VITE_API_BASE_URL).toString())
+		? avatar.startsWith("http")
+			? avatar
+			: new URL(avatar.replace(leadingSlashPattern, ""), import.meta.env.VITE_API_BASE_URL).toString()
 		: undefined
-	const altView = useMemo(() => isWindowsOs() ? "Alt" : "⌥", [isWindowsOs])
+	const altView = useMemo(() => (isWindowsOs() ? "Alt" : "⌥"), [isWindowsOs])
 	const items: MenuProps["items"] = [
 		{
 			label: t("common.menu.personalCenter"),
 			key: "personal-center",
 			icon: <RiAccountCircleLine />,
 			extra: `${altView}P`,
+		},
+		{
+			label: "Đổi mật khẩu",
+			key: "change-password",
+			icon: <RiAccountCircleLine />,
 		},
 		{
 			label: t("authority.logout"),
@@ -65,24 +73,12 @@ export function UserMenu({ ...restProps }: ButtonProps) {
 	})
 
 	return (
-		<Dropdown
-			menu={{ items, onClick }}
-			arrow={false}
-			placement="bottomRight"
-			trigger={["click"]}
-		>
-			<BasicButton
-				type="text"
-				{...restProps}
-				title={email || "User"}
-				className={cn(restProps.className, "rounded-full px-1")}
-			>
+		<Dropdown menu={{ items, onClick }} arrow={false} placement="bottomRight" trigger={["click"]}>
+			<BasicButton type="text" {...restProps} title={email || "User"} className={cn(restProps.className, "rounded-full px-1")}>
 				<div className="flex items-center gap-2">
 					<Avatar src={avatarSrc} icon={<RiAccountCircleLine />} />
 					{username && (
-						<span className="max-w-[120px] truncate text-sm font-medium text-[var(--ant-color-text)]">
-							{username}
-						</span>
+						<span className="max-w-[120px] truncate text-sm font-medium text-[var(--ant-color-text)]">{username}</span>
 					)}
 				</div>
 			</BasicButton>

@@ -71,7 +71,8 @@
 	},
 	"hethong": {
 		"phanquyen": "Phân quyền",
-		"taikhoan": "Tài khoản"
+		"taikhoan": "Tài khoản",
+		"quyenhan": "Quyền hạn"
 	},
 	"taikhoan": {
 		"editTaikhoan": "Sửa tài khoản",

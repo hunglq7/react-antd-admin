@@ -11,7 +11,7 @@ const routes: AppRouteRecordRaw[] = [
 		path: "/maycao",
 		Component: ContainerLayout,
 		handle: {
-			icon: "ThunderboltOutlined",
+			icon: "CloudOutlined",
 			title: "common.menu.maycao",
 			order: maycao,
 			ignoreAccess: true,
@@ -24,11 +24,7 @@ const routes: AppRouteRecordRaw[] = [
 					icon: "TableOutlined",
 					title: "system.maycao.maycaoDanhmuc",
 					ignoreAccess: true,
-					permissions: [
-						"permission:button:add",
-						"permission:button:update",
-						"permission:button:delete",
-					],
+					permissions: ["permission:button:add", "permission:button:update", "permission:button:delete"],
 				},
 			},
 			{
@@ -38,11 +34,7 @@ const routes: AppRouteRecordRaw[] = [
 					icon: "TableOutlined",
 					title: "system.maycao.maycaoThongso",
 					ignoreAccess: true,
-					permissions: [
-						"permission:button:add",
-						"permission:button:update",
-						"permission:button:delete",
-					],
+					permissions: ["permission:button:add", "permission:button:update", "permission:button:delete"],
 				},
 			},
 			{
@@ -52,11 +44,7 @@ const routes: AppRouteRecordRaw[] = [
 					icon: "TableOutlined",
 					title: "system.maycao.maycaoTonghop",
 					ignoreAccess: true,
-					permissions: [
-						"permission:button:add",
-						"permission:button:update",
-						"permission:button:delete",
-					],
+					permissions: ["permission:button:add", "permission:button:update", "permission:button:delete"],
 				},
 			},
 		],
